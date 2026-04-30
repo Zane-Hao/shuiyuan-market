@@ -235,20 +235,22 @@ function FloorPlan({ activeIndex }) {
 
 function ProblemSection() {
   const [active, setActive] = uS1(0);
-  const refs = uR1(PROBLEMS.map(() => React.createRef()));
+  const articleRefs = uR1([]);
 
   uE1(() => {
-    const observers = refs.current.map((ref, i) => {
-      const el = ref.current;
-      if (!el) return null;
-      const io = new IntersectionObserver(
-        (entries) => entries.forEach((e) => { if (e.isIntersecting) setActive(i); }),
-        { threshold: 0.6, rootMargin: "-30% 0px -30% 0px" }
-      );
-      io.observe(el);
-      return io;
-    });
-    return () => observers.forEach((io) => io && io.disconnect());
+    const updateActive = () => {
+      const probe = window.innerHeight * 0.45;
+      let cur = 0;
+      articleRefs.current.forEach((el, i) => {
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= probe) cur = i;
+      });
+      setActive(cur);
+    };
+    updateActive();
+    window.addEventListener("scroll", updateActive, { passive: true });
+    return () => window.removeEventListener("scroll", updateActive);
   }, []);
 
   return (
@@ -321,7 +323,7 @@ function ProblemSection() {
         {/* right scrolling text */}
         <div className="lg:col-span-7 space-y-20">
           {PROBLEMS.map((p, i) => (
-            <article key={i} ref={refs.current[i]} className="space-y-5">
+            <article key={i} ref={el => articleRefs.current[i] = el} className="space-y-5">
               <div className="flex items-baseline gap-4">
                 <span className="font-mono text-[15px] font-bold text-warn">{p.n}.</span>
                 <h3 className="font-display font-bold t-h3">{p.title}</h3>

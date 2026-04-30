@@ -221,20 +221,23 @@ function FloorSchematic() {
 
 function PyramidSection() {
   const [active, setActive] = uS2(0);
-  const refs = uR2(TIERS.map(() => React.createRef()));
+  const articleRefs = uR2([]);
 
   uE2(() => {
-    const obs = refs.current.map((r, i) => {
-      const el = r.current;
-      if (!el) return null;
-      const io = new IntersectionObserver(
-        (entries) => entries.forEach((e) => { if (e.isIntersecting) setActive(i); }),
-        { threshold: 0.5, rootMargin: "-30% 0px -30% 0px" }
-      );
-      io.observe(el);
-      return io;
-    });
-    return () => obs.forEach((io) => io && io.disconnect());
+    const updateActive = () => {
+      const probe = window.innerHeight * 0.45;
+      let cur = 0;
+      refs.current.forEach((r, i) => {
+        const el = r.current;
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= probe) cur = i;
+      });
+      setActive(cur);
+    };
+    updateActive();
+    window.addEventListener("scroll", updateActive, { passive: true });
+    return () => window.removeEventListener("scroll", updateActive);
   }, []);
 
   return (
@@ -267,7 +270,7 @@ function PyramidSection() {
         {/* Tier text */}
         <div className="lg:col-span-7 space-y-24">
           {TIERS.map((tier, i) => (
-            <article key={i} ref={refs.current[i]} className={`rounded-md overflow-hidden ${tier.color}`}>
+            <article key={i} ref={el => articleRefs.current[i] = el} className={`rounded-md overflow-hidden ${tier.color}`}>
               <div className="p-7 md:p-9">
                 <div className="flex items-center justify-between flex-wrap gap-3">
                   <div className="font-mono text-[13px] tracking-[0.2em] opacity-85">PHASE {tier.n}</div>
