@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>水源市場 ／ 一場關於停留的提案</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FBF7EE;
+    --surface: #F5EBD8;
+    --ink: #2F5D4F;
+    --accent: #E07A3C;
+    --warn: #A8362A;
+    --muted: rgba(47,93,79,0.55);
+    --font-display: 'Noto Serif TC', Georgia, serif;
+    --font-body: 'Noto Sans TC', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  html {
+    scroll-behavior: smooth;
+    /* scale everything with viewport width — 18px at 2120px, 13px at 1280px */
+    font-size: clamp(12px, 0.85vw, 18px);
+  }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  .font-display { font-family: var(--font-display); }
+  .font-body { font-family: var(--font-body); }
+  .font-mono { font-family: var(--font-mono); }
+  .text-ink { color: var(--ink); }
+  .text-accent { color: var(--accent); }
+  .text-warn { color: var(--warn); }
+  .text-muted { color: var(--muted); }
+  .bg-surface { background: var(--surface); }
+  .bg-ink { background: var(--ink); }
+  .bg-accent { background: var(--accent); }
+  .bg-warn { background: var(--warn); }
+  .bg-paper { background: var(--bg); }
+  .border-ink { border-color: var(--ink); }
+  .border-muted { border-color: var(--muted); }
+
+  ::selection { background: var(--accent); color: var(--bg); }
+
+  .label-sm {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .t-hero { font-size: clamp(3rem, 5.5vw, 6rem); line-height: 1.02; }
+  .t-h2   { font-size: clamp(2rem, 3.2vw, 3.5rem); line-height: 1.1; }
+  .t-h3   { font-size: clamp(1.2rem, 1.6vw, 1.75rem); line-height: 1.25; }
+
+  .grain {
+    position: relative;
+  }
+  .grain::after {
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background-image: radial-gradient(rgba(47,93,79,0.06) 1px, transparent 1px);
+    background-size: 4px 4px;
+    mix-blend-mode: multiply;
+    opacity: .55;
+  }
+
+  /* hero gradient placeholder for "dim market hallway" */
+  .hero-bg {
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(224,122,60,0.18), transparent 55%),
+      radial-gradient(ellipse at 80% 90%, rgba(168,54,42,0.45), transparent 60%),
+      linear-gradient(135deg, #1c3b30 0%, #2F5D4F 35%, #5b3022 75%, #A8362A 100%);
+  }
+
+  /* progress bar */
+  .progress-bar {
+    transform-origin: left;
+    will-change: transform;
+  }
+
+  /* mini-progress dots */
+  .pdot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(47,93,79,0.25);
+    transition: all .4s ease;
+  }
+  .pdot.active {
+    background: var(--accent);
+    transform: scale(1.6);
+  }
+
+  /* expanded TOC nav */
+  #mini-nav .mini-nav-list {
+    list-style: none;
+    margin: 0; padding: 8px;
+    display: flex; flex-direction: column; gap: 2px;
+    background: rgba(251,247,238,0);
+    border-radius: 12px;
+    transition: background .35s ease, box-shadow .35s ease, padding .35s ease;
+  }
+  #mini-nav:hover .mini-nav-list {
+    background: rgba(251,247,238,0.95);
+    box-shadow: 0 10px 40px -10px rgba(13,31,26,0.25), 0 0 0 1px rgba(47,93,79,0.08);
+    padding: 10px;
+    backdrop-filter: blur(8px);
+  }
+  #mini-nav .mini-item {
+    display: flex; align-items: center; gap: 0;
+    padding: 6px 8px;
+    border-radius: 6px;
+    background: transparent;
+    width: 100%;
+    cursor: pointer;
+    transition: gap .35s ease, background .2s ease, padding .35s ease;
+  }
+  #mini-nav:hover .mini-item {
+    gap: 12px;
+    padding: 7px 12px;
+  }
+  #mini-nav .mini-item:hover {
+    background: rgba(224,122,60,0.12);
+  }
+  #mini-nav .mini-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(47,93,79,0.3);
+    flex-shrink: 0;
+    transition: all .35s ease;
+  }
+  #mini-nav .mini-item.active .mini-dot {
+    background: var(--accent);
+    transform: scale(1.6);
+    box-shadow: 0 0 0 4px rgba(224,122,60,0.18);
+  }
+  #mini-nav .mini-label {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-width .4s ease, opacity .3s ease;
+  }
+  #mini-nav:hover .mini-label {
+    max-width: 200px;
+    opacity: 1;
+  }
+  #mini-nav .mini-item.active .mini-label {
+    color: var(--accent);
+  }
+
+  /* hotspot pulse */
+  @keyframes pulse-warn {
+    0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(168,54,42,0.55); }
+    50%     { transform: scale(1.15); box-shadow: 0 0 0 14px rgba(168,54,42,0); }
+  }
+  .hot.active {
+    animation: pulse-warn 1.6s ease-in-out infinite;
+  }
+  .hot {
+    transition: transform .3s, box-shadow .3s;
+  }
+
+  /* before-after slider */
+  .ba-slider { user-select: none; touch-action: none; }
+  .ba-handle {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--bg); border: 2px solid var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    cursor: ew-resize;
+  }
+
+  /* bouncing chevron */
+  @keyframes bounce-y { 0%,100%{transform:translateY(0);} 50%{transform:translateY(8px);} }
+  .bounce { animation: bounce-y 1.6s ease-in-out infinite; }
+
+  /* causal loop pulse */
+  @keyframes nodepop {
+    0% { transform: scale(0.6); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  /* photo card */
+  .photo-card {
+    overflow: hidden;
+    border-radius: 6px;
+    box-shadow: 0 8px 28px -12px rgba(31,30,28,0.35);
+  }
+  .photo-card img { width:100%; height:100%; object-fit: cover; display:block; }
+
+  /* desaturate problem photos slightly */
+  .photo-warn img { filter: saturate(0.85) contrast(1.05); }
+
+  /* tier card stripes */
+  .tier-stripe-1 { background: linear-gradient(135deg, #4a6470 0%, #2f4751 100%); color:#fff; }
+  .tier-stripe-2 { background: linear-gradient(135deg, #E07A3C 0%, #C9621F 100%); color:#fff; }
+  .tier-stripe-3 { background: linear-gradient(135deg, #2F5D4F 0%, #1F4337 100%); color:#fff; }
+
+  /* SDG colors */
+  .sdg-8  { background: #A21942; }
+  .sdg-9  { background: #FD6925; }
+  .sdg-11 { background: #FD9D24; }
+  .sdg-12 { background: #BF8B2E; }
+
+  /* section reveal default */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .7s ease-out, transform .7s ease-out;
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* facade chip motif from the actual building art */
+  .facade-grid {
+    background:
+      linear-gradient(90deg, transparent 0 6px, #d65a8e 6px 12px, transparent 12px 24px),
+      linear-gradient(90deg, transparent 0 18px, #8e5fb5 18px 24px, transparent 24px 36px),
+      linear-gradient(180deg, #1f74c4 0%, #1f74c4 100%);
+    background-size: 24px 100%, 36px 100%, 100% 100%;
+  }
+
+  /* dotted leader */
+  .dotted {
+    background-image: linear-gradient(to right, currentColor 50%, transparent 50%);
+    background-size: 6px 1px;
+    background-repeat: repeat-x;
+  }
+
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display:none; }
+
+  .num-counter {
+    font-variant-numeric: tabular-nums;
+    font-family: var(--font-display);
+    font-weight: 900;
+  }
+
+  /* radar chart axis text */
+  .recharts-polar-angle-axis-tick-value { font-size: 13px !important; }
+
+  /* anti-AI: warm grain on cards */
+  .card-warm {
+    background: var(--surface);
+    border: 1px solid rgba(47,93,79,0.12);
+  }
+</style>
+</head>
+<body>
+
+<!-- Top scroll-progress bar -->
+<div id="progress" class="fixed top-0 left-0 right-0 h-[3px] bg-transparent z-[60]">
+  <div id="progress-bar" class="h-full bg-accent progress-bar" style="transform: scaleX(0)"></div>
+</div>
+
+<!-- Right-side mini progress -->
+<nav id="mini-nav" class="fixed right-4 top-1/2 -translate-y-1/2 z-50 hidden md:block">
+  <ul class="mini-nav-list">
+    <li><button class="mini-item active" data-target="hero"><span class="mini-dot"></span><span class="mini-label">首頁</span></button></li>
+    <li><button class="mini-item" data-target="problem"><span class="mini-dot"></span><span class="mini-label">現況診斷</span></button></li>
+    <li><button class="mini-item" data-target="data"><span class="mini-dot"></span><span class="mini-label">數據洞察</span></button></li>
+    <li><button class="mini-item" data-target="pyramid"><span class="mini-dot"></span><span class="mini-label">三階段策略</span></button></li>
+    <li><button class="mini-item" data-target="users"><span class="mini-dot"></span><span class="mini-label">使用者與定位</span></button></li>
+    <li><button class="mini-item" data-target="loop"><span class="mini-dot"></span><span class="mini-label">永續循環</span></button></li>
+    <li><button class="mini-item" data-target="sdg"><span class="mini-dot"></span><span class="mini-label">SDG 對齊</span></button></li>
+    <li><button class="mini-item" data-target="cta"><span class="mini-dot"></span><span class="mini-label">結語</span></button></li>
+  </ul>
+</nav>
+
+<main id="root"></main>
+
+<!-- React + libs -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/prop-types@15.8.1/prop-types.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/recharts@2.12.7/umd/Recharts.js" crossorigin="anonymous"></script>
+
+<!-- Helpers + sections -->
+<script type="text/babel" src="helpers.jsx"></script>
+<script type="text/babel" src="sections-1.jsx"></script>
+<script type="text/babel" src="sections-2.jsx"></script>
+<script type="text/babel" src="sections-3.jsx"></script>
+<script type="text/babel" src="app.jsx"></script>
+
+</body>
+</html>
