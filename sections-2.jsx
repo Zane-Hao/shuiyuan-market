@@ -227,8 +227,7 @@ function PyramidSection() {
     const updateActive = () => {
       const probe = window.innerHeight * 0.45;
       let cur = 0;
-      refs.current.forEach((r, i) => {
-        const el = r.current;
+      articleRefs.current.forEach((el, i) => {
         if (!el) return;
         const rect = el.getBoundingClientRect();
         if (rect.top <= probe) cur = i;
