@@ -519,12 +519,13 @@ function ScaleNote({ open, setOpen }) {
           </p>
           <p>
             <span className="font-mono text-[11px] text-muted">CURRENT　</span>
-            分數來自<strong>現場田野調查（攤商訪談 8 位、消費者攔訪 24 位）</strong>＋公開評論文本分析。
+            分數來自 <strong>Google 評論文本主題分析</strong> 與 <strong>多次現場觀察</strong>
+            （見 §現況診斷攝影紀錄），屬質性評估。
           </p>
           <p>
             <span className="font-mono text-[11px] text-muted">POST　　　</span>
-            分數為<strong>推估值</strong>，依據同類市場改造案例（南門、新富、士東）改造前後平均提升 35–50 分之文獻基準推算，
-            非實測結果。
+            分數為 <strong>示意性推估值</strong>，表達各維度若依本案三層解方執行後可能達到的相對水準，
+            非實測結果，不作為定量預測。
           </p>
         </div>
       </div>
