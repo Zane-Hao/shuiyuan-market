@@ -59,11 +59,13 @@ function ProposalSite() {
     <>
       <Hero />
       <ProblemSection />
+      <EvidenceSection />
       <DataSection />
       <PyramidSection />
       <UsersSection />
       <LoopSection />
       <SDGSection />
+      <SourcesSection />
       <CTASection />
     </>
   );
