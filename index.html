@@ -256,6 +256,49 @@
     background: var(--surface);
     border: 1px solid rgba(47,93,79,0.12);
   }
+
+  /* citation marker */
+  .cite {
+    font-family: var(--font-mono);
+    font-size: 0.62em;
+    vertical-align: super;
+    color: var(--accent);
+    text-decoration: none;
+    padding: 0 2px;
+    cursor: pointer;
+    transition: background .25s ease;
+  }
+  .cite:hover { text-decoration: underline; background: rgba(224,122,60,0.08); }
+
+  /* annotated photo overlays */
+  .annotated-photo { position: relative; }
+  .annotated-photo .annot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex; align-items: center; gap: 6px;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .annotated-photo .annot-arrow {
+    font-family: var(--font-display);
+    font-size: 22px;
+    color: var(--accent);
+    text-shadow: 0 0 6px rgba(0,0,0,0.6);
+    line-height: 1;
+  }
+  .annotated-photo .annot-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    background: var(--accent);
+    color: var(--bg);
+    padding: 3px 8px;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  }
+
+  /* highlighted source on cite-click */
+  .source-entry { transition: background .35s ease; padding: 4px 6px; margin: -4px -6px; }
 </style>
 </head>
 <body>
@@ -270,11 +313,13 @@
   <ul class="mini-nav-list">
     <li><button class="mini-item active" data-target="hero"><span class="mini-dot"></span><span class="mini-label">首頁</span></button></li>
     <li><button class="mini-item" data-target="problem"><span class="mini-dot"></span><span class="mini-label">現況診斷</span></button></li>
+    <li><button class="mini-item" data-target="evidence"><span class="mini-dot"></span><span class="mini-label">案例研究</span></button></li>
     <li><button class="mini-item" data-target="data"><span class="mini-dot"></span><span class="mini-label">數據洞察</span></button></li>
     <li><button class="mini-item" data-target="pyramid"><span class="mini-dot"></span><span class="mini-label">三階段策略</span></button></li>
     <li><button class="mini-item" data-target="users"><span class="mini-dot"></span><span class="mini-label">使用者與定位</span></button></li>
     <li><button class="mini-item" data-target="loop"><span class="mini-dot"></span><span class="mini-label">永續循環</span></button></li>
     <li><button class="mini-item" data-target="sdg"><span class="mini-dot"></span><span class="mini-label">SDG 對齊</span></button></li>
+    <li><button class="mini-item" data-target="sources"><span class="mini-dot"></span><span class="mini-label">引用來源</span></button></li>
     <li><button class="mini-item" data-target="cta"><span class="mini-dot"></span><span class="mini-label">結語</span></button></li>
   </ul>
 </nav>
@@ -291,8 +336,10 @@
 <!-- Helpers + sections -->
 <script type="text/babel" src="helpers.jsx"></script>
 <script type="text/babel" src="sections-1.jsx"></script>
+<script type="text/babel" src="sections-evidence.jsx"></script>
 <script type="text/babel" src="sections-2.jsx"></script>
 <script type="text/babel" src="sections-3.jsx"></script>
+<script type="text/babel" src="sections-sources.jsx"></script>
 <script type="text/babel" src="app.jsx"></script>
 
 </body>
