@@ -341,6 +341,26 @@ function PyramidSection() {
                   <div className="mt-8">
                     <div className="label-sm mb-3">FLOOR FUNCTION · 三層分工 · B1 / 1F / 2F</div>
                     <FloorSchematic/>
+
+                    {/* Interim-market sidebar — sourced from Card C of Field Evidence */}
+                    <div className="mt-8 p-6 border-l-4 border-accent bg-paper">
+                      <div className="flex items-baseline gap-3 mb-3">
+                        <span className="font-mono text-[11px] tracking-[0.2em] text-accent font-bold">補充</span>
+                        <span className="font-display font-bold text-[18px]">改建期間中繼市場規劃</span>
+                      </div>
+                      <p className="text-[14px] text-ink/85 leading-[1.65] mb-4">
+                        南門案例顯示，改建期間的中繼市場安排是<strong>成功與否的關鍵</strong>之一。
+                        水源市場改建期間應同步規劃：
+                      </p>
+                      <ul className="space-y-2 text-[13.5px] text-ink/85 mb-4">
+                        <li className="flex gap-2"><span className="text-accent">·</span><span>由市府主導選址、規劃、興建中繼市場，避免攤商自行流散。</span></li>
+                        <li className="flex gap-2"><span className="text-accent">·</span><span>中繼點選址原則：維持公館商圈交通便利範圍，避免老顧客流失。</span></li>
+                        <li className="flex gap-2"><span className="text-accent">·</span><span>攤商安置與返址後動線改造同步規劃，不分二案。</span></li>
+                      </ul>
+                      <div className="text-[12px] text-muted font-mono">
+                        ← 證據：南門攤商訪談（見 §一手案例研究 Card C）
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
