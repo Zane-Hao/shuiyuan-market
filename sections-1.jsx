@@ -129,8 +129,13 @@ const PROBLEMS = [
   {
     n: "01",
     title: "油膩餐食區",
-    body: "熟食攤位佔比 19%，但排煙與廢水處理仍停留在 1980 年的初代規格。攤前直接用餐，油煙、廢水、走道氣味彼此交疊。",
+    body: "熟食攤位佔比近兩成，但排煙與廢水處理仍停留在 1980 年的初代規格。攤前直接用餐，油煙、廢水、走道氣味彼此交疊。",
     imgs: ["img/foodzone-1.jpg", "img/foodzone-2.jpg"],
+    annotations: [
+      { x: "30%", y: "30%", label: "排煙設備不足" },
+      { x: "55%", y: "65%", label: "走道與烹飪檯距離過近" },
+      { x: "78%", y: "82%", label: "攤前直接用餐" },
+    ],
     hot: { x: 32, y: 62 },
   },
   {
@@ -138,13 +143,21 @@ const PROBLEMS = [
     title: "衛生底線",
     body: "肉攤血水、檯面與走道之間沒有明確分界。地板濕滑、檯面狼藉 — 這是 Google 評論中最高頻的負評來源，也是市場長年被「不敢進來」標籤的核心原因。",
     img: "img/meat-tools.jpg",
+    annotations: [
+      { x: "35%", y: "52%", label: "工具放置面" },
+      { x: "65%", y: "70%", label: "檯面與走道無分隔" },
+    ],
     hot: { x: 70, y: 30 },
   },
   {
     n: "03",
     title: "無集中座位",
-    body: "212 攤、0 個正式集中用餐區。消費者在攤販前直接吃，名攤如龍記前永遠是站著等的人潮，不只衛生，更讓人不願久留。",
+    body: "全棟逾 200 攤、0 個正式集中用餐區。消費者在攤販前直接吃，名攤如龍記前永遠是站著等的人潮，不只衛生，更讓人不願久留。",
     imgs: ["img/no-seat-stall.jpg", "img/nanmen-seat-cross.jpg"],
+    annotations: [
+      { x: "45%", y: "55%", label: "站立用餐人潮" },
+      { x: "75%", y: "78%", label: "塑膠椅臨時擺放" },
+    ],
     hot: { x: 48, y: 78 },
   },
   {
@@ -152,6 +165,10 @@ const PROBLEMS = [
     title: "二樓低利用率",
     body: "服飾修改、雜貨、職人服務集中於二樓，但能見度與指引不足；連顯眼的紅色箭頭也無法引導出實質人流 — 二樓成了一樓人潮的「上不去的天花板」。",
     imgs: ["img/longji.jpg", "img/escalator.jpg", "img/2f-shops.jpg"],
+    annotations: [
+      { x: "50%", y: "30%", label: "樓層指引不顯眼" },
+      { x: "70%", y: "70%", label: "走道照明強度低" },
+    ],
     hot: { x: 78, y: 50 },
   },
 ];
@@ -329,11 +346,22 @@ function ProblemSection() {
                 <h3 className="font-display font-bold t-h3">{p.title}</h3>
               </div>
               {p.imgs ? (
-                <Slideshow imgs={p.imgs} alt={p.title}/>
+                <>
+                  <AnnotatedPhoto
+                    src={p.imgs[0]}
+                    alt={p.title}
+                    annotations={p.annotations}/>
+                  {p.imgs.length > 1 && (
+                    <div className="mt-3">
+                      <Slideshow imgs={p.imgs.slice(1)} alt={`${p.title} — 補充`}/>
+                    </div>
+                  )}
+                </>
               ) : (
-                <div className="photo-card photo-warn aspect-[16/10]">
-                  <img src={p.img} alt={p.title} loading="lazy"/>
-                </div>
+                <AnnotatedPhoto
+                  src={p.img}
+                  alt={p.title}
+                  annotations={p.annotations}/>
               )}
               <p className="text-[17px] leading-[1.75] text-ink/85">{p.body}</p>
             </article>
