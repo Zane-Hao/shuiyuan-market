@@ -400,13 +400,23 @@ function SDGSection() {
       <div className="mt-16 p-7 md:p-10 rounded-md card-warm">
         <Reveal>
           <Label>STRUCTURAL · 結構性原則</Label>
-          <div className="mt-5 font-display font-black text-[28px] md:text-[clamp(1.8rem,2.5vw,2.5rem)] leading-[1.3] flex flex-wrap items-center gap-x-4 gap-y-3">
+          <div className="mt-5 font-display font-black text-[26px] md:text-[clamp(1.6rem,2.2vw,2.25rem)] leading-[1.3] flex flex-wrap items-center gap-x-3 gap-y-3">
             <span className="px-3 py-1 rounded-sm" style={{background:"var(--warn)", color:"var(--bg)"}}>不破壞低租金結構</span>
-            <span className="text-muted text-[24px] md:text-[32px]">×</span>
+            <span className="text-muted text-[22px] md:text-[28px]">×</span>
             <span className="px-3 py-1 rounded-sm" style={{background:"var(--accent)", color:"var(--bg)"}}>不犧牲學生客群</span>
-            <span className="text-muted text-[24px] md:text-[32px]">×</span>
+            <span className="text-muted text-[22px] md:text-[28px]">×</span>
             <span className="px-3 py-1 rounded-sm" style={{background:"var(--ink)", color:"var(--bg)"}}>不百貨公司化</span>
+            <span className="text-muted text-[22px] md:text-[28px]">×</span>
+            <span className="px-3 py-1 rounded-sm border-2 border-ink" style={{background:"var(--bg)", color:"var(--ink)"}}>攤商共識先行</span>
           </div>
+          <blockquote className="mt-6 max-w-[55ch] pl-5 border-l-2 border-accent">
+            <p className="font-display italic text-[18px] md:text-[20px] leading-[1.55] text-ink/90">
+              「主要是看攤商跟政府配合的程度，那是一個決定性的因素。」
+            </p>
+            <footer className="mt-2 text-[12px] font-mono tracking-[0.05em] text-muted">
+              — 南門市場資深攤商，2026 訪談（見 §一手案例研究 Card D）
+            </footer>
+          </blockquote>
           <p className="mt-5 max-w-[65ch] text-ink/80 leading-[1.75]">
             水源市場應明確區隔於南門市場的外省熟食文化定位，
             強化「<strong>公館人的便利日常</strong>」這一核心敘事 —
