@@ -178,4 +178,39 @@ const Icon = {
   ),
 };
 
-Object.assign(window, { useInView, useCounter, Reveal, Label, Section, Icon });
+// Inline footnote citation marker — links to #source-N entry in the Sources section
+function Citation({ n }) {
+  const handleClick = (e) => {
+    e.preventDefault();
+    const target = document.getElementById(`source-${n}`);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+      target.style.background = "rgba(224,122,60,0.18)";
+      setTimeout(() => { target.style.background = ""; }, 1600);
+    }
+  };
+  return (
+    <a href={`#source-${n}`} onClick={handleClick}
+       className="cite" aria-label={`Citation ${n}`}>
+      [{n}]
+    </a>
+  );
+}
+
+// Photo with CSS-overlay annotations — labels describe only what's visibly in the image.
+// annotations: [{ x: "20%", y: "35%", label: "...", arrow?: "→" }]
+function AnnotatedPhoto({ src, alt, annotations = [], className = "" }) {
+  return (
+    <figure className={`annotated-photo photo-card photo-warn aspect-[16/10] relative ${className}`}>
+      <img src={src} alt={alt} loading="lazy" className="w-full h-full object-cover"/>
+      {annotations.map((a, i) => (
+        <div key={i} className="annot" style={{ top: a.y, left: a.x }}>
+          <span className="annot-arrow">{a.arrow || "→"}</span>
+          <span className="annot-label">{a.label}</span>
+        </div>
+      ))}
+    </figure>
+  );
+}
+
+Object.assign(window, { useInView, useCounter, Reveal, Label, Section, Icon, Citation, AnnotatedPhoto });
