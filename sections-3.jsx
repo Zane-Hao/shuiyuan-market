@@ -464,9 +464,13 @@ function CTASection() {
             <ul className="mt-3 text-[13px] space-y-1.5 text-ink/80">
               <li>Mehrabian &amp; Russell (1974)</li>
               <li>Path Intelligence UK Study (2007)</li>
-              <li>Retail Sensing (2020)</li>
-              <li>南門市場改建案 (2023)</li>
+              <li>Retail Sensing (2024)</li>
+              <li>南門市場改建報導 (2023)</li>
+              <li>南門攤商訪談 (2026, 本團隊)</li>
             </ul>
+            <a href="#sources" className="mt-4 inline-block text-[12px] font-mono tracking-[0.15em] text-accent border-b border-accent hover:opacity-70">
+              完整出處 → 引用與資料來源
+            </a>
           </Reveal>
         </div>
 

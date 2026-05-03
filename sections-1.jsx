@@ -278,8 +278,8 @@ function ProblemSection() {
           公館商圈最熱鬧的角落，卻是<span className="text-warn">最無法停留</span>的市場。
         </h2>
         <p className="mt-6 max-w-[65ch] text-[18px] leading-[1.75] text-ink/85">
-          自 1980 年大樓落成至今，市府兩度斥資千萬升級<span className="text-accent font-medium">外牆公共藝術</span>，
-          內部排煙、排水、空間配置卻從未全面更新。當熟食攤位佔比已達 19%，
+          自 1980 年大樓落成<Citation n={6}/>至今，市府於 2024–2025 年斥資逾 4000 萬元優化<span className="text-accent font-medium">外牆公共藝術</span><Citation n={4}/>，
+          內部排煙、排水、空間配置卻從未全面更新。當熟食攤位佔比近兩成，
           原始硬體早就承載不了現代餐飲的密度。
         </p>
       </Reveal>
@@ -604,7 +604,7 @@ function DataSection() {
               </div>
             </div>
             <div className="mt-5 italic text-muted text-[13px]">
-              Mehrabian &amp; Russell, <em>An Approach to Environmental Psychology</em>, 1974.
+              Mehrabian &amp; Russell, <em>An Approach to Environmental Psychology</em>, 1974.<Citation n={1}/>
             </div>
           </Reveal>
         </div>
@@ -639,11 +639,11 @@ function DataSection() {
             </div>
           </div>
           <p className="mt-8 max-w-[60ch] text-[16px] leading-[1.7] text-ink/80">
-            停留時間每增加 1%，銷售額隨之增加 1.3%。對 212 個攤位而言，
+            停留時間每增加 1%，銷售額隨之增加 1.3%。<Citation n={2}/><Citation n={3}/>對全棟 200 餘個攤位而言，
             這不是裝修預算，而是直接的營收槓桿。
           </p>
           <div className="mt-4 italic text-muted text-[13px]">
-            Path Intelligence, 9-month UK retail study, 2007.
+            Path Intelligence, 9-month UK retail study, 2007（via Retail Sensing, 2024）.
           </div>
         </Reveal>
       </div>
