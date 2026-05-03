@@ -333,14 +333,14 @@
 <script src="https://cdn.jsdelivr.net/npm/prop-types@15.8.1/prop-types.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/recharts@2.12.7/umd/Recharts.js" crossorigin="anonymous"></script>
 
-<!-- Helpers + sections -->
-<script type="text/babel" src="helpers.jsx"></script>
-<script type="text/babel" src="sections-1.jsx"></script>
-<script type="text/babel" src="sections-evidence.jsx"></script>
-<script type="text/babel" src="sections-2.jsx"></script>
-<script type="text/babel" src="sections-3.jsx"></script>
-<script type="text/babel" src="sections-sources.jsx"></script>
-<script type="text/babel" src="app.jsx"></script>
+<!-- Helpers + sections (cache-bust v2 for evidence-upgrade) -->
+<script type="text/babel" src="helpers.jsx?v=evidence"></script>
+<script type="text/babel" src="sections-1.jsx?v=evidence"></script>
+<script type="text/babel" src="sections-evidence.jsx?v=evidence"></script>
+<script type="text/babel" src="sections-2.jsx?v=evidence"></script>
+<script type="text/babel" src="sections-3.jsx?v=evidence"></script>
+<script type="text/babel" src="sections-sources.jsx?v=evidence"></script>
+<script type="text/babel" src="app.jsx?v=evidence"></script>
 
 </body>
 </html>
