@@ -55,16 +55,20 @@
   }
 
   .body-pane {
-    padding: 60px 96px;
+    padding: 50px 96px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 60px;
-    align-items: center;
+    align-items: stretch;
+    min-height: 0;
+    overflow: hidden;
   }
 
   .actions {
     display: grid;
-    gap: 22px;
+    gap: 16px;
+    align-self: center;
+    min-height: 0;
   }
   .action {
     display: grid;
@@ -94,14 +98,18 @@
     display: grid;
     grid-template-rows: 1fr 1fr;
     gap: 18px;
+    min-height: 0;
     height: 100%;
   }
   .photos figure {
     position: relative;
     overflow: hidden;
     border: 1px solid var(--hairline);
+    min-height: 0;
   }
   .photos figure img {
+    position: absolute;
+    inset: 0;
     width: 100%; height: 100%;
     object-fit: cover;
     animation: photo-zoom 14s var(--ease-out-expo) both;
