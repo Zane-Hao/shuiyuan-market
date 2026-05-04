@@ -170,9 +170,9 @@ function CausalLoop() {
               <g key={i}
                 style={{
                   opacity: inView ? (dimmed ? 0.4 : 1) : 0,
-                  transform: inView ? "scale(1)" : "scale(0.6)",
+                  transform: inView ? "scale(1)" : "scale(0.4)",
                   transformOrigin: `${p.x}px ${p.y}px`,
-                  transition:`opacity .25s, transform .35s cubic-bezier(.5,1.6,.5,1) ${i*0.1}s`,
+                  transition:`opacity .35s, transform .55s cubic-bezier(.5,1.7,.4,1) ${i*0.15}s`,
                   cursor: "pointer",
                 }}
                 onMouseEnter={() => setHovered(i)}
@@ -385,7 +385,7 @@ function SDGSection() {
 
       <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
         {SDGS.map((s, i) => (
-          <Reveal key={i} delay={i*80}>
+          <Reveal key={i} delay={i*120} from="scale">
             <SDGCard s={s} active={open === i} onClick={() => setOpen(i)}/>
           </Reveal>
         ))}
@@ -438,11 +438,14 @@ function CTASection() {
       }}></div>
 
       <div className="max-w-[1200px] mx-auto">
-        <Reveal>
-          <h2 className="font-display font-black text-[clamp(1.8rem,2.5vw,2.625rem)] md:text-[clamp(2.5rem,5vw,5rem)] leading-[1.05] tracking-tight">
-            改造一座市場，<br/>
-            留下<span className="italic text-accent">一個社區</span>。
-          </h2>
+        <WordStagger
+          as="h2"
+          segments={["改造", "一座", "市場，", <br key="br"/>, "留下", <span key="comm" className="italic text-accent">一個社區</span>, "。"]}
+          step={140}
+          baseDelay={150}
+          className="font-display font-black text-[clamp(1.8rem,2.5vw,2.625rem)] md:text-[clamp(2.5rem,5vw,5rem)] leading-[1.05] tracking-tight"
+        />
+        <Reveal delay={1100}>
           <p className="mt-8 max-w-[70ch] text-[clamp(1rem,1.4vw,1.5rem)] leading-[1.85] text-ink/85">
             水源市場不需要變成南門市場，也不需要變成百貨公司——它需要被理解為公館人的日常基礎設施，在這座城市裡已經默默運作 46 年，而下一步，是讓它再被看見。
           </p>

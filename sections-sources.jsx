@@ -107,16 +107,22 @@ function SourcesSection() {
       </Reveal>
 
       <div className="mt-12 grid md:grid-cols-2 gap-x-12 gap-y-8">
-        {groups.map((g) => {
+        {groups.map((g, gi) => {
           const items = SOURCES.filter((s) => s.group === g);
           if (items.length === 0) return null;
           return (
-            <div key={g}>
-              <Label>{GROUP_LABEL[g]}</Label>
-              <ul className="mt-4 divide-y divide-ink/10">
-                {items.map((s) => <SourceEntry key={s.n} s={s}/>)}
-              </ul>
-            </div>
+            <Reveal key={g} delay={gi * 100} from="up">
+              <div>
+                <Label>{GROUP_LABEL[g]}</Label>
+                <ul className="mt-4 divide-y divide-ink/10">
+                  {items.map((s, si) => (
+                    <Reveal key={s.n} delay={si * 70} from="left">
+                      <SourceEntry s={s}/>
+                    </Reveal>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
           );
         })}
       </div>
