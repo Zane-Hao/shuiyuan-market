@@ -91,21 +91,84 @@
     max-width: 600px;
     margin-top: 36px;
   }
-  .content-pane .key-stat {
-    margin-top: 40px;
-    padding: 24px 0;
-    border-top: 2px solid var(--ink);
+  /* CTA — reveals review panel */
+  .reviews-cta {
+    margin-top: 32px;
+    padding: 16px 20px;
+    border: 1px solid var(--ink);
+    background: var(--bg);
+    color: var(--ink);
     font-family: var(--font-mono);
-    font-size: 14px;
-    letter-spacing: 0.18em;
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    transition: background .25s ease, color .25s ease;
+    user-select: none;
+  }
+  .reviews-cta:hover { background: var(--ink); color: var(--bg); }
+  .reviews-cta .arrow { font-family: var(--font-display); font-size: 22px; transition: transform .35s ease; }
+  .reviews-cta.open { background: var(--ink); color: var(--bg); }
+  .reviews-cta.open .arrow { transform: rotate(90deg); }
+
+  /* Review panel — slides down on expand */
+  .reviews {
+    margin-top: 24px;
+    display: grid;
+    gap: 12px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .8s var(--ease-out-expo), opacity .5s ease;
+    opacity: 0;
+  }
+  .reviews.open { max-height: 600px; opacity: 1; }
+
+  .review-card {
+    border-left: 3px solid var(--warn);
+    padding: 14px 18px;
+    background: rgba(168, 54, 42, 0.05);
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform .6s var(--ease-out-expo), opacity .6s var(--ease-out-expo);
+  }
+  .reviews.open .review-card { transform: translateY(0); opacity: 1; }
+  .reviews.open .review-card:nth-child(1) { transition-delay: 0.1s; }
+  .reviews.open .review-card:nth-child(2) { transition-delay: 0.25s; }
+  .reviews.open .review-card:nth-child(3) { transition-delay: 0.4s; }
+  .review-card .meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
     color: var(--muted);
   }
-  .content-pane .key-stat strong {
+  .review-card .stars {
     color: var(--warn);
-    font-family: var(--font-display);
-    font-weight: 900;
-    font-size: 28px;
-    letter-spacing: -0.01em;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+  }
+  .review-card .quote {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ink);
+    /* Italic placeholder marker — remove italic when text is replaced */
+    font-style: italic;
+  }
+  .review-card .placeholder-tag {
+    display: inline-block;
+    margin-top: 4px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    text-transform: uppercase;
   }
 
   .fadeup {
@@ -137,10 +200,35 @@
         肉攤血水、檯面與走道之間沒有明確分界。
         地板濕滑、檯面狼藉 — 這是 Google 評論中最高頻的負評來源。
       </p>
-    </div>
-    <div class="key-stat fadeup" data-delay="2400" data-sfx="stamp">
-      不敢進來 / 不敢久留<br>
-      <strong>市場長年被貼上的標籤。</strong>
+
+      <!-- ▼ Interactive Google reviews reveal — click CTA or auto-opens at 4500ms ▼ -->
+      <div class="reviews-cta fadeup" data-delay="2400" id="reviewsCta" data-sfx="tap">
+        <span>展開高頻負評</span>
+        <span class="arrow">→</span>
+      </div>
+
+      <div class="reviews" id="reviews">
+        <!--
+          REPLACE THESE PLACEHOLDERS WITH REAL GOOGLE MAPS REVIEWS BEFORE RECORDING.
+          Each card: stars / date / quote text / source.
+          Find at: https://maps.google.com/ → search 水源市場 → reviews tab → filter 1★
+        -->
+        <div class="review-card">
+          <div class="meta"><span class="stars">★ ☆ ☆ ☆ ☆</span><span>·</span><span>2024 · Google Maps</span></div>
+          <div class="quote">「[ 待替換為真實 1 星評論摘錄 — 例：地板濕滑，氣味很重，不敢久待 ]」</div>
+          <div class="placeholder-tag">★ PLACEHOLDER · 替換為真實評論</div>
+        </div>
+        <div class="review-card">
+          <div class="meta"><span class="stars">★ ☆ ☆ ☆ ☆</span><span>·</span><span>2024 · Google Maps</span></div>
+          <div class="quote">「[ 待替換為真實 1 星評論摘錄 — 衛生 / 走道 / 用餐空間相關 ]」</div>
+          <div class="placeholder-tag">★ PLACEHOLDER · 替換為真實評論</div>
+        </div>
+        <div class="review-card">
+          <div class="meta"><span class="stars">★ ★ ☆ ☆ ☆</span><span>·</span><span>2025 · Google Maps</span></div>
+          <div class="quote">「[ 待替換為真實 2 星評論摘錄 — 含「攤點好但環境差」這類矛盾評價最有說服力 ]」</div>
+          <div class="placeholder-tag">★ PLACEHOLDER · 替換為真實評論</div>
+        </div>
+      </div>
     </div>
 
     <div class="credit">SHUI-YUAN · SDG · 2026</div>
@@ -154,6 +242,20 @@
     const d=+el.dataset.delay||0;
     setTimeout(()=>{el.classList.add('in');if(el.dataset.sfx)sfx(el.dataset.sfx)},d);
   });
+
+  // Reveal panel: clickable + auto-open after 4500ms (so video playback works without click)
+  const cta = document.getElementById('reviewsCta');
+  const panel = document.getElementById('reviews');
+  let opened = false;
+  function open() {
+    if (opened) return;
+    opened = true;
+    cta.classList.add('open');
+    panel.classList.add('open');
+    sfx('focus');
+  }
+  cta.addEventListener('click', open);
+  setTimeout(open, 4500);
 </script>
 </body>
 </html>
