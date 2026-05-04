@@ -2,9 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8" />
-<title>03 · 衛生底線</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>03 · 油膩餐食區</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../shared/tokens.css">
 <style>
@@ -20,7 +18,7 @@
   .photo-pane {
     position: relative;
     overflow: hidden;
-    background: #2a1f18;
+    background: #2a1810;
   }
   .photo-pane img {
     position: absolute; inset: 0;
@@ -30,6 +28,20 @@
   }
   @keyframes photo-zoom { from { transform: scale(1.05); } to { transform: scale(1.18); } }
   @keyframes photo-fade { from { opacity: 0; } to { opacity: 1; } }
+
+  /* Smoke wisp overlay — abstract suggestion of oily air */
+  .smoke {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 70%, rgba(168,54,42,0.25), transparent 55%),
+      radial-gradient(ellipse at 70% 40%, rgba(0,0,0,0.18), transparent 60%);
+    pointer-events: none;
+    animation: smoke-drift 9s ease-in-out infinite alternate;
+  }
+  @keyframes smoke-drift {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(20px, -10px) scale(1.05); }
+  }
 
   /* annotations layer */
   .annot {
@@ -91,6 +103,7 @@
     max-width: 600px;
     margin-top: 36px;
   }
+  .content-pane .body strong { color: var(--warn); font-weight: 700; }
   .content-pane .key-stat {
     margin-top: 40px;
     padding: 24px 0;
@@ -122,17 +135,18 @@
 <div class="slide">
 
   <div class="photo-pane">
-    <img src="../../img/sanitation-issue.png" alt="衛生現況">
-    <div class="annot" style="top: 30%; left: 18%;" data-delay="1400" data-sfx="tap">
-      <span class="text">肉品塑膠袋懸掛展示</span>
-      <span class="arrow">→</span>
+    <img src="../../img/foodzone-1.jpg" alt="油膩餐食區現況">
+    <div class="smoke"></div>
+    <div class="annot" style="top: 28%; left: 32%;" data-delay="1400" data-sfx="tap">
+      <span class="text">排煙設備不足</span>
+      <span class="arrow">↘</span>
     </div>
-    <div class="annot" style="top: 55%; left: 50%;" data-delay="1700" data-sfx="tap">
+    <div class="annot" style="top: 62%; left: 50%;" data-delay="1700" data-sfx="tap">
       <span class="arrow">↓</span>
-      <span class="text">走道兼通道、人車混流</span>
+      <span class="text">攤前直接用餐</span>
     </div>
-    <div class="annot" style="top: 78%; left: 76%;" data-delay="2000" data-sfx="tap">
-      <span class="text">肉品袋裝後置於開放檯面</span>
+    <div class="annot" style="top: 82%; left: 28%;" data-delay="2000" data-sfx="tap">
+      <span class="text">走道與烹飪檯距離過近</span>
       <span class="arrow">→</span>
     </div>
   </div>
@@ -140,23 +154,23 @@
   <div class="content-pane">
     <div>
       <div class="label-sm fadeup" data-delay="200">
-        <span class="num">03</span><span class="rule"></span>
-        <span>CURRENT · 現況診斷 · 02</span>
+        <span class="num">02</span><span class="rule"></span>
+        <span>CURRENT · 現況診斷 · 01</span>
       </div>
-      <div class="sub fadeup" data-delay="450" data-sfx="tap">PROBLEM 02</div>
-      <h2 class="fadeup" data-delay="700" data-sfx="focus">衛生底線</h2>
+      <div class="sub fadeup" data-delay="450" data-sfx="tap">PROBLEM 01</div>
+      <h2 class="fadeup" data-delay="700" data-sfx="focus">油膩餐食區</h2>
       <p class="body fadeup" data-delay="1100">
-        肉攤血水、檯面與走道之間沒有明確分界。
-        地板濕滑、檯面狼藉 — 這是 Google 評論中最高頻的負評來源。
+        熟食攤位佔比近兩成，但<strong>排煙與廢水處理仍停留在 1980 年的初代規格</strong>。
+        攤前直接用餐 — 油煙、廢水、走道氣味彼此交疊。
       </p>
     </div>
     <div class="key-stat fadeup" data-delay="2400" data-sfx="stamp">
-      不敢進來 / 不敢久留<br>
-      <strong>市場長年被貼上的標籤。</strong>
+      硬體 1980 / 餐飲 2026<br>
+      <strong>46 年的設備差。</strong>
     </div>
 
     <div class="credit">SHUI-YUAN · SDG · 2026</div>
-    <div class="page-indicator"><span class="now">03</span> / 17</div>
+    <div class="page-indicator"><span class="now">03</span> / 18</div>
   </div>
 </div>
 
