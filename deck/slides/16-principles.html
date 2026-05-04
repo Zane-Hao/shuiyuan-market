@@ -52,6 +52,9 @@
     opacity: 0;
     transition: transform .7s var(--ease-out-back), opacity .7s var(--ease-out-back);
     display: inline-block;
+    /* transparent border on solid chips so border on chip-4 doesn't shift its height */
+    border: 3px solid transparent;
+    vertical-align: top;
   }
   .principles .chip.in { transform: scale(1) rotate(0); opacity: 1; }
   .principles .chip-1 { background: var(--warn); }
@@ -60,7 +63,7 @@
   .principles .chip-4 {
     background: var(--bg);
     color: var(--ink);
-    border: 3px solid var(--ink);
+    border-color: var(--ink);
   }
 
   .quote-block {
