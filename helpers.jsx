@@ -48,16 +48,90 @@ function useCounter(target, { duration = 1400, start = 0, decimals = 0 } = {}, t
   return value;
 }
 
-// Reveal wrapper
-function Reveal({ children, delay = 0, className = "", as: As = "div" }) {
+// Reveal wrapper — supports from='up'|'down'|'left'|'right'|'scale'|'pop'
+function Reveal({ children, delay = 0, from = "up", className = "", as: As = "div" }) {
   const [ref, inView] = useInView({ threshold: 0.15 });
   return (
     <As
       ref={ref}
-      className={`reveal ${inView ? "in" : ""} ${className}`}
+      className={`reveal reveal-from-${from} ${inView ? "in" : ""} ${className}`}
       style={{ transitionDelay: `${delay}ms` }}
     >
       {children}
+    </As>
+  );
+}
+
+// Stagger wrapper — clones children with auto-applied delay = i * step ms.
+// children must be an array of <Reveal>-friendly elements OR plain elements
+// (in which case we wrap each in <Reveal>).
+function RevealStagger({ children, step = 80, from = "up", className = "" }) {
+  const items = React.Children.toArray(children);
+  return (
+    <>
+      {items.map((child, i) => {
+        // If already a Reveal, just inject delay via prop
+        if (React.isValidElement(child) && child.type === Reveal) {
+          return React.cloneElement(child, { delay: (child.props.delay || 0) + i * step, from: child.props.from || from });
+        }
+        return (
+          <Reveal key={i} delay={i * step} from={from} className={className}>
+            {child}
+          </Reveal>
+        );
+      })}
+    </>
+  );
+}
+
+// Auto-trigger numeric counter — combines useInView + animated count.
+function useCountOnView(target, opts = {}) {
+  const [ref, inView] = useInView({ threshold: opts.threshold ?? 0.4 });
+  const value = useCounter(target, opts, inView);
+  return [ref, value];
+}
+
+// Scroll progress 0..1 as element scrolls through viewport (RAF-throttled).
+// Mainly used for parallax/zoom on hero photo.
+function useScrollProgress(ref) {
+  const [progress, setProgress] = useState(0);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    let raf = 0;
+    const tick = () => {
+      raf = 0;
+      const r = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // 0 when element top hits viewport bottom; 1 when element bottom hits viewport top.
+      const total = r.height + vh;
+      const passed = Math.max(0, Math.min(total, vh - r.top));
+      setProgress(passed / total);
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(tick); };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+  return progress;
+}
+
+// Word-stagger reveal: splits a string into spans with cascading delays.
+function WordStagger({ text, segments, step = 80, baseDelay = 0, className = "", as: As = "h1" }) {
+  const [ref, inView] = useInView({ threshold: 0.2 });
+  const tokens = segments || (text ? text.split(/(\s+)/).filter(Boolean) : []);
+  return (
+    <As ref={ref} className={`word-stagger ${inView ? "in" : ""} ${className}`}>
+      {tokens.map((tok, i) => (
+        <span key={i} style={{ transitionDelay: `${baseDelay + i * step}ms`, whiteSpace: "pre" }}>
+          {tok}
+        </span>
+      ))}
     </As>
   );
 }
@@ -199,12 +273,14 @@ function Citation({ n }) {
 
 // Photo with CSS-overlay annotations — labels describe only what's visibly in the image.
 // annotations: [{ x: "20%", y: "35%", label: "...", arrow?: "→" }]
+// Labels cascade-fade in 100ms each after photo enters viewport.
 function AnnotatedPhoto({ src, alt, annotations = [], className = "" }) {
+  const [ref, inView] = useInView({ threshold: 0.3 });
   return (
-    <figure className={`annotated-photo photo-card photo-warn aspect-[16/10] relative ${className}`}>
+    <figure ref={ref} className={`annotated-photo photo-card photo-warn aspect-[16/10] relative ${inView ? "in" : ""} ${className}`}>
       <img src={src} alt={alt} loading="lazy" className="w-full h-full object-cover"/>
       {annotations.map((a, i) => (
-        <div key={i} className="annot" style={{ top: a.y, left: a.x }}>
+        <div key={i} className="annot" style={{ top: a.y, left: a.x, transitionDelay: `${300 + i * 120}ms` }}>
           <span className="annot-arrow">{a.arrow || "→"}</span>
           <span className="annot-label">{a.label}</span>
         </div>
@@ -213,4 +289,7 @@ function AnnotatedPhoto({ src, alt, annotations = [], className = "" }) {
   );
 }
 
-Object.assign(window, { useInView, useCounter, Reveal, Label, Section, Icon, Citation, AnnotatedPhoto });
+Object.assign(window, {
+  useInView, useCounter, Reveal, Label, Section, Icon, Citation, AnnotatedPhoto,
+  RevealStagger, useCountOnView, useScrollProgress, WordStagger,
+});
