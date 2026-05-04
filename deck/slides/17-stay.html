@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<title>17 · STAY · 收尾</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+  body { background: var(--bg); position: relative; overflow: hidden; }
+
+  /* Subtle facade-art motif strip at top — like website CTA */
+  .stripe {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 8px;
+    background: repeating-linear-gradient(90deg,
+      #1f74c4 0 18px, #d65a8e 18px 30px, #8e5fb5 30px 48px,
+      #f0a0c5 48px 60px, #5fa6d5 60px 78px);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1.2s var(--ease-out-expo);
+  }
+  .stripe.in { transform: scaleX(1); }
+
+  body::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(47,93,79,0.04) 1px, transparent 1.5px);
+    background-size: 5px 5px; pointer-events: none; opacity: .55;
+  }
+
+  .slide {
+    padding: 96px;
+    display: grid;
+    grid-template-rows: auto 1fr auto auto;
+    gap: 40px;
+    position: relative;
+    z-index: 1;
+  }
+  .header { display: flex; justify-content: space-between; align-items: baseline; }
+
+  .stay-title {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 280px;
+    line-height: 0.85;
+    letter-spacing: -0.06em;
+    color: var(--ink);
+    margin-top: 40px;
+  }
+  .stay-title .word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(40px) scale(0.9);
+    filter: blur(10px);
+    transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo), filter 1s var(--ease-out-expo);
+  }
+  .stay-title .word.in { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  .stay-title .dot { color: var(--accent); }
+
+  .h2-cn {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 70px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-top: 32px;
+  }
+  .h2-cn .accent { color: var(--accent); font-style: italic; }
+
+  .footer-row {
+    border-top: 2px solid var(--ink);
+    padding-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .footer-cell .label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .footer-cell .v {
+    margin-top: 8px;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 18px;
+    color: var(--ink);
+  }
+  .footer-cell .meta {
+    margin-top: 4px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .end-line {
+    margin-top: 16px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .end-line strong { color: var(--accent); font-weight: 700; }
+
+  .fadeup {
+    opacity: 0; transform: translateY(18px); filter: blur(6px);
+    transition: opacity .7s var(--ease-out-expo), transform .7s var(--ease-out-expo), filter .7s var(--ease-out-expo);
+  }
+  .fadeup.in { opacity: 1; transform: translateY(0); filter: blur(0); }
+</style>
+</head>
+<body>
+<div class="stripe"></div>
+
+<div class="slide">
+
+  <div class="header">
+    <div class="label-sm fadeup" data-delay="200">
+      <span class="num">13</span><span class="rule"></span>
+      <span>CLOSING · 結語</span>
+    </div>
+    <div class="fadeup" data-delay="350" style="font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.22em; color: var(--muted);">SHUI-YUAN MARKET · TAIPEI</div>
+  </div>
+
+  <div>
+    <div class="stay-title">
+      <span class="word" data-delay="700" data-sfx="focus">STAY</span><!--
+   --><span class="word dot" data-delay="1100" data-sfx="sparkle">.</span>
+    </div>
+    <div class="h2-cn fadeup" data-delay="1800" data-sfx="focus">
+      改造一座市場，留下<span class="accent">一個社區</span>。
+    </div>
+  </div>
+
+  <div class="footer-row">
+    <div class="footer-cell fadeup" data-delay="2400">
+      <div class="label">AUTHORS</div>
+      <div class="v">郝思澄 · 陳品睿 · 林子佑</div>
+      <div class="meta">SDGs 未來城市規劃師提案 · 2026</div>
+    </div>
+    <div class="footer-cell fadeup" data-delay="2600">
+      <div class="label">SITE</div>
+      <div class="v">臺北市公有水源市場</div>
+      <div class="meta">中正區羅斯福路四段 92 號 · 200 餘攤</div>
+    </div>
+    <div class="footer-cell fadeup" data-delay="2800">
+      <div class="label">CITATIONS</div>
+      <div class="v" style="font-size: 14px; line-height: 1.6;">Mehrabian &amp; Russell · Path Intelligence<br>Retail Sensing · 南門攤商訪談</div>
+    </div>
+  </div>
+
+  <div class="end-line fadeup" data-delay="3200" data-sfx="chime">
+    © 2026 · 一場關於停留的提案 · <strong>Built for SDG · Taipei</strong>
+  </div>
+</div>
+
+<script>
+  function sfx(c){try{window.parent.postMessage({type:'sfx',cue:c},'*')}catch(_){}}
+  setTimeout(()=>document.querySelector('.stripe').classList.add('in'), 100);
+  document.querySelectorAll('[data-delay]').forEach(el=>{
+    const d=+el.dataset.delay||0;
+    setTimeout(()=>{el.classList.add('in');if(el.dataset.sfx)sfx(el.dataset.sfx)},d);
+  });
+</script>
+</body>
+</html>

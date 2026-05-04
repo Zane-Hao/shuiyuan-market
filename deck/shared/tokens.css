@@ -1,0 +1,144 @@
+/* shared/tokens.css — design tokens reused across all 17 slides
+   Mirrors the warm-market aesthetic of the source website. Edit here once,
+   every slide picks it up. */
+
+:root {
+  /* ── colors ── */
+  --bg: #FBF7EE;          /* paper cream */
+  --surface: #F5EBD8;     /* warm cream surface for cards */
+  --ink: #2F5D4F;         /* deep green primary text */
+  --accent: #E07A3C;      /* warm orange accent */
+  --warn: #A8362A;        /* brick red */
+  --muted: rgba(47, 93, 79, 0.55);
+  --hairline: rgba(47, 93, 79, 0.18);
+
+  /* ── typography ── */
+  --font-display: 'Noto Serif TC', Georgia, serif;
+  --font-body: 'Noto Sans TC', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+
+  /* ── easing ── */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-back: cubic-bezier(0.34, 1.4, 0.64, 1);
+
+  /* ── slide canvas ── */
+  --slide-w: 1920px;
+  --slide-h: 1080px;
+  --slide-pad: 96px;            /* outer padding */
+  --slide-content-max: 1680px;  /* content max-width */
+}
+
+/* ─── Base reset for slides ─── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  width: var(--slide-w);
+  height: var(--slide-h);
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--accent); color: var(--bg); }
+
+/* ─── Reusable components ─── */
+
+/* Section label (small mono caps, used as kicker above titles) */
+.label-sm {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+.label-sm .num {
+  color: var(--accent);
+  font-weight: 700;
+}
+.label-sm .rule {
+  display: inline-block;
+  width: 36px;
+  height: 1px;
+  background: currentColor;
+}
+
+/* Page indicator — bottom-right "01 / 17" */
+.page-indicator {
+  position: absolute;
+  bottom: 36px;
+  right: 60px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.page-indicator .now {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* Bottom-left credit — author / project tag */
+.credit {
+  position: absolute;
+  bottom: 36px;
+  left: 60px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+/* Slide root container — every slide wraps content here */
+.slide {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: var(--slide-pad);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* On-load reveal — single orchestrated entrance per slide */
+@keyframes slide-fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0;
+  animation: slide-fade-up .9s var(--ease-out-expo) both;
+}
+.reveal-d1 { animation-delay: .15s; }
+.reveal-d2 { animation-delay: .35s; }
+.reveal-d3 { animation-delay: .55s; }
+.reveal-d4 { animation-delay: .80s; }
+.reveal-d5 { animation-delay: 1.05s; }
+
+/* Tabular numerals helper */
+.t-num {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+
+/* Inline citation marker — same as main site, just static */
+.cite {
+  font-family: var(--font-mono);
+  font-size: 0.7em;
+  font-weight: 600;
+  vertical-align: super;
+  color: var(--accent);
+  padding: 1px 4px;
+  background: rgba(224, 122, 60, 0.10);
+  border-radius: 2px;
+  text-decoration: none;
+}

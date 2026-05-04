@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<title>04 · 無集中座位</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+  body { background: var(--bg); position: relative; overflow: hidden; }
+
+  .slide {
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    height: 100%;
+  }
+
+  .content-pane {
+    padding: 88px 72px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--bg);
+    position: relative;
+  }
+  .content-pane h2 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 96px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-top: 20px;
+  }
+  .content-pane .sub {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    letter-spacing: 0.14em;
+    color: var(--warn);
+    margin-bottom: 12px;
+  }
+  .content-pane .body {
+    font-family: var(--font-body);
+    font-size: 26px;
+    line-height: 1.55;
+    color: var(--ink);
+    max-width: 600px;
+    margin-top: 36px;
+  }
+  .big-zero {
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 2px solid var(--ink);
+    display: flex;
+    align-items: baseline;
+    gap: 28px;
+  }
+  .big-zero .num {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 200px;
+    line-height: 0.85;
+    color: var(--warn);
+    letter-spacing: -0.04em;
+    transform: scale(0.6);
+    opacity: 0;
+    transition: opacity .9s var(--ease-out-back), transform .9s var(--ease-out-back);
+  }
+  .big-zero .num.in { opacity: 1; transform: scale(1); }
+  .big-zero .desc {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    line-height: 1.5;
+  }
+  .big-zero .desc strong { color: var(--ink); font-family: var(--font-display); font-size: 22px; letter-spacing: -0.01em; text-transform: none; }
+
+  .photo-pane {
+    position: relative;
+    overflow: hidden;
+    background: #1a0e0a;
+  }
+  .photo-pane img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    animation: photo-zoom 12s var(--ease-out-expo) both, photo-fade 1.2s ease-out both;
+  }
+  @keyframes photo-zoom { from { transform: scale(1.05); } to { transform: scale(1.18); } }
+  @keyframes photo-fade { from { opacity: 0; } to { opacity: 1; } }
+
+  .photo-pane .caption {
+    position: absolute;
+    bottom: 32px; left: 32px; right: 32px;
+    color: rgba(251,247,238,0.95);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.14em;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+    z-index: 2;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .8s var(--ease-out-expo), transform .8s var(--ease-out-expo);
+  }
+  .photo-pane .caption.in { opacity: 1; transform: translateY(0); }
+
+  .fadeup {
+    opacity: 0; transform: translateY(20px); filter: blur(6px);
+    transition: opacity .8s var(--ease-out-expo), transform .8s var(--ease-out-expo), filter .8s var(--ease-out-expo);
+  }
+  .fadeup.in { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+  .credit { color: var(--ink); }
+  .page-indicator { color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <div class="content-pane">
+    <div>
+      <div class="label-sm fadeup" data-delay="200">
+        <span class="num">04</span><span class="rule"></span>
+        <span>CURRENT · 現況診斷 · 03</span>
+      </div>
+      <div class="sub fadeup" data-delay="450" data-sfx="tap">PROBLEM 03</div>
+      <h2 class="fadeup" data-delay="700" data-sfx="focus">無集中座位</h2>
+      <p class="body fadeup" data-delay="1100">
+        消費者在攤販前直接吃，名攤如龍記前永遠是站著等的人潮 — 不只衛生，更讓人不願久留。
+      </p>
+    </div>
+
+    <div class="big-zero">
+      <span class="num" id="zero" data-delay="2200" data-sfx="stamp">0</span>
+      <span class="desc fadeup" data-delay="2500">
+        個正式集中用餐區<br>
+        <strong>於 200+ 攤位之中</strong>
+      </span>
+    </div>
+
+    <div class="credit">SHUI-YUAN · SDG · 2026</div>
+    <div class="page-indicator"><span class="now">04</span> / 17</div>
+  </div>
+
+  <div class="photo-pane">
+    <img src="../../img/no-seat-stall.jpg" alt="站立用餐">
+    <div class="caption" data-delay="1700" data-sfx="tap">站著吃 · 站著等 · 站著結帳</div>
+  </div>
+</div>
+
+<script>
+  function sfx(c){try{window.parent.postMessage({type:'sfx',cue:c},'*')}catch(_){}}
+  document.querySelectorAll('[data-delay]').forEach(el=>{
+    const d=+el.dataset.delay||0;
+    setTimeout(()=>{el.classList.add('in');if(el.dataset.sfx)sfx(el.dataset.sfx)},d);
+  });
+</script>
+</body>
+</html>

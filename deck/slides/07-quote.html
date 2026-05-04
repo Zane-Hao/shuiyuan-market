@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<title>07 · 攤商共識金句</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+  /* Slide 07 — kinetic pull-quote build. Cream paper, warm-grain ambient. */
+
+  body {
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Subtle warm grain ambient texture (animated breath) */
+  body::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(47, 93, 79, 0.045) 1px, transparent 1.5px);
+    background-size: 5px 5px;
+    pointer-events: none;
+    animation: grain-shift 8s ease-in-out infinite;
+  }
+  @keyframes grain-shift {
+    0%, 100% { transform: translate(0, 0); opacity: 0.55; }
+    50%      { transform: translate(2px, 2px); opacity: 0.7; }
+  }
+
+  /* Soft accent glow that drifts across — adds dimension */
+  body::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 80% 30%, rgba(224, 122, 60, 0.06), transparent 60%);
+    pointer-events: none;
+    animation: glow-drift 10s ease-in-out infinite alternate;
+  }
+  @keyframes glow-drift {
+    from { background-position: 80% 30%; }
+    to   { background: radial-gradient(ellipse at 20% 80%, rgba(168, 54, 42, 0.07), transparent 60%); }
+  }
+
+  .slide {
+    padding: 88px 96px;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 56px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Top: section label + timestamp ribbon */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .header .timestamp {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+  }
+
+  /* Center: pull-quote */
+  .quote-wrap {
+    align-self: center;
+    max-width: 1640px;
+  }
+  .theme-tag {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 28px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .theme-tag .letter {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 36px;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  blockquote.pullquote {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 88px;
+    line-height: 1.22;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    position: relative;
+    padding-left: 70px;
+  }
+  blockquote.pullquote .open-mark {
+    position: absolute;
+    left: 0;
+    top: -32px;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 200px;
+    line-height: 1;
+    color: var(--accent);
+    opacity: 0;
+    transform: scale(0.6) rotate(-10deg);
+    transform-origin: center;
+    transition: opacity .8s var(--ease-out-back), transform .8s var(--ease-out-back);
+  }
+  blockquote.pullquote.q-open .open-mark {
+    opacity: 0.85;
+    transform: scale(1) rotate(0);
+  }
+
+  .quote-line {
+    display: block;
+  }
+  .quote-line > .seg {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(8px);
+    transition: opacity .9s var(--ease-out-expo), transform .9s var(--ease-out-expo), filter .9s var(--ease-out-expo);
+  }
+  .quote-line > .seg.in { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+  .emph {
+    color: var(--accent);
+    font-weight: 900;
+    position: relative;
+    display: inline-block;
+  }
+  /* Underline that draws in on emphasis */
+  .emph::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: -10px;
+    height: 6px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .9s var(--ease-out-expo);
+  }
+  .emph.lit::after { transform: scaleX(1); }
+
+  .attribution {
+    margin-top: 44px;
+    font-family: var(--font-mono);
+    font-size: 16px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .attribution .dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--muted);
+    display: inline-block;
+  }
+
+  /* Bottom: 對應水源 bridge ribbon */
+  .bridge {
+    border-top: 1px solid var(--ink);
+    padding-top: 32px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 40px;
+  }
+  .bridge .left {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+  }
+  .bridge .arrow-label {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.22em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .bridge .target {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 30px;
+    color: var(--ink);
+  }
+  .bridge .target .principle {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 4px 14px;
+    margin-left: 8px;
+    display: inline-block;
+    transform: scale(0.6) rotate(-3deg);
+    opacity: 0;
+    transition: transform .7s var(--ease-out-back), opacity .7s var(--ease-out-back);
+  }
+  .bridge .target .principle.stamped {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
+
+  /* Page indicator override */
+  .page-indicator { bottom: 28px; right: 60px; }
+  .credit { bottom: 28px; left: 60px; }
+
+  /* Reveal helpers */
+  .fadeup {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(6px);
+    transition: opacity .7s var(--ease-out-expo), transform .7s var(--ease-out-expo), filter .7s var(--ease-out-expo);
+  }
+  .fadeup.in { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+  /* Bridge top hairline draws in */
+  .bridge-rule {
+    height: 1px;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1s var(--ease-out-expo);
+    margin-bottom: 32px;
+  }
+  .bridge-rule.drawn { transform: scaleX(1); }
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <div class="header">
+    <div class="label-sm fadeup" data-delay="200">
+      <span class="num">07</span>
+      <span class="rule"></span>
+      <span>EVIDENCE · 一手案例研究 · CARD D</span>
+    </div>
+    <div class="timestamp fadeup" data-delay="350">逐字稿 · 03:20</div>
+  </div>
+
+  <div class="quote-wrap">
+    <div class="theme-tag fadeup" data-delay="600" data-sfx="tap">
+      <span class="letter">D.</span>
+      <span>決定性因素</span>
+    </div>
+
+    <blockquote class="pullquote" id="pullquote">
+      <span class="open-mark">「</span>
+
+      <span class="quote-line">
+        <span class="seg" data-delay="1100" data-sfx="tap">主要是看</span><!--
+     --><span class="seg emph" data-delay="1500" data-sfx="sparkle">攤商跟政府配合</span><!--
+     --><span class="seg" data-delay="2050" data-sfx="tap">的程度，</span>
+      </span>
+
+      <span class="quote-line">
+        <span class="seg" data-delay="2400" data-sfx="tap">那是一個</span><!--
+     --><span class="seg emph" data-delay="2750" data-sfx="focus">決定性的因素</span><!--
+     --><span class="seg" data-delay="3200" data-sfx="tap">。」</span>
+      </span>
+    </blockquote>
+
+    <div class="attribution fadeup" data-delay="3700">
+      <span>南門市場資深攤商</span>
+      <span class="dot"></span>
+      <span>已同意引用</span>
+      <span class="dot"></span>
+      <span>2026 訪談</span>
+    </div>
+  </div>
+
+  <div class="bridge">
+    <div class="left">
+      <span class="arrow-label fadeup" data-delay="4100">→ 對應水源</span>
+      <span class="target">
+        <span class="fadeup" data-delay="4250">結構性原則第 4 條</span>
+        <span class="principle" id="stamp">攤商共識先行</span>
+      </span>
+    </div>
+  </div>
+
+  <div class="credit">SHUI-YUAN · SDG · 2026</div>
+  <div class="page-indicator"><span class="now">07</span> / 17</div>
+
+</div>
+
+<script>
+  function sfx(cue) {
+    try { window.parent.postMessage({ type: 'sfx', cue }, '*'); } catch (_) {}
+  }
+
+  // Open quote-mark drops in 850ms after slide loads
+  setTimeout(() => {
+    document.getElementById('pullquote')?.classList.add('q-open');
+    sfx('focus');
+  }, 850);
+
+  document.querySelectorAll('[data-delay]').forEach(el => {
+    const delay = parseInt(el.dataset.delay, 10) || 0;
+    setTimeout(() => {
+      el.classList.add('in');
+      const cue = el.dataset.sfx;
+      if (cue) sfx(cue);
+    }, delay);
+  });
+
+  // Light up emphasized phrases (underline draw) shortly after they enter
+  setTimeout(() => {
+    document.querySelectorAll('.emph')[0]?.classList.add('lit');
+  }, 1900);
+  setTimeout(() => {
+    document.querySelectorAll('.emph')[1]?.classList.add('lit');
+  }, 3050);
+
+  // Final stamp pop
+  setTimeout(() => {
+    document.getElementById('stamp')?.classList.add('stamped');
+    sfx('stamp');
+  }, 4600);
+</script>
+</body>
+</html>

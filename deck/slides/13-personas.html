@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<title>13 · 三類使用者</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+  body { background: var(--bg); position: relative; overflow: hidden; }
+  body::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(47,93,79,0.045) 1px, transparent 1.5px);
+    background-size: 5px 5px; pointer-events: none; opacity: .55;
+  }
+
+  .slide {
+    padding: 88px 96px;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    gap: 40px;
+    position: relative; z-index: 1;
+  }
+  .header { display: flex; justify-content: space-between; align-items: baseline; }
+
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 88px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  h2 .accent { color: var(--accent); }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    align-items: stretch;
+    margin-top: 30px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    opacity: 0;
+    transform: translateY(40px) scale(0.96);
+    transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo);
+  }
+  .card.in { opacity: 1; transform: translateY(0) scale(1); }
+
+  .card-head { display: flex; align-items: center; gap: 16px; }
+  .card-icon {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--bg);
+  }
+  .card-icon svg { width: 24px; height: 24px; }
+  .card-name { font-family: var(--font-display); font-weight: 900; font-size: 26px; line-height: 1; }
+  .card-sub { margin-top: 4px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.14em; color: var(--muted); }
+
+  .quote-line {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.45;
+    color: var(--ink);
+    border-left: 3px solid;
+    padding-left: 14px;
+  }
+
+  .needs { display: flex; flex-direction: column; gap: 10px; }
+  .need {
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 4px;
+  }
+  .need .top {
+    display: flex; justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+  }
+  .need .top .label { color: var(--ink); }
+  .need .top .v { font-weight: 700; }
+  .need .bar { height: 5px; background: rgba(47,93,79,0.12); overflow: hidden; }
+  .need .fill { height: 100%; width: 0; transition: width 1.2s var(--ease-out-expo); }
+
+  .gain {
+    margin-top: auto;
+    padding-top: 18px;
+    border-top: 1px solid var(--hairline);
+  }
+  .gain .label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .gain .text { margin-top: 6px; font-family: var(--font-body); font-size: 15px; line-height: 1.5; color: var(--ink); }
+  .gain .pill {
+    margin-top: 10px;
+    display: inline-block;
+    padding: 6px 14px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--bg);
+  }
+
+  .student { --c: var(--accent); }
+  .student .card-icon { background: var(--accent); }
+  .student .quote-line { border-left-color: var(--accent); }
+  .student .need .v { color: var(--accent); }
+  .student .need .fill { background: var(--accent); }
+  .student .pill { background: var(--accent); }
+
+  .resident { --c: var(--ink); }
+  .resident .card-icon { background: var(--ink); }
+  .resident .quote-line { border-left-color: var(--ink); }
+  .resident .need .v { color: var(--ink); }
+  .resident .need .fill { background: var(--ink); }
+  .resident .pill { background: var(--ink); }
+
+  .tourist { --c: var(--warn); }
+  .tourist .card-icon { background: var(--warn); }
+  .tourist .quote-line { border-left-color: var(--warn); }
+  .tourist .need .v { color: var(--warn); }
+  .tourist .need .fill { background: var(--warn); }
+  .tourist .pill { background: var(--warn); }
+
+  .fadeup {
+    opacity: 0; transform: translateY(18px); filter: blur(6px);
+    transition: opacity .7s var(--ease-out-expo), transform .7s var(--ease-out-expo), filter .7s var(--ease-out-expo);
+  }
+  .fadeup.in { opacity: 1; transform: translateY(0); filter: blur(0); }
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <div class="header">
+    <div class="label-sm fadeup" data-delay="200">
+      <span class="num">09</span><span class="rule"></span>
+      <span>USERS · 三類使用者</span>
+    </div>
+    <div class="fadeup" data-delay="350" style="font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.22em; color: var(--muted);">SDG 11 · 永續社區</div>
+  </div>
+
+  <h2 class="fadeup" data-delay="600">
+    一個空間，<span class="accent">三種節奏</span>。
+  </h2>
+
+  <div class="cards">
+    <div class="card student" data-delay="1100" data-sfx="tap">
+      <div class="card-head">
+        <div class="card-icon"><svg fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 8a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z"/><path d="M9 4V2h6v2"/><path d="M5 13h14"/></svg></div>
+        <div><div class="card-name">學生族群</div><div class="card-sub">台大、師大、外食族</div></div>
+      </div>
+      <blockquote class="quote-line">「便宜、快、有冷氣 — 至少不要悶到吃不下。」</blockquote>
+      <div class="needs">
+        <div class="need"><div class="top"><span class="label">平價選擇</span><span class="v">92</span></div><div class="bar"><div class="fill" data-fill="92"></div></div></div>
+        <div class="need"><div class="top"><span class="label">通風／座位</span><span class="v">65</span></div><div class="bar"><div class="fill" data-fill="65"></div></div></div>
+        <div class="need"><div class="top"><span class="label">速度</span><span class="v">88</span></div><div class="bar"><div class="fill" data-fill="88"></div></div></div>
+      </div>
+      <div class="gain">
+        <div class="label">改造後獲得</div>
+        <div class="text">整潔通風的平價餐食環境、固定用餐區</div>
+        <div class="pill">進場意願 ↑</div>
+      </div>
+    </div>
+
+    <div class="card resident" data-delay="1400" data-sfx="tap">
+      <div class="card-head">
+        <div class="card-icon"><svg fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 7h14l-1 13a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg></div>
+        <div><div class="card-name">在地居民</div><div class="card-sub">在地熟客、中老年主婦</div></div>
+      </div>
+      <blockquote class="quote-line">「血水滿地、又沒地方坐，孫子怎麼帶得出來？」</blockquote>
+      <div class="needs">
+        <div class="need"><div class="top"><span class="label">衛生條件</span><span class="v">78</span></div><div class="bar"><div class="fill" data-fill="78"></div></div></div>
+        <div class="need"><div class="top"><span class="label">一站購足</span><span class="v">85</span></div><div class="bar"><div class="fill" data-fill="85"></div></div></div>
+        <div class="need"><div class="top"><span class="label">動線清楚</span><span class="v">60</span></div><div class="bar"><div class="fill" data-fill="60"></div></div></div>
+      </div>
+      <div class="gain">
+        <div class="label">改造後獲得</div>
+        <div class="text">生熟食動線分離、衛生條件提升</div>
+        <div class="pill">採購信心 ↑</div>
+      </div>
+    </div>
+
+    <div class="card tourist" data-delay="1700" data-sfx="tap">
+      <div class="card-head">
+        <div class="card-icon"><svg fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14.5 4h-5l-2 3H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3.5z"/><circle cx="12" cy="13" r="4"/></svg></div>
+        <div><div class="card-name">觀光客／老饕</div><div class="card-sub">外地名攤朝聖者</div></div>
+      </div>
+      <blockquote class="quote-line">「攤點明明很厲害，但環境一進來就想趕快走。」</blockquote>
+      <div class="needs">
+        <div class="need"><div class="top"><span class="label">環境品質</span><span class="v">70</span></div><div class="bar"><div class="fill" data-fill="70"></div></div></div>
+        <div class="need"><div class="top"><span class="label">探索性</span><span class="v">82</span></div><div class="bar"><div class="fill" data-fill="82"></div></div></div>
+        <div class="need"><div class="top"><span class="label">可拍性</span><span class="v">65</span></div><div class="bar"><div class="fill" data-fill="65"></div></div></div>
+      </div>
+      <div class="gain">
+        <div class="label">改造後獲得</div>
+        <div class="text">探索型消費環境、跨攤位停留體驗</div>
+        <div class="pill">消費金額 ↑</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="credit">SHUI-YUAN · SDG · 2026</div>
+  <div class="page-indicator"><span class="now">13</span> / 17</div>
+</div>
+
+<script>
+  function sfx(c){try{window.parent.postMessage({type:'sfx',cue:c},'*')}catch(_){}}
+  document.querySelectorAll('[data-delay]').forEach(el=>{
+    const d=+el.dataset.delay||0;
+    setTimeout(()=>{el.classList.add('in');if(el.dataset.sfx)sfx(el.dataset.sfx)},d);
+  });
+  // Need bars fill after cards in
+  setTimeout(()=>{
+    document.querySelectorAll('.fill[data-fill]').forEach(el=>{ el.style.width = el.dataset.fill + '%'; });
+  }, 2100);
+</script>
+</body>
+</html>

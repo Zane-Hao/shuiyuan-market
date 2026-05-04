@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<title>05 · 二樓低利用率</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+  body { background: #1a1410; position: relative; overflow: hidden; color: var(--bg); }
+
+  .slide {
+    padding: 0;
+    height: 100%;
+    position: relative;
+  }
+  .photo-bg {
+    position: absolute; inset: 0;
+    background-image: url('../../img/longji.jpg');
+    background-size: cover;
+    background-position: center 60%;
+    filter: saturate(0.85) brightness(0.55);
+    animation: photo-zoom 14s var(--ease-out-expo) both, photo-fade 1.2s ease-out both;
+  }
+  @keyframes photo-zoom { from { transform: scale(1.06); } to { transform: scale(1.18); } }
+  @keyframes photo-fade { from { opacity: 0; } to { opacity: 1; } }
+
+  .overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(26,20,16,0.4) 0%, rgba(26,20,16,0.6) 50%, rgba(26,20,16,0.92) 100%);
+  }
+
+  .content {
+    position: absolute; inset: 0;
+    padding: 96px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 2;
+  }
+
+  .header { display: flex; justify-content: space-between; align-items: baseline; }
+
+  .label-sm { color: rgba(251,247,238,0.78); }
+  .label-sm .rule { background: rgba(251,247,238,0.55); }
+  .header .right { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.22em; color: rgba(251,247,238,0.6); }
+
+  .body-content {
+    max-width: 1400px;
+    margin-top: auto;
+    padding-bottom: 60px;
+  }
+  .sub {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 110px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--bg);
+    margin-bottom: 24px;
+  }
+  .quote {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 44px;
+    line-height: 1.35;
+    color: rgba(251,247,238,0.92);
+    max-width: 1200px;
+  }
+  .quote .accent { color: var(--accent); }
+
+  .bottom-bar {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.18em;
+    color: rgba(251,247,238,0.65);
+  }
+
+  .fadeup {
+    opacity: 0; transform: translateY(20px); filter: blur(6px);
+    transition: opacity .8s var(--ease-out-expo), transform .8s var(--ease-out-expo), filter .8s var(--ease-out-expo);
+  }
+  .fadeup.in { opacity: 1; transform: translateY(0); filter: blur(0); }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="photo-bg"></div>
+  <div class="overlay"></div>
+
+  <div class="content">
+    <div class="header">
+      <div class="label-sm fadeup" data-delay="200">
+        <span class="num">05</span><span class="rule"></span>
+        <span>CURRENT · 現況診斷 · 04</span>
+      </div>
+      <div class="right fadeup" data-delay="350">SHUI-YUAN · 2F</div>
+    </div>
+
+    <div class="body-content">
+      <div class="sub fadeup" data-delay="600" data-sfx="tap">PROBLEM 04</div>
+      <h2 class="fadeup" data-delay="900" data-sfx="focus">二樓低利用率</h2>
+      <p class="quote fadeup" data-delay="1500">
+        服飾修改、雜貨、職人服務集中於二樓 —<br>
+        但二樓成了一樓人潮的<span class="accent">「上不去的天花板」</span>。
+      </p>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="fadeup" data-delay="2400">能見度 / 指引 / 引流 — 三項皆缺</div>
+      <div class="fadeup" data-delay="2400" style="color: rgba(251,247,238,0.85);">
+        <span style="color: var(--accent); font-weight: 700;">05</span> / 17
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function sfx(c){try{window.parent.postMessage({type:'sfx',cue:c},'*')}catch(_){}}
+  document.querySelectorAll('[data-delay]').forEach(el=>{
+    const d=+el.dataset.delay||0;
+    setTimeout(()=>{el.classList.add('in');if(el.dataset.sfx)sfx(el.dataset.sfx)},d);
+  });
+</script>
+</body>
+</html>

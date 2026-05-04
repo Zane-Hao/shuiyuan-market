@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<title>06 · 方法論</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+  body { background: var(--bg); position: relative; overflow: hidden; }
+  body::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(47,93,79,0.045) 1px, transparent 1.5px);
+    background-size: 5px 5px; pointer-events: none;
+    animation: grain-shift 8s ease-in-out infinite;
+  }
+  @keyframes grain-shift { 0%,100%{transform:translate(0,0);opacity:.55} 50%{transform:translate(2px,2px);opacity:.7} }
+
+  .slide {
+    padding: 96px;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 60px;
+    position: relative;
+    z-index: 1;
+  }
+  .header { display: flex; justify-content: space-between; align-items: baseline; }
+
+  .body-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 80px;
+    align-items: center;
+  }
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 88px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  h2 .accent { color: var(--accent); }
+  .lead {
+    margin-top: 28px;
+    font-family: var(--font-body);
+    font-size: 22px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  .method-card {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    padding: 48px;
+  }
+  .method-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 20px;
+    padding: 18px 0;
+    border-top: 1px solid var(--hairline);
+    align-items: baseline;
+  }
+  .method-row:first-child { border-top: 0; padding-top: 0; }
+  .method-row dt {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .method-row dd {
+    font-family: var(--font-body);
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .method-row dd strong { color: var(--accent); }
+
+  .fadeup {
+    opacity: 0; transform: translateY(18px); filter: blur(6px);
+    transition: opacity .7s var(--ease-out-expo), transform .7s var(--ease-out-expo), filter .7s var(--ease-out-expo);
+  }
+  .fadeup.in { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+  .left-fade {
+    opacity: 0; transform: translateX(-20px);
+    transition: opacity .7s var(--ease-out-expo), transform .7s var(--ease-out-expo);
+  }
+  .left-fade.in { opacity: 1; transform: translateX(0); }
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <div class="header">
+    <div class="label-sm fadeup" data-delay="200">
+      <span class="num">06</span><span class="rule"></span>
+      <span>EVIDENCE · 一手案例研究 · 方法論</span>
+    </div>
+    <div class="fadeup" data-delay="350" style="font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.22em; color: var(--muted);">COMPARATIVE CASE STUDY</div>
+  </div>
+
+  <div class="body-grid">
+    <div>
+      <h2 class="fadeup" data-delay="600" data-sfx="focus">
+        我們訪談的不是水源 —<br>
+        是<span class="accent">已成功改建</span>的南門。
+      </h2>
+      <p class="lead fadeup" data-delay="1100">
+        擷取「改建後成功要素」<br>
+        作為水源改建設計的依據。
+      </p>
+    </div>
+
+    <div class="method-card fadeup" data-delay="1500">
+      <dl>
+        <div class="method-row left-fade" data-delay="1700" data-sfx="tap">
+          <dt>時間</dt>
+          <dd>2026 年</dd>
+        </div>
+        <div class="method-row left-fade" data-delay="1900" data-sfx="tap">
+          <dt>地點</dt>
+          <dd>臺北市公有<strong>南門市場</strong></dd>
+        </div>
+        <div class="method-row left-fade" data-delay="2100" data-sfx="tap">
+          <dt>對象</dt>
+          <dd>資深攤商 1 位 — 改建前後皆營業</dd>
+        </div>
+        <div class="method-row left-fade" data-delay="2300" data-sfx="tap">
+          <dt>形式</dt>
+          <dd>結構化訪談 + 現場錄音 + 逐字稿整理</dd>
+        </div>
+        <div class="method-row left-fade" data-delay="2500" data-sfx="tap">
+          <dt>限制</dt>
+          <dd>樣本小（N=1）；質性證據而非統計推論</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <div class="credit">SHUI-YUAN · SDG · 2026</div>
+  <div class="page-indicator"><span class="now">06</span> / 17</div>
+</div>
+
+<script>
+  function sfx(c){try{window.parent.postMessage({type:'sfx',cue:c},'*')}catch(_){}}
+  document.querySelectorAll('[data-delay]').forEach(el=>{
+    const d=+el.dataset.delay||0;
+    setTimeout(()=>{el.classList.add('in');if(el.dataset.sfx)sfx(el.dataset.sfx)},d);
+  });
+</script>
+</body>
+</html>

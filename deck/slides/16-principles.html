@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<title>16 · 結構性原則</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+  body { background: var(--bg); position: relative; overflow: hidden; }
+  body::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(47,93,79,0.045) 1px, transparent 1.5px);
+    background-size: 5px 5px; pointer-events: none; opacity: .55;
+  }
+
+  .slide {
+    padding: 88px 96px;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 60px;
+    position: relative; z-index: 1;
+  }
+  .header { display: flex; justify-content: space-between; align-items: baseline; }
+
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 80px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    max-width: 1300px;
+  }
+  h2 .accent { color: var(--accent); }
+
+  .principles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    align-items: center;
+    margin-top: 40px;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 44px;
+    line-height: 1.2;
+  }
+  .principles .x { color: var(--muted); font-size: 32px; }
+  .principles .chip {
+    padding: 12px 24px;
+    color: #fff;
+    transform: scale(0.6) rotate(-3deg);
+    opacity: 0;
+    transition: transform .7s var(--ease-out-back), opacity .7s var(--ease-out-back);
+    display: inline-block;
+  }
+  .principles .chip.in { transform: scale(1) rotate(0); opacity: 1; }
+  .principles .chip-1 { background: var(--warn); }
+  .principles .chip-2 { background: var(--accent); }
+  .principles .chip-3 { background: var(--ink); }
+  .principles .chip-4 {
+    background: var(--bg);
+    color: var(--ink);
+    border: 3px solid var(--ink);
+  }
+
+  .quote-block {
+    margin-top: 48px;
+    padding-left: 28px;
+    border-left: 4px solid var(--accent);
+    max-width: 1100px;
+  }
+  .quote-block blockquote {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+  .quote-block footer {
+    margin-top: 12px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+
+  .fadeup {
+    opacity: 0; transform: translateY(18px); filter: blur(6px);
+    transition: opacity .7s var(--ease-out-expo), transform .7s var(--ease-out-expo), filter .7s var(--ease-out-expo);
+  }
+  .fadeup.in { opacity: 1; transform: translateY(0); filter: blur(0); }
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <div class="header">
+    <div class="label-sm fadeup" data-delay="200">
+      <span class="num">12</span><span class="rule"></span>
+      <span>STRUCTURAL · 結構性原則</span>
+    </div>
+    <div class="fadeup" data-delay="350" style="font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.22em; color: var(--muted);">FOUR NON-NEGOTIABLES</div>
+  </div>
+
+  <div>
+    <h2 class="fadeup" data-delay="600">
+      四件絕對<span class="accent">不做</span>的事，<br>
+      一件絕對<span class="accent">先做</span>的事。
+    </h2>
+
+    <div class="principles">
+      <span class="chip chip-1" data-delay="1200" data-sfx="stamp">不破壞低租金結構</span>
+      <span class="x">×</span>
+      <span class="chip chip-2" data-delay="1450" data-sfx="stamp">不犧牲學生客群</span>
+      <span class="x">×</span>
+      <span class="chip chip-3" data-delay="1700" data-sfx="stamp">不百貨公司化</span>
+      <span class="x">×</span>
+      <span class="chip chip-4" data-delay="2000" data-sfx="stamp">攤商共識先行</span>
+    </div>
+
+    <div class="quote-block">
+      <blockquote class="fadeup" data-delay="2500" data-sfx="focus">
+        「主要是看攤商跟政府配合的程度，那是一個決定性的因素。」
+      </blockquote>
+      <footer class="fadeup" data-delay="2900">
+        — 南門市場資深攤商，2026 訪談 · 見 §一手案例研究 Card D
+      </footer>
+    </div>
+  </div>
+
+  <div class="credit">SHUI-YUAN · SDG · 2026</div>
+  <div class="page-indicator"><span class="now">16</span> / 17</div>
+</div>
+
+<script>
+  function sfx(c){try{window.parent.postMessage({type:'sfx',cue:c},'*')}catch(_){}}
+  document.querySelectorAll('[data-delay]').forEach(el=>{
+    const d=+el.dataset.delay||0;
+    setTimeout(()=>{el.classList.add('in');if(el.dataset.sfx)sfx(el.dataset.sfx)},d);
+  });
+</script>
+</body>
+</html>

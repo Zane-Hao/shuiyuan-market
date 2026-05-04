@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<title>02 · Hook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+  body { background: var(--bg); position: relative; overflow: hidden; }
+  body::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(47, 93, 79, 0.045) 1px, transparent 1.5px);
+    background-size: 5px 5px; pointer-events: none;
+    animation: grain-shift 8s ease-in-out infinite;
+  }
+  @keyframes grain-shift {
+    0%, 100% { transform: translate(0, 0); opacity: 0.55; }
+    50%      { transform: translate(2px, 2px); opacity: 0.7; }
+  }
+
+  .slide {
+    padding: 96px;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 60px;
+    position: relative;
+    z-index: 1;
+  }
+  .header { display: flex; justify-content: space-between; align-items: baseline; }
+
+  .h2 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 96px;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    max-width: 1500px;
+  }
+  .h2 .warn {
+    color: var(--warn);
+    position: relative;
+    display: inline-block;
+  }
+  .h2 .warn::after {
+    content: '';
+    position: absolute; left: 0; right: 0; bottom: -8px;
+    height: 5px; background: var(--warn);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 1s var(--ease-out-expo);
+  }
+  .h2 .warn.lit::after { transform: scaleX(1); }
+
+  .counters {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 80px;
+    align-items: end;
+    border-top: 2px solid var(--ink);
+    padding-top: 60px;
+    margin-top: auto;
+  }
+  .counter-item {
+    opacity: 0;
+    transform: translateY(40px);
+    filter: blur(8px);
+    transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo), filter 1s var(--ease-out-expo);
+  }
+  .counter-item.in { opacity: 1; transform: translateY(0); filter: blur(0); }
+  .counter-item .num {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 200px;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .counter-item .num .accent { color: var(--accent); }
+  .counter-item .label {
+    margin-top: 18px;
+    font-family: var(--font-mono);
+    font-size: 16px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .h2 .seg, .header .fadeup {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(6px);
+    transition: opacity .8s var(--ease-out-expo), transform .8s var(--ease-out-expo), filter .8s var(--ease-out-expo);
+  }
+  .h2 .seg.in, .header .fadeup.in { opacity: 1; transform: translateY(0); filter: blur(0); }
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <div class="header">
+    <div class="label-sm fadeup" data-delay="200">
+      <span class="num">02</span><span class="rule"></span>
+      <span>HOOK · 現況一句話</span>
+    </div>
+    <div class="fadeup" data-delay="350" style="font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.22em; color: var(--muted);">公館商圈核心 · 1980 落成</div>
+  </div>
+
+  <h2 class="h2">
+    <span class="seg" data-delay="700" data-sfx="tap">公館商圈最熱鬧的角落，</span><br>
+    <span class="seg" data-delay="1100" data-sfx="tap">卻是</span><span class="seg warn" data-delay="1450" data-sfx="sparkle" id="warn">最無法停留</span><span class="seg" data-delay="2000" data-sfx="tap">的市場。</span>
+  </h2>
+
+  <div class="counters">
+    <div class="counter-item" data-delay="2400" data-sfx="focus">
+      <div class="num">200<span class="accent">+</span></div>
+      <div class="label">攤位總數 / Stalls</div>
+    </div>
+    <div class="counter-item" data-delay="2750" data-sfx="focus">
+      <div class="num"><span class="accent">0</span></div>
+      <div class="label">集中用餐區 / Seating</div>
+    </div>
+    <div class="counter-item" data-delay="3100" data-sfx="focus">
+      <div class="num">近兩成</div>
+      <div class="label">熟食攤佔比 / Food</div>
+    </div>
+  </div>
+
+  <div class="credit">SHUI-YUAN · SDG · 2026</div>
+  <div class="page-indicator"><span class="now">02</span> / 17</div>
+</div>
+
+<script>
+  function sfx(cue) { try { window.parent.postMessage({type:'sfx',cue},'*'); } catch(_){} }
+  document.querySelectorAll('[data-delay]').forEach(el=>{
+    const d = +el.dataset.delay||0;
+    setTimeout(()=>{ el.classList.add('in'); if(el.dataset.sfx) sfx(el.dataset.sfx); }, d);
+  });
+  setTimeout(()=>document.getElementById('warn')?.classList.add('lit'), 1900);
+</script>
+</body>
+</html>

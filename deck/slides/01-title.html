@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<title>01 · 標題卡</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+  body { background: #0d1f1a; color: var(--bg); }
+  .slide { padding: 0; overflow: hidden; }
+
+  /* Photo with slow Ken Burns zoom + parallax */
+  .photo {
+    position: absolute;
+    inset: -2%;
+    background-image: url('../../img/facade-pink.jpg');
+    background-size: cover;
+    background-position: center 55%;
+    filter: saturate(0.95) brightness(0.4);
+    animation: kenburns 14s var(--ease-out-expo) both, photo-fade-in 1.2s ease-out both;
+  }
+  @keyframes kenburns {
+    from { transform: scale(1.04); }
+    to   { transform: scale(1.16); }
+  }
+  @keyframes photo-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* Multi-layer overlay for depth */
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 18% 78%, rgba(224, 122, 60, 0.32), transparent 60%),
+      radial-gradient(ellipse at 80% 30%, rgba(168, 54, 42, 0.18), transparent 55%),
+      linear-gradient(180deg, rgba(13, 31, 26, 0.72) 0%, rgba(13, 31, 26, 0.5) 38%, rgba(13, 31, 26, 0.95) 100%);
+    animation: overlay-fade .8s ease-out both;
+  }
+  @keyframes overlay-fade { from { opacity: 0; } to { opacity: 1; } }
+
+  /* Subtle vignette pulse */
+  .vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.45) 100%);
+    pointer-events: none;
+    animation: vignette-breathe 6s ease-in-out infinite;
+  }
+  @keyframes vignette-breathe {
+    0%, 100% { opacity: 0.85; }
+    50%      { opacity: 1.0; }
+  }
+
+  .content {
+    position: absolute;
+    inset: 0;
+    padding: 96px;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+  }
+
+  /* Top bar */
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    color: rgba(251, 247, 238, 0.8);
+  }
+  .top-bar .label-sm { color: rgba(251, 247, 238, 0.78); }
+  .top-bar .label-sm .rule { background: rgba(251, 247, 238, 0.55); animation: rule-grow .6s var(--ease-out-expo) both; transform-origin: left; }
+  @keyframes rule-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  .top-bar .right {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    color: rgba(251, 247, 238, 0.6);
+  }
+
+  /* Center hero */
+  .hero {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 1500px;
+  }
+
+  /* Word stagger title */
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 168px;
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    color: var(--bg);
+  }
+  .hero h1 .w {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.4em);
+    filter: blur(8px);
+    transition: opacity .9s var(--ease-out-expo), transform .9s var(--ease-out-expo), filter .9s var(--ease-out-expo);
+  }
+  .hero h1 .w.in {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+  .hero h1 .accent {
+    font-style: italic;
+    color: var(--accent);
+    margin: 0 0.05em;
+    text-shadow: 0 0 0 transparent;
+    transition: text-shadow .6s ease-out, opacity .9s var(--ease-out-expo), transform .9s var(--ease-out-expo), filter .9s var(--ease-out-expo);
+  }
+  .hero h1 .accent.glow {
+    text-shadow: 0 0 30px rgba(224, 122, 60, 0.65), 0 0 80px rgba(224, 122, 60, 0.3);
+  }
+
+  .hero .subtitle {
+    margin-top: 36px;
+    font-family: var(--font-body);
+    font-size: 30px;
+    line-height: 1.55;
+    color: rgba(251, 247, 238, 0.85);
+    max-width: 820px;
+    font-weight: 400;
+  }
+  .hero .meta {
+    margin-top: 50px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    color: rgba(251, 247, 238, 0.62);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+  }
+  .hero .meta .sep { color: rgba(251, 247, 238, 0.3); }
+
+  /* Bottom bar */
+  .bottom-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    color: rgba(251, 247, 238, 0.65);
+  }
+  .bottom-bar .authors { line-height: 1.7; }
+  .bottom-bar .page {
+    color: rgba(251, 247, 238, 0.85);
+    font-variant-numeric: tabular-nums;
+  }
+  .bottom-bar .page .now {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* Reveal helpers — fade-up + blur in */
+  .fadeup {
+    opacity: 0;
+    transform: translateY(28px);
+    filter: blur(6px);
+    transition: opacity .8s var(--ease-out-expo), transform .8s var(--ease-out-expo), filter .8s var(--ease-out-expo);
+  }
+  .fadeup.in {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="photo"></div>
+  <div class="overlay"></div>
+  <div class="vignette"></div>
+
+  <div class="content">
+
+    <div class="top-bar">
+      <div class="label-sm fadeup" data-delay="200">
+        <span class="rule"></span>
+        <span>水源市場 SDG 提案 · 2026</span>
+      </div>
+      <div class="right fadeup" data-delay="450">SHUI-YUAN MARKET · TAIPEI</div>
+    </div>
+
+    <div class="hero">
+      <h1 id="title">
+        <span class="w" data-delay="700" data-sfx="tap">一場</span><!--
+     --><span class="w" data-delay="900" data-sfx="tap">關於</span>
+        <span class="w accent" data-delay="1100" data-sfx="sparkle">停留</span>
+        <span class="w" data-delay="1450" data-sfx="tap">的提案</span>
+      </h1>
+      <p class="subtitle fadeup" data-delay="1900">
+        從衛生底線到動線重構，三層解方<br/>讓公館的傳統市場再被看見。
+      </p>
+      <div class="meta fadeup" data-delay="2200">
+        <span>SDG · 8 · 9 · 11 · 12</span>
+        <span class="sep">/</span>
+        <span>三層解方架構</span>
+        <span class="sep">/</span>
+        <span>PAD 情緒模型</span>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="authors fadeup" data-delay="2450">
+        郝思澄 · 陳品睿 · 林子佑<br/>
+        臺北市公有水源市場 · 公館商圈
+      </div>
+      <div class="page fadeup" data-delay="2600">
+        <span class="now">01</span> / 17
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // Drive reveal sequence + dispatch SFX cues to parent (deck shell)
+  function sfx(cue) {
+    try { window.parent.postMessage({ type: 'sfx', cue }, '*'); } catch (_) {}
+  }
+
+  document.querySelectorAll('[data-delay]').forEach(el => {
+    const delay = parseInt(el.dataset.delay, 10) || 0;
+    setTimeout(() => {
+      el.classList.add('in');
+      const cue = el.dataset.sfx;
+      if (cue) sfx(cue);
+    }, delay);
+  });
+
+  // 「停留」glow trigger 200ms after it enters
+  setTimeout(() => {
+    const accent = document.querySelector('.accent');
+    if (accent) accent.classList.add('glow');
+  }, 1300);
+</script>
+</body>
+</html>
