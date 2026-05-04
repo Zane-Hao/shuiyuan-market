@@ -37,30 +37,20 @@ function MethodologyBox() {
     <div className="card-warm p-5 rounded-md">
       <Label>METHODOLOGY · 方法</Label>
       <dl className="mt-4 space-y-3 text-[13.5px]">
-        <div className="grid grid-cols-[80px_1fr] gap-3">
-          <dt className="font-mono text-[11px] tracking-[0.15em] text-muted pt-0.5">時間</dt>
-          <dd>2026 年</dd>
-        </div>
-        <div className="grid grid-cols-[80px_1fr] gap-3">
-          <dt className="font-mono text-[11px] tracking-[0.15em] text-muted pt-0.5">地點</dt>
-          <dd>臺北市公有南門市場（Nanmen Public Market）<br/>
-            <span className="text-muted text-[12px]">post-renovation reference case</span>
-          </dd>
-        </div>
-        <div className="grid grid-cols-[80px_1fr] gap-3">
-          <dt className="font-mono text-[11px] tracking-[0.15em] text-muted pt-0.5">對象</dt>
-          <dd>資深攤商 1 位 — 改建前後皆營業</dd>
-        </div>
-        <div className="grid grid-cols-[80px_1fr] gap-3">
-          <dt className="font-mono text-[11px] tracking-[0.15em] text-muted pt-0.5">形式</dt>
-          <dd>結構化訪談 + 現場錄音 + 逐字稿整理<br/>
-            <span className="text-muted text-[12px]">受訪者已徵得拍照與引用同意</span>
-          </dd>
-        </div>
-        <div className="grid grid-cols-[80px_1fr] gap-3">
-          <dt className="font-mono text-[11px] tracking-[0.15em] text-muted pt-0.5">補充</dt>
-          <dd>多次現場非結構化對話與觀察（未錄音）</dd>
-        </div>
+        {[
+          { dt: "時間", dd: <>2026 年</> },
+          { dt: "地點", dd: <>臺北市公有南門市場（Nanmen Public Market）<br/><span className="text-muted text-[12px]">post-renovation reference case</span></> },
+          { dt: "對象", dd: <>資深攤商 1 位 — 改建前後皆營業</> },
+          { dt: "形式", dd: <>結構化訪談 + 現場錄音 + 逐字稿整理<br/><span className="text-muted text-[12px]">受訪者已徵得拍照與引用同意</span></> },
+          { dt: "補充", dd: <>多次現場非結構化對話與觀察（未錄音）</> },
+        ].map((row, i) => (
+          <Reveal key={row.dt} from="left" delay={i * 70}>
+            <div className="grid grid-cols-[80px_1fr] gap-3">
+              <dt className="font-mono text-[11px] tracking-[0.15em] text-muted pt-0.5">{row.dt}</dt>
+              <dd>{row.dd}</dd>
+            </div>
+          </Reveal>
+        ))}
       </dl>
 
       <div className="mt-5 pt-4 border-t border-ink/15">
@@ -84,7 +74,7 @@ function MethodologyBox() {
 
 function QuoteCard({ q, idx }) {
   return (
-    <Reveal delay={idx * 80}>
+    <Reveal delay={idx * 140} from="right">
       <article className="card-warm rounded-md overflow-hidden border-l-4 border-accent">
         <div className="p-6 md:p-7">
           <div className="flex items-baseline justify-between flex-wrap gap-2 mb-3">

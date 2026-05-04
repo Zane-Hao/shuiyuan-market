@@ -49,28 +49,42 @@ const TIERS = [
 ];
 
 function PyramidSVG({ active }) {
+  const [svgRef, svgInView] = useInView({ threshold: 0.3 });
+  const tierStyle = (delay) => ({
+    transition: "all .5s, opacity .8s var(--ease-out-expo), transform .8s var(--ease-out-expo)",
+    opacity: svgInView ? 1 : 0,
+    transform: svgInView ? "translateY(0)" : "translateY(40px)",
+    transformOrigin: "180px 360px",
+    transitionDelay: `${delay}ms`,
+  });
   return (
-    <svg viewBox="0 0 360 380" className="w-full h-auto">
+    <svg ref={svgRef} viewBox="0 0 360 380" className="w-full h-auto">
       {/* Base tier */}
+      <g style={tierStyle(0)}>
       <polygon points="20,360 340,360 300,250 60,250"
         fill={active === 0 ? "#5C7A85" : "rgba(92,122,133,0.4)"}
         stroke="var(--ink)" strokeWidth="1.5" style={{transition:"all .5s"}}/>
       <text x="180" y="320" textAnchor="middle" fontSize="14" fontWeight="900" fill="#fff" className="font-display">第一階段</text>
       <text x="180" y="340" textAnchor="middle" fontSize="11" fill="#fff" opacity="0.8" className="font-mono" letterSpacing="2">SANITATION</text>
+      </g>
 
       {/* Mid tier */}
+      <g style={tierStyle(220)}>
       <polygon points="60,250 300,250 260,140 100,140"
         fill={active === 1 ? "#E07A3C" : "rgba(224,122,60,0.4)"}
         stroke="var(--ink)" strokeWidth="1.5" style={{transition:"all .5s"}}/>
       <text x="180" y="210" textAnchor="middle" fontSize="14" fontWeight="900" fill="#fff" className="font-display">第二階段</text>
       <text x="180" y="230" textAnchor="middle" fontSize="11" fill="#fff" opacity="0.85" className="font-mono" letterSpacing="2">DINING</text>
+      </g>
 
       {/* Top tier */}
+      <g style={tierStyle(440)}>
       <polygon points="100,140 260,140 180,30"
         fill={active === 2 ? "#2F5D4F" : "rgba(47,93,79,0.4)"}
         stroke="var(--ink)" strokeWidth="1.5" style={{transition:"all .5s"}}/>
       <text x="180" y="100" textAnchor="middle" fontSize="13" fontWeight="900" fill="#fff" className="font-display">第三階段</text>
       <text x="180" y="118" textAnchor="middle" fontSize="10" fill="#fff" opacity="0.85" className="font-mono" letterSpacing="2">SPATIAL</text>
+      </g>
 
       {/* upward arrow on the side */}
       <g transform="translate(348, 60)">
@@ -269,7 +283,8 @@ function PyramidSection() {
         {/* Tier text */}
         <div className="lg:col-span-7 space-y-24">
           {TIERS.map((tier, i) => (
-            <article key={i} ref={el => articleRefs.current[i] = el} className={`rounded-md overflow-hidden ${tier.color}`}>
+            <Reveal key={i} from="right">
+            <article ref={el => articleRefs.current[i] = el} className={`rounded-md overflow-hidden ${tier.color}`}>
               <div className="p-7 md:p-9">
                 <div className="flex items-center justify-between flex-wrap gap-3">
                   <div className="font-mono text-[13px] tracking-[0.2em] opacity-85">PHASE {tier.n}</div>
@@ -365,6 +380,7 @@ function PyramidSection() {
                 )}
               </div>
             </article>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -418,15 +434,20 @@ const USERS = [
   },
 ];
 
-function NeedBar({ label, value, color }) {
+function NeedBar({ label, value, color, delay = 0 }) {
+  const [ref, inView] = useInView({ threshold: 0.4 });
   return (
-    <div>
+    <div ref={ref}>
       <div className="flex items-baseline justify-between text-[12px]">
         <span className="text-ink/75">{label}</span>
         <span className="font-mono font-bold" style={{color}}>{value}</span>
       </div>
       <div className="mt-1.5 h-[6px] bg-ink/10 rounded-full overflow-hidden">
-        <div className="h-full rounded-full" style={{width:`${value}%`, background: color}}></div>
+        <div className="h-full rounded-full" style={{
+          width: inView ? `${value}%` : "0%",
+          background: color,
+          transition: `width 1.1s var(--ease-out-expo) ${delay}ms`,
+        }}></div>
       </div>
     </div>
   );
@@ -553,8 +574,10 @@ function ComparisonRadar({ mode }) {
             <PolarGrid stroke="rgba(47,93,79,0.18)"/>
             <PolarAngleAxis dataKey="axis" tick={{fill:"#2F5D4F", fontSize: 13, fontWeight: 600}}/>
             <PolarRadiusAxis angle={90} domain={[0,100]} tick={{fill:"rgba(47,93,79,0.45)", fontSize: 10}}/>
-            {Object.keys(palette).map((k)=>(
-              <Radar key={k} name={k} dataKey={k} stroke={palette[k]} fill={palette[k]} fillOpacity={k==="水源"?0.35:0.08} strokeWidth={k==="水源"?2.5:1.5}/>
+            {Object.keys(palette).map((k, i)=>(
+              <Radar key={k} name={k} dataKey={k} stroke={palette[k]} fill={palette[k]}
+                fillOpacity={k==="水源"?0.35:0.08} strokeWidth={k==="水源"?2.5:1.5}
+                isAnimationActive={true} animationBegin={i * 200} animationDuration={900}/>
             ))}
             <Legend wrapperStyle={{fontSize: 13, paddingTop: 12}}/>
             <Tooltip contentStyle={{background:"var(--bg)", border:"1px solid var(--ink)", borderRadius:4, fontSize:13}}/>
@@ -567,10 +590,13 @@ function ComparisonRadar({ mode }) {
 
 function SWOTGrid({ mode = "current" }) {
   const swot = SWOT_DATA[mode];
+  const [gridRef, gridInView] = useInView({ threshold: 0.25 });
   return (
-    <div className="grid grid-cols-2 gap-4 md:gap-5">
+    <div ref={gridRef} className="swot-flip-wrap grid grid-cols-2 gap-4 md:gap-5">
       {swot.map((q,i)=>(
-        <div key={i} className="rounded-md p-5 md:p-6 transition-all" style={{background: q.color, color:"var(--bg)"}}>
+        <div key={i}
+          className={`swot-flip rounded-md p-5 md:p-6 ${gridInView ? "in" : ""}`}
+          style={{ background: q.color, color: "var(--bg)", transitionDelay: `${i * 130}ms` }}>
           <div className="flex items-baseline gap-3">
             <span className="font-display font-black text-[clamp(1.8rem,2.5vw,2.5rem)] leading-none opacity-90">{q.k}</span>
             <span className="font-display font-bold text-[18px]">{q.t}</span>
@@ -607,7 +633,7 @@ function UsersSection() {
         {USERS.map((u, i) => {
           const I = Icon[u.icon];
           return (
-            <Reveal key={i} delay={i*100}>
+            <Reveal key={i} delay={i*120} from="scale">
               <div className="card-warm rounded-md p-6 h-full flex flex-col">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{background: u.color, color:"#fff"}}>
@@ -622,7 +648,7 @@ function UsersSection() {
                   {u.quote}
                 </blockquote>
                 <div className="mt-5 space-y-3">
-                  {u.needs.map((n,j)=><NeedBar key={j} label={n.l} value={n.v} color={u.color}/>)}
+                  {u.needs.map((n,j)=><NeedBar key={j} label={n.l} value={n.v} color={u.color} delay={j*120}/>)}
                 </div>
                 <div className="mt-auto pt-5 border-t border-ink/10">
                   <div className="label-sm">改造後獲得</div>
