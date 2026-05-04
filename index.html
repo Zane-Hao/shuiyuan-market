@@ -260,15 +260,18 @@
   /* citation marker */
   .cite {
     font-family: var(--font-mono);
-    font-size: 0.62em;
+    font-size: 0.72em;
+    font-weight: 600;
     vertical-align: super;
     color: var(--accent);
     text-decoration: none;
-    padding: 0 2px;
+    padding: 1px 4px;
+    border-radius: 2px;
+    background: rgba(224,122,60,0.10);
     cursor: pointer;
     transition: background .25s ease;
   }
-  .cite:hover { text-decoration: underline; background: rgba(224,122,60,0.08); }
+  .cite:hover { background: rgba(224,122,60,0.25); text-decoration: none; }
 
   /* annotated photo overlays */
   .annotated-photo { position: relative; }
@@ -334,13 +337,13 @@
 <script src="https://cdn.jsdelivr.net/npm/recharts@2.12.7/umd/Recharts.js" crossorigin="anonymous"></script>
 
 <!-- Helpers + sections (cache-bust v2 for evidence-upgrade) -->
-<script type="text/babel" src="helpers.jsx?v=evidence3"></script>
-<script type="text/babel" src="sections-1.jsx?v=evidence3"></script>
-<script type="text/babel" src="sections-evidence.jsx?v=evidence3"></script>
-<script type="text/babel" src="sections-2.jsx?v=evidence3"></script>
-<script type="text/babel" src="sections-3.jsx?v=evidence3"></script>
-<script type="text/babel" src="sections-sources.jsx?v=evidence3"></script>
-<script type="text/babel" src="app.jsx?v=evidence3"></script>
+<script type="text/babel" src="helpers.jsx?v=anim1"></script>
+<script type="text/babel" src="sections-1.jsx?v=anim1"></script>
+<script type="text/babel" src="sections-evidence.jsx?v=anim1"></script>
+<script type="text/babel" src="sections-2.jsx?v=anim1"></script>
+<script type="text/babel" src="sections-3.jsx?v=anim1"></script>
+<script type="text/babel" src="sections-sources.jsx?v=anim1"></script>
+<script type="text/babel" src="app.jsx?v=anim1"></script>
 
 </body>
 </html>

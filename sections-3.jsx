@@ -24,7 +24,7 @@ const LOOP_NODES = [
   {
     l: "攤商營收", s: "Stall Revenue",
     unit: "Index", values: [100, 115, 130, 145, 156, 165],
-    why: "212 個攤位人均消費上升、來客數穩定，整體營收成長。基期 = 改造前 100。",
+    why: "全棟攤位人均消費上升、來客數穩定，整體營收成長。基期 = 改造前 100。",
     drives: "現金流改善後，攤商有餘力升級設備、招牌、食安培訓。",
   },
   {
@@ -294,7 +294,7 @@ const SDGS = [
   {
     n: 8, t: "尊嚴就業與經濟成長", c: "sdg-8", img: "img/sdg-8.png",
     desc: "促進包容和永續的經濟成長、就業及人人有尊嚴的工作。",
-    why: "212 個攤商透過環境升級延長停留時間，直接帶動營收與就業穩定；攤商家庭得以在公館核心商圈持續經營下去，避免被連鎖品牌取代。",
+    why: "全棟 200 餘個攤商透過環境升級延長停留時間，直接帶動營收與就業穩定；攤商家庭得以在公館核心商圈持續經營下去，避免被連鎖品牌取代。",
   },
   {
     n: 9, t: "產業創新與基礎建設", c: "sdg-9", img: "img/sdg-9.png",
@@ -457,7 +457,7 @@ function CTASection() {
           <Reveal delay={80}>
             <Label>SITE</Label>
             <div className="mt-3 font-display font-bold text-[16px]">臺北市公有水源市場</div>
-            <div className="mt-1 text-[13px] text-muted">中正區羅斯福路四段 92 號 1–2F · 共 212 攤</div>
+            <div className="mt-1 text-[13px] text-muted">中正區羅斯福路四段 92 號 1–2F · 200 餘攤</div>
           </Reveal>
           <Reveal delay={160}>
             <Label>CITATIONS</Label>

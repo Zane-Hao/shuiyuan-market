@@ -8,10 +8,10 @@ function Hero() {
       {/* real facade night photo */}
       <img src="img/facade-pink.jpg" alt="水源市場大樓外牆藝術"
            className="absolute inset-0 w-full h-full object-cover"
-           style={{filter:"saturate(0.9) brightness(0.55)"}}/>
+           style={{filter:"saturate(0.9) brightness(0.45)"}}/>
 
       {/* dark overlay for text legibility */}
-      <div className="absolute inset-0" style={{background:"linear-gradient(180deg, rgba(13,31,26,0.55) 0%, rgba(13,31,26,0.35) 40%, rgba(13,31,26,0.85) 100%)"}}></div>
+      <div className="absolute inset-0" style={{background:"linear-gradient(180deg, rgba(13,31,26,0.7) 0%, rgba(13,31,26,0.5) 40%, rgba(13,31,26,0.92) 100%)"}}></div>
 
       {/* warm accent radial */}
       <div className="absolute inset-0" style={{background:"radial-gradient(ellipse at 20% 80%, rgba(224,122,60,0.22), transparent 55%)"}}></div>
@@ -35,17 +35,12 @@ function Hero() {
             從衛生底線到動線重構，三層解方<br/>讓公館的傳統市場再被看見。
           </p>
 
-          <div className="mt-10 flex flex-wrap gap-3">
-            {[
-              {k:"SDG 8 · 9 · 11 · 12", t:"目標對齊"},
-              {k:"三層解方架構", t:"分階段執行"},
-              {k:"PAD 情緒模型", t:"理論基礎"},
-            ].map((p,i)=>(
-              <div key={i} className="px-4 py-2 rounded-full border" style={{borderColor:"rgba(251,247,238,0.35)", background:"rgba(251,247,238,0.08)", backdropFilter:"blur(6px)"}}>
-                <span className="font-mono text-[11px] tracking-[0.15em] opacity-70 mr-2">{p.t}</span>
-                <span className="text-[14px] font-medium">{p.k}</span>
-              </div>
-            ))}
+          <div className="mt-10 font-mono text-[11px] md:text-[12px] tracking-[0.18em] flex flex-wrap items-center gap-x-3 gap-y-2" style={{color:"rgba(251,247,238,0.65)"}}>
+            <span>SDG · 8 · 9 · 11 · 12</span>
+            <span style={{color:"rgba(251,247,238,0.3)"}}>/</span>
+            <span>三層解方架構</span>
+            <span style={{color:"rgba(251,247,238,0.3)"}}>/</span>
+            <span>PAD 情緒模型</span>
           </div>
         </div>
 
@@ -142,10 +137,11 @@ const PROBLEMS = [
     n: "02",
     title: "衛生底線",
     body: "肉攤血水、檯面與走道之間沒有明確分界。地板濕滑、檯面狼藉 — 這是 Google 評論中最高頻的負評來源，也是市場長年被「不敢進來」標籤的核心原因。",
-    img: "img/meat-tools.jpg",
+    img: "img/sanitation-issue.png",
     annotations: [
-      { x: "35%", y: "52%", label: "工具放置面" },
-      { x: "65%", y: "70%", label: "檯面與走道無分隔" },
+      { x: "18%", y: "30%", label: "肉品塑膠袋懸掛展示" },
+      { x: "55%", y: "55%", label: "走道兼通道、人車混流" },
+      { x: "78%", y: "75%", label: "肉品袋裝後置於開放檯面" },
     ],
     hot: { x: 70, y: 30 },
   },
@@ -243,7 +239,7 @@ function FloorPlan({ activeIndex }) {
       {/* legend */}
       <g transform="translate(20, 470)">
         <text x="0" y="0" fontSize="9" fill="var(--muted)" className="font-mono" letterSpacing="2">
-          1F·212 攤 / 2F·上方 3-10F 為市府機關共構
+          1F+2F · 200 餘攤 / 上方 3-10F 為市府機關共構
         </text>
       </g>
     </svg>
@@ -369,9 +365,9 @@ function ProblemSection() {
 
           <div className="border-t border-ink/15 pt-8 grid grid-cols-3 gap-4">
             {[
-              {k:"212", l:"攤位總數"},
+              {k:"200+", l:"攤位總數"},
               {k:"0", l:"集中用餐區"},
-              {k:"19%", l:"熟食攤佔比"},
+              {k:"近兩成", l:"熟食攤佔比"},
             ].map((s,i)=>(
               <div key={i}>
                 <div className="num-counter text-[44px] md:text-[56px] leading-none text-ink">{s.k}</div>
