@@ -77,8 +77,15 @@
     letter-spacing: -0.04em;
     color: var(--ink);
     font-variant-numeric: tabular-nums;
+    white-space: nowrap;
   }
   .counter-item .num .accent { color: var(--accent); }
+  /* Chinese-text counter ("近兩成") shrinks to fit single line, distinguishes
+     qualitative hedge from numeric facts of the other two */
+  .counter-item .num-cn {
+    font-size: 140px;
+    letter-spacing: -0.02em;
+  }
   .counter-item .label {
     margin-top: 18px;
     font-family: var(--font-mono);
@@ -127,7 +134,7 @@
       <div class="label">集中用餐區 / Seating</div>
     </div>
     <div class="counter-item" data-delay="3100" data-sfx="focus">
-      <div class="num">近兩成</div>
+      <div class="num num-cn">近兩成</div>
       <div class="label">熟食攤佔比 / Food</div>
     </div>
   </div>
