@@ -3,12 +3,25 @@ const { useState: uS1, useEffect: uE1, useRef: uR1 } = React;
 
 // ============ [0] HERO ============
 function Hero() {
+  const sectionRef = uR1(null);
+  const progress = useScrollProgress(sectionRef);
+  // photo subtly zooms 1.0 → 1.08 as user scrolls past hero
+  const photoScale = 1 + Math.min(0.08, Math.max(0, progress * 0.18));
+  const photoOpacity = 1 - Math.min(0.2, Math.max(0, (progress - 0.5) * 0.6));
+
   return (
-    <section id="hero" data-section="hero" className="relative h-screen min-h-[680px] w-full overflow-hidden text-paper" style={{color: "var(--bg)", background:"#0d1f1a"}}>
-      {/* real facade night photo */}
+    <section ref={sectionRef} id="hero" data-section="hero" className="relative h-screen min-h-[680px] w-full overflow-hidden text-paper" style={{color: "var(--bg)", background:"#0d1f1a"}}>
+      {/* real facade night photo with scroll-driven zoom */}
       <img src="img/facade-pink.jpg" alt="水源市場大樓外牆藝術"
            className="absolute inset-0 w-full h-full object-cover"
-           style={{filter:"saturate(0.9) brightness(0.45)"}}/>
+           style={{
+             filter:"saturate(0.9) brightness(0.45)",
+             transform: `scale(${photoScale.toFixed(4)})`,
+             opacity: photoOpacity,
+             transformOrigin: "50% 55%",
+             transition: "transform 0.1s linear, opacity 0.1s linear",
+             willChange: "transform, opacity",
+           }}/>
 
       {/* dark overlay for text legibility */}
       <div className="absolute inset-0" style={{background:"linear-gradient(180deg, rgba(13,31,26,0.7) 0%, rgba(13,31,26,0.5) 40%, rgba(13,31,26,0.92) 100%)"}}></div>
@@ -18,43 +31,56 @@ function Hero() {
 
       <div className="relative z-10 h-full max-w-[1200px] mx-auto px-6 md:px-12 flex flex-col">
         {/* top bar */}
-        <div className="pt-8 md:pt-12 flex items-center justify-between">
-          <div className="label-sm flex items-center gap-3" style={{color:"rgba(251,247,238,0.75)"}}>
-            <span className="inline-block w-8 h-px bg-current opacity-60"></span>
-            <span>水源市場 SDG 提案 · 2026</span>
+        <Reveal from="down" delay={0}>
+          <div className="pt-8 md:pt-12 flex items-center justify-between">
+            <div className="label-sm flex items-center gap-3" style={{color:"rgba(251,247,238,0.75)"}}>
+              <span className="inline-block w-8 h-px bg-current opacity-60"></span>
+              <span>水源市場 SDG 提案 · 2026</span>
+            </div>
+            <div className="font-mono text-[11px] tracking-[0.2em] opacity-70 hidden md:block">SHUI-YUAN MARKET · TAIPEI</div>
           </div>
-          <div className="font-mono text-[11px] tracking-[0.2em] opacity-70 hidden md:block">SHUI-YUAN MARKET · TAIPEI</div>
-        </div>
+        </Reveal>
 
         {/* center title */}
         <div className="flex-1 flex flex-col justify-center max-w-[1000px]">
-          <h1 className="font-display font-black t-hero tracking-tight">
-            一場關於<span className="italic" style={{color:"var(--accent)"}}>停留</span> 的提案
-          </h1>
-          <p className="mt-8 max-w-[640px] text-[clamp(1rem,1.2vw,1.2rem)] md:text-[clamp(1rem,1.4vw,1.375rem)] leading-[1.6]" style={{color:"rgba(251,247,238,0.85)"}}>
-            從衛生底線到動線重構，三層解方<br/>讓公館的傳統市場再被看見。
-          </p>
+          {/* Word-stagger: split phrase into segments that fade up sequentially */}
+          <WordStagger
+            as="h1"
+            segments={["一場", "關於", <span key="dwell" className="italic" style={{color:"var(--accent)"}}>停留</span>, " ", "的", "提案"]}
+            step={120}
+            baseDelay={350}
+            className="font-display font-black t-hero tracking-tight"
+          />
+          <Reveal delay={1300}>
+            <p className="mt-8 max-w-[640px] text-[clamp(1rem,1.2vw,1.2rem)] md:text-[clamp(1rem,1.4vw,1.375rem)] leading-[1.6]" style={{color:"rgba(251,247,238,0.85)"}}>
+              從衛生底線到動線重構，三層解方<br/>讓公館的傳統市場再被看見。
+            </p>
+          </Reveal>
 
-          <div className="mt-10 font-mono text-[11px] md:text-[12px] tracking-[0.18em] flex flex-wrap items-center gap-x-3 gap-y-2" style={{color:"rgba(251,247,238,0.65)"}}>
-            <span>SDG · 8 · 9 · 11 · 12</span>
-            <span style={{color:"rgba(251,247,238,0.3)"}}>/</span>
-            <span>三層解方架構</span>
-            <span style={{color:"rgba(251,247,238,0.3)"}}>/</span>
-            <span>PAD 情緒模型</span>
-          </div>
+          <Reveal delay={1600}>
+            <div className="mt-10 font-mono text-[11px] md:text-[12px] tracking-[0.18em] flex flex-wrap items-center gap-x-3 gap-y-2" style={{color:"rgba(251,247,238,0.65)"}}>
+              <span>SDG · 8 · 9 · 11 · 12</span>
+              <span style={{color:"rgba(251,247,238,0.3)"}}>/</span>
+              <span>三層解方架構</span>
+              <span style={{color:"rgba(251,247,238,0.3)"}}>/</span>
+              <span>PAD 情緒模型</span>
+            </div>
+          </Reveal>
         </div>
 
         {/* bottom */}
-        <div className="pb-10 flex items-end justify-between">
-          <div className="font-mono text-[11px] tracking-[0.2em] opacity-70">
-            郝思澄 · 陳品睿 · 林子佑<br/>
-            臺北市公有水源市場 · 公館商圈
+        <Reveal from="up" delay={1900}>
+          <div className="pb-10 flex items-end justify-between">
+            <div className="font-mono text-[11px] tracking-[0.2em] opacity-70">
+              郝思澄 · 陳品睿 · 林子佑<br/>
+              臺北市公有水源市場 · 公館商圈
+            </div>
+            <div className="flex items-center gap-2 opacity-80 bounce">
+              <span className="font-mono text-[11px] tracking-[0.3em]">SCROLL</span>
+              <Icon.Chevron width="16" height="16"/>
+            </div>
           </div>
-          <div className="flex items-center gap-2 opacity-80 bounce">
-            <span className="font-mono text-[11px] tracking-[0.3em]">SCROLL</span>
-            <Icon.Chevron width="16" height="16"/>
-          </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -336,7 +362,8 @@ function ProblemSection() {
         {/* right scrolling text */}
         <div className="lg:col-span-7 space-y-20">
           {PROBLEMS.map((p, i) => (
-            <article key={i} ref={el => articleRefs.current[i] = el} className="space-y-5">
+            <Reveal key={i} from="right" delay={0}>
+            <article ref={el => articleRefs.current[i] = el} className="space-y-5">
               <div className="flex items-baseline gap-4">
                 <span className="font-mono text-[15px] font-bold text-warn">{p.n}.</span>
                 <h3 className="font-display font-bold t-h3">{p.title}</h3>
@@ -361,20 +388,23 @@ function ProblemSection() {
               )}
               <p className="text-[17px] leading-[1.75] text-ink/85">{p.body}</p>
             </article>
+            </Reveal>
           ))}
 
+          <Reveal from="up">
           <div className="border-t border-ink/15 pt-8 grid grid-cols-3 gap-4">
             {[
               {k:"200+", l:"攤位總數"},
               {k:"0", l:"集中用餐區"},
               {k:"近兩成", l:"熟食攤佔比"},
             ].map((s,i)=>(
-              <div key={i}>
+              <Reveal key={i} from="scale" delay={i * 150}>
                 <div className="num-counter text-[44px] md:text-[56px] leading-none text-ink">{s.k}</div>
                 <div className="label-sm mt-2">{s.l}</div>
-              </div>
+              </Reveal>
             ))}
           </div>
+          </Reveal>
         </div>
       </div>
     </Section>
@@ -413,16 +443,19 @@ const PAD_DATA = [
 ];
 
 function PADBars({ after, active, setActive }) {
+  const [barsRef, barsInView] = useInView({ threshold: 0.4 });
   return (
-    <div className="grid grid-cols-3 gap-4 md:gap-8 h-[300px] items-end">
+    <div ref={barsRef} className="grid grid-cols-3 gap-4 md:gap-8 h-[300px] items-end">
       {PAD_DATA.map((d,i)=>{
         const h = (after ? d.post : d.cur);
+        const visibleH = barsInView ? h : 0;
         const isActive = active === i;
         return (
           <button
             key={i}
             onClick={()=>setActive(isActive ? null : i)}
             className="flex flex-col items-center h-full justify-end group cursor-pointer relative"
+            style={{ transitionDelay: `${i * 120}ms` }}
             aria-label={`查看 ${d.k} 細節`}>
             <div className="num-counter text-[clamp(1.8rem,2.8vw,2.75rem)] leading-none mb-2 transition-colors"
               style={{color: after ? "var(--accent)" : "var(--warn)"}}>
@@ -451,10 +484,11 @@ function PADBars({ after, active, setActive }) {
                   </span>
                 </div>
               )}
-              <div className="absolute bottom-0 left-0 right-0 transition-all duration-700 ease-out"
+              <div className="absolute bottom-0 left-0 right-0"
                 style={{
-                  height: `${h}%`,
+                  height: `${visibleH}%`,
                   background: after ? "linear-gradient(to top, var(--accent) 0%, #f0a06b 100%)" : "linear-gradient(to top, var(--warn) 0%, #c25646 100%)",
+                  transition: `height 1.1s var(--ease-out-expo) ${i * 150}ms, background 0.4s ease`,
                 }}>
               </div>
               <div className="absolute inset-0 pointer-events-none" style={{
