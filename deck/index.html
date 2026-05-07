@@ -185,8 +185,7 @@
   </svg>
 </button>
 
-<!-- Audio engine — preloaded SFX + BGM -->
-<audio id="bgm" src="audio/bgm.mp3" loop preload="auto"></audio>
+<!-- Audio engine — preloaded SFX only (BGM removed per user request) -->
 <audio id="sfx-whoosh" src="audio/whoosh.mp3" preload="auto"></audio>
 <audio id="sfx-dissolve" src="audio/dissolve.mp3" preload="auto"></audio>
 <audio id="sfx-tap" src="audio/tap-finger.mp3" preload="auto"></audio>
@@ -222,8 +221,7 @@
     stage.style.left = '0';
   }
 
-  // ───── Audio engine ─────
-  const bgm = document.getElementById('bgm');
+  // ───── Audio engine (SFX only — BGM removed) ─────
   const audioToggle = document.getElementById('audioToggle');
   const audioIconOn = document.getElementById('audioIconOn');
   const audioIconOff = document.getElementById('audioIconOff');
@@ -238,13 +236,11 @@
   };
   let audioOn = true;
   let audioUnlocked = false;
-  bgm.volume = 0.18;
   Object.values(sfx).forEach(a => { a.volume = 0.45; });
 
   function unlockAudio() {
     if (audioUnlocked) return;
     audioUnlocked = true;
-    if (audioOn) bgm.play().catch(() => {});
   }
 
   function playSfx(name) {
@@ -262,12 +258,11 @@
     playSfx(e.data.cue);
   });
 
+  // Audio toggle now mutes/unmutes SFX only
   audioToggle.addEventListener('click', () => {
     audioOn = !audioOn;
     audioIconOn.style.display = audioOn ? 'block' : 'none';
     audioIconOff.style.display = audioOn ? 'none' : 'block';
-    if (audioOn) bgm.play().catch(() => {});
-    else bgm.pause();
   });
 
   // Cross-fade between slides + transition SFX
