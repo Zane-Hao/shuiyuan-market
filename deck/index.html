@@ -85,25 +85,6 @@
   iframe.fading {
     opacity: 0;
   }
-  /* Audio toggle button (top-right) */
-  .audio-toggle {
-    position: fixed;
-    top: 20px; right: 20px;
-    width: 40px; height: 40px;
-    border-radius: 999px;
-    background: rgba(0,0,0,0.65);
-    color: #fff;
-    border: 0;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    opacity: 0.7;
-    transition: opacity 0.2s;
-  }
-  .audio-toggle:hover { opacity: 1; }
-  .audio-toggle svg { width: 18px; height: 18px; }
   .counter {
     position: fixed;
     bottom: 20px;
@@ -176,16 +157,7 @@
 <div class="nav-zone right" id="navR"><div class="nav-hint">›</div></div>
 <div class="counter" id="counter">1 / 1</div>
 
-<button class="audio-toggle" id="audioToggle" title="Toggle sound">
-  <svg id="audioIconOn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
-  </svg>
-  <svg id="audioIconOff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
-    <path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
-  </svg>
-</button>
-
-<!-- Audio engine — preloaded SFX only (BGM removed per user request) -->
+<!-- Audio engine — preloaded SFX only (BGM removed; volume toggle removed per user) -->
 <audio id="sfx-whoosh" src="audio/whoosh.mp3" preload="auto"></audio>
 <audio id="sfx-dissolve" src="audio/dissolve.mp3" preload="auto"></audio>
 <audio id="sfx-tap" src="audio/tap-finger.mp3" preload="auto"></audio>
@@ -221,10 +193,7 @@
     stage.style.left = '0';
   }
 
-  // ───── Audio engine (SFX only — BGM removed) ─────
-  const audioToggle = document.getElementById('audioToggle');
-  const audioIconOn = document.getElementById('audioIconOn');
-  const audioIconOff = document.getElementById('audioIconOff');
+  // ───── Audio engine (SFX only — BGM and volume toggle removed) ─────
   const sfx = {
     whoosh:   document.getElementById('sfx-whoosh'),
     dissolve: document.getElementById('sfx-dissolve'),
@@ -234,7 +203,6 @@
     stamp:    document.getElementById('sfx-stamp'),
     chime:    document.getElementById('sfx-chime'),
   };
-  let audioOn = true;
   let audioUnlocked = false;
   Object.values(sfx).forEach(a => { a.volume = 0.45; });
 
@@ -244,7 +212,7 @@
   }
 
   function playSfx(name) {
-    if (!audioOn || !audioUnlocked) return;
+    if (!audioUnlocked) return;
     const a = sfx[name];
     if (!a) return;
     try {
@@ -256,13 +224,6 @@
   window.addEventListener('message', (e) => {
     if (!e.data || e.data.type !== 'sfx') return;
     playSfx(e.data.cue);
-  });
-
-  // Audio toggle now mutes/unmutes SFX only
-  audioToggle.addEventListener('click', () => {
-    audioOn = !audioOn;
-    audioIconOn.style.display = audioOn ? 'block' : 'none';
-    audioIconOff.style.display = audioOn ? 'none' : 'block';
   });
 
   // Cross-fade between slides + transition SFX
