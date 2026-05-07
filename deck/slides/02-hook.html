@@ -80,6 +80,14 @@
     white-space: nowrap;
   }
   .counter-item .num .accent { color: var(--accent); }
+  /* Single-glyph "0" — bumped up so it carries equal visual weight against
+     the multi-char neighbours; warn red signals the negative-space punch */
+  .counter-item .num-solo {
+    font-size: 280px;
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+  }
+  .counter-item .num-solo .accent { color: var(--warn); }
   /* Chinese-text counter ("近兩成") shrinks to fit single line, distinguishes
      qualitative hedge from numeric facts of the other two */
   .counter-item .num-cn {
@@ -130,7 +138,7 @@
       <div class="label">攤位總數 / Stalls</div>
     </div>
     <div class="counter-item" data-delay="2750" data-sfx="focus">
-      <div class="num"><span class="accent">0</span></div>
+      <div class="num num-solo"><span class="accent">0</span></div>
       <div class="label">集中用餐區 / Seating</div>
     </div>
     <div class="counter-item" data-delay="3100" data-sfx="focus">

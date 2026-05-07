@@ -10,47 +10,106 @@
 
   .slide {
     padding: 0;
+    margin: 0;
+    width: 100%;
     height: 100%;
     display: grid;
+    grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
   }
 
   .tier-band {
     background: var(--ink);
     color: var(--bg);
-    padding: 50px 96px;
+    padding: 44px 56px;
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: 1fr auto;
     align-items: baseline;
     gap: 48px;
   }
+  .tier-band .left-group { display: flex; align-items: baseline; gap: 28px; }
   .phase-num { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.22em; opacity: 0.85; }
   .tier-title { font-family: var(--font-display); font-weight: 900; font-size: 56px; line-height: 1.05; letter-spacing: -0.02em; }
   .timeline-pill { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.18em; border: 1px solid rgba(251,247,238,0.5); padding: 8px 18px; }
-  .tier-band > * { opacity: 0; transform: translateY(20px); transition: opacity .8s var(--ease-out-expo), transform .8s var(--ease-out-expo); }
-  .tier-band > .in { opacity: 1; transform: translateY(0); }
+
+  .fadeup { opacity: 0; transform: translateY(18px); filter: blur(6px); transition: opacity .7s var(--ease-out-expo), transform .7s var(--ease-out-expo), filter .7s var(--ease-out-expo); }
+  .fadeup.in { opacity: 1; transform: translateY(0); filter: blur(0); }
 
   .floors {
-    padding: 60px 96px;
+    padding: 40px 56px 60px;
     display: grid;
     grid-template-rows: 1fr 1fr 1fr;
-    gap: 16px;
+    grid-template-columns: 1fr 88px;
+    gap: 0;
+    position: relative;
   }
 
   .floor {
-    border: 2px solid var(--ink);
-    border-left-width: 6px;
-    padding: 28px 36px;
+    border-top: 1px solid var(--hairline);
+    padding: 28px 8px;
     display: grid;
     grid-template-columns: 240px 1fr;
     gap: 36px;
     align-items: center;
-    background: var(--surface);
     opacity: 0;
     transform: translateY(40px);
     transition: opacity .9s var(--ease-out-expo), transform .9s var(--ease-out-expo);
   }
+  .floor:first-child { border-top: 0; }
   .floor.in { opacity: 1; transform: translateY(0); }
+
+  /* Section schematic: vertical 3-block column on the right showing the
+     building's section. Each block lights up as its floor row enters,
+     so the eye learns "this row is THAT floor in the building." */
+  .section-schematic {
+    grid-column: 2;
+    grid-row: 1 / 4;
+    align-self: stretch;
+    justify-self: end;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    width: 64px;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 4px;
+    position: relative;
+  }
+  .section-schematic::before {
+    content: 'SECTION';
+    position: absolute;
+    top: -22px;
+    right: 0;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .section-schematic .seg {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    position: relative;
+    transition: background .8s var(--ease-out-expo), border-color .8s var(--ease-out-expo);
+  }
+  .section-schematic .seg span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 16px;
+    color: var(--muted);
+    letter-spacing: -0.02em;
+    transition: color .8s var(--ease-out-expo);
+  }
+  .section-schematic .seg.lit {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+  .section-schematic .seg.lit span {
+    color: var(--bg);
+  }
 
   .floor-id {
     display: flex;
@@ -62,6 +121,7 @@
     font-size: 80px;
     line-height: 0.85;
     letter-spacing: -0.04em;
+    color: var(--ink);
   }
   .floor-id .name {
     margin-top: 6px;
@@ -96,31 +156,28 @@
     content: '·';
     position: absolute; left: 0;
     font-weight: 900;
+    color: var(--accent);
   }
-
-  .b1 { border-left-color: #5BA66B; }
-  .b1 .level { color: #5BA66B; }
-  .b1 .floor-items li::before { color: #5BA66B; }
-
-  .f1 { border-left-color: #5B9BD5; }
-  .f1 .level { color: #5B9BD5; }
-  .f1 .floor-items li::before { color: #5B9BD5; }
-
-  .f2 { border-left-color: #E8A04F; }
-  .f2 .level { color: #E8A04F; }
-  .f2 .floor-items li::before { color: #E8A04F; }
 </style>
 </head>
 <body>
 <div class="slide">
 
   <div class="tier-band">
-    <div class="phase-num" data-delay="200" data-sfx="tap">PHASE 03</div>
-    <div class="tier-title" data-delay="500" data-sfx="focus">動線與樓層功能再造</div>
-    <div class="timeline-pill" data-delay="800" data-sfx="tap">長期 · 12 個月以上</div>
+    <div class="left-group">
+      <div class="phase-num fadeup" data-delay="200" data-sfx="tap">PHASE 03</div>
+      <div class="tier-title fadeup" data-delay="500" data-sfx="focus">動線與樓層功能再造</div>
+    </div>
+    <div class="timeline-pill fadeup" data-delay="800" data-sfx="tap">長期 · 12 個月以上</div>
   </div>
 
   <div class="floors">
+    <div class="section-schematic">
+      <div class="seg" id="seg-2f"><span>2F</span></div>
+      <div class="seg" id="seg-1f"><span>1F</span></div>
+      <div class="seg" id="seg-b1"><span>B1</span></div>
+    </div>
+
     <div class="floor f2" data-delay="1300" data-sfx="stamp">
       <div class="floor-id">
         <span class="level">2F</span>
@@ -174,6 +231,11 @@
     const d=+el.dataset.delay||0;
     setTimeout(()=>{el.classList.add('in');if(el.dataset.sfx)sfx(el.dataset.sfx)},d);
   });
+
+  /* Schematic segs light up in sync with each floor's fade-in: 2F → 1F → B1 */
+  setTimeout(() => document.getElementById('seg-2f')?.classList.add('lit'), 1300);
+  setTimeout(() => document.getElementById('seg-1f')?.classList.add('lit'), 1700);
+  setTimeout(() => document.getElementById('seg-b1')?.classList.add('lit'), 2100);
 </script>
 </body>
 </html>

@@ -121,11 +121,102 @@
     letter-spacing: -0.01em;
   }
 
+  /* CTA — reveals review panel */
+  .reviews-cta {
+    margin-top: 32px;
+    padding: 16px 20px;
+    border: 1px solid var(--ink);
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    transition: background .25s ease, color .25s ease;
+    user-select: none;
+  }
+  .reviews-cta:hover { background: var(--ink); color: var(--bg); }
+  .reviews-cta .arrow { font-family: var(--font-display); font-size: 22px; transition: transform .35s ease; }
+  .reviews-cta.open { background: var(--ink); color: var(--bg); }
+  .reviews-cta.open .arrow { transform: rotate(90deg); }
+
+  /* Review panel — slides down on expand */
+  .reviews {
+    margin-top: 24px;
+    display: grid;
+    gap: 12px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .8s var(--ease-out-expo), opacity .5s ease;
+    opacity: 0;
+  }
+  .reviews.open { max-height: 600px; opacity: 1; }
+
+  .review-card {
+    border-left: 3px solid var(--warn);
+    padding: 14px 18px;
+    background: rgba(168, 54, 42, 0.05);
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform .6s var(--ease-out-expo), opacity .6s var(--ease-out-expo);
+  }
+  .reviews.open .review-card { transform: translateY(0); opacity: 1; }
+  .reviews.open .review-card:nth-child(1) { transition-delay: 0.1s; }
+  .reviews.open .review-card:nth-child(2) { transition-delay: 0.25s; }
+  .reviews.open .review-card:nth-child(3) { transition-delay: 0.4s; }
+  .review-card .meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .review-card .stars {
+    color: var(--warn);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+  }
+  .review-card .quote {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
   .fadeup {
     opacity: 0; transform: translateY(20px); filter: blur(6px);
     transition: opacity .8s var(--ease-out-expo), transform .8s var(--ease-out-expo), filter .8s var(--ease-out-expo);
   }
   .fadeup.in { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+  /* Cross-reference: this Problem ↦ that Tier solution. Mono caps,
+     hairline above, accent on the tier name — reads as a footnote
+     pointing forward in the deck. */
+  .solution-anchor {
+    margin-top: 26px;
+    padding-top: 16px;
+    border-top: 1px solid var(--hairline);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .solution-anchor .arrow { color: var(--accent); font-weight: 700; font-size: 14px; }
+  .solution-anchor .tier-name { color: var(--accent); font-weight: 700; letter-spacing: 0.14em; }
+  .solution-anchor .ref { color: var(--ink); font-weight: 500; }
+  .solution-anchor .sep { color: var(--hairline); }
 
   .credit { color: var(--ink); }
   .page-indicator { color: var(--ink); }
@@ -151,10 +242,43 @@
         熟食攤位佔比近兩成，但<strong>排煙與廢水處理仍停留在 1980 年的初代規格</strong>。
         攤前直接用餐 — 油煙、廢水、走道氣味彼此交疊。
       </p>
+
+      <!-- ▼ Real Google Maps reviews — auto-opens 3s after slide entry, also clickable ▼ -->
+      <div class="reviews-cta fadeup" data-delay="2000" id="reviewsCta" data-sfx="tap">
+        <span>Google 高頻負評</span>
+        <span class="arrow">→</span>
+      </div>
+
+      <div class="reviews" id="reviews">
+        <!-- Verbatim quotes from public Google Maps reviews of 水源市場. -->
+        <div class="review-card">
+          <div class="meta">
+            <span class="stars">★ ☆ ☆ ☆ ☆</span><span>·</span>
+            <span>piyushi Raj · 在地嚮導 · 3 個月前</span>
+          </div>
+          <div class="quote">「市場較外圍的走道、廁所 味道極噁心，混合著蟬螂味<strong>油煙味</strong>尿騷味」</div>
+        </div>
+        <div class="review-card">
+          <div class="meta">
+            <span class="stars">★ ☆ ☆ ☆ ☆</span><span>·</span>
+            <span>劉佳杭 · 在地嚮導 · 5 年前</span>
+          </div>
+          <div class="quote">「找不到柯記的便當店的點可以評論所以到這裡。這家叫柯記的便當店菜都冷的，然後有<strong>菜蟲跟蛋殼</strong>，請加油。」</div>
+        </div>
+      </div>
     </div>
     <div class="key-stat fadeup" data-delay="2400" data-sfx="stamp">
       硬體 1980 / 餐飲 2026<br>
       <strong>46 年的設備差。</strong>
+    </div>
+
+    <div class="solution-anchor fadeup" data-delay="2700">
+      <span class="arrow">→</span>
+      <span>解方對應</span>
+      <span class="sep">·</span>
+      <span class="tier-name">Tier 1 衛生底線重建</span>
+      <span class="sep">·</span>
+      <span class="ref">短期 3-6 個月 · SLIDE 11</span>
     </div>
 
     <div class="credit">SHUI-YUAN · SDG · 2026</div>
@@ -168,6 +292,20 @@
     const d=+el.dataset.delay||0;
     setTimeout(()=>{el.classList.add('in');if(el.dataset.sfx)sfx(el.dataset.sfx)},d);
   });
+
+  // Reveal panel: clickable + auto-open after 3s (so video playback works without click)
+  const cta = document.getElementById('reviewsCta');
+  const panel = document.getElementById('reviews');
+  let opened = false;
+  function open() {
+    if (opened) return;
+    opened = true;
+    cta.classList.add('open');
+    panel.classList.add('open');
+    sfx('focus');
+  }
+  cta.addEventListener('click', open);
+  setTimeout(open, 2000);
 </script>
 </body>
 </html>

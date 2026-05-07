@@ -10,8 +10,11 @@
 
   .slide {
     padding: 0;
+    margin: 0;
+    width: 100%;
     height: 100%;
     display: grid;
+    grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
   }
 
@@ -19,11 +22,19 @@
   .tier-band {
     background: #5C7A85;
     color: var(--bg);
-    padding: 60px 96px;
+    padding: 44px 56px;
+    margin: 0;
+    width: 100%;
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: 1fr auto;
     align-items: baseline;
     gap: 48px;
+    box-sizing: border-box;
+  }
+  .tier-band .left-group {
+    display: flex;
+    align-items: baseline;
+    gap: 28px;
   }
   .phase-num {
     font-family: var(--font-mono);
@@ -34,7 +45,7 @@
   .tier-title {
     font-family: var(--font-display);
     font-weight: 900;
-    font-size: 64px;
+    font-size: 56px;
     line-height: 1.05;
     letter-spacing: -0.02em;
   }
@@ -50,43 +61,43 @@
     font-family: var(--font-body);
     font-size: 22px;
     line-height: 1.4;
-    margin-top: 16px;
+    margin-top: 14px;
     opacity: 0.85;
   }
 
   .body-pane {
-    padding: 50px 96px;
+    padding: 56px 56px 64px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: stretch;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 64px;
+    align-items: start;
     min-height: 0;
     overflow: hidden;
   }
 
   .actions {
     display: grid;
-    gap: 16px;
-    align-self: center;
+    gap: 0;
     min-height: 0;
+    align-self: stretch;
   }
   .action {
     display: grid;
-    grid-template-columns: 56px 1fr;
+    grid-template-columns: 72px 1fr;
     gap: 22px;
-    align-items: center;
-    padding: 18px 0;
+    align-items: baseline;
+    padding: 22px 0;
     border-top: 1px solid var(--hairline);
   }
   .action:first-child { border-top: 0; padding-top: 0; }
-  .action .icon {
-    width: 48px; height: 48px;
-    border-radius: 50%;
-    background: rgba(92,122,133,0.18);
-    display: flex; align-items: center; justify-content: center;
+  .action .ord {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 28px;
+    line-height: 1;
     color: #5C7A85;
+    letter-spacing: -0.02em;
   }
-  .action .icon svg { width: 22px; height: 22px; }
   .action .text {
     font-family: var(--font-body);
     font-size: 22px;
@@ -140,45 +151,40 @@
     transition: opacity .7s var(--ease-out-expo), transform .7s var(--ease-out-expo), filter .7s var(--ease-out-expo);
   }
   .fadeup.in { opacity: 1; transform: translateY(0); filter: blur(0); }
-
-  .tier-band > * {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity .8s var(--ease-out-expo), transform .8s var(--ease-out-expo);
-  }
-  .tier-band > .in { opacity: 1; transform: translateY(0); }
 </style>
 </head>
 <body>
 <div class="slide">
 
   <div class="tier-band">
-    <div class="phase-num" data-delay="200" data-sfx="tap">PHASE 01</div>
-    <div class="tier-title" data-delay="500" data-sfx="focus">衛生底線重建</div>
-    <div class="timeline-pill" data-delay="800" data-sfx="tap">短期 · 3-6 個月</div>
-    <div class="tier-sub" data-delay="1100">建立「敢進來、願意再來」的環境基準。</div>
+    <div class="left-group">
+      <div class="phase-num fadeup" data-delay="200" data-sfx="tap">PHASE 01</div>
+      <div class="tier-title fadeup" data-delay="500" data-sfx="focus">衛生底線重建</div>
+    </div>
+    <div class="timeline-pill fadeup" data-delay="800" data-sfx="tap">短期 · 3-6 個月</div>
+    <div class="tier-sub fadeup" data-delay="1100">建立「敢進來、願意再來」的環境基準。</div>
   </div>
 
   <div class="body-pane">
     <div class="actions">
       <div class="action fadeup" data-delay="1500" data-sfx="tap">
-        <div class="icon"><svg fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 2.5s6 6.5 6 11a6 6 0 1 1-12 0c0-4.5 6-11 6-11z"/></svg></div>
+        <div class="ord">01</div>
         <div class="text">排水管線清淤、截油槽定期清洗</div>
       </div>
       <div class="action fadeup" data-delay="1700" data-sfx="tap">
-        <div class="icon"><svg fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="4" cy="6" r="2"/><circle cx="9" cy="3" r="1.5"/><circle cx="14" cy="3.5" r="1.5"/><circle cx="18" cy="6" r="2"/><path d="M5 11c0 4 3 4 3 8 0 1.5 -1 2 -2 2s-2-.5 -2-2c0-3 1-4 1-8z"/><path d="M19 11c0 4-3 4-3 8 0 1.5 1 2 2 2s2-.5 2-2c0-3-1-4-1-8z"/></svg></div>
+        <div class="ord">02</div>
         <div class="text">二樓生鮮區地板防滑與沖洗系統升級</div>
       </div>
       <div class="action fadeup" data-delay="1900" data-sfx="tap">
-        <div class="icon"><svg fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1 1 11 8H2"/><path d="M17.73 17.73A2.5 2.5 0 1 1 19.5 14H2"/><path d="M14.41 4.59A2 2 0 1 0 13 8h7"/></svg></div>
+        <div class="ord">03</div>
         <div class="text">廁所全面翻修、加強通風（RGFT 模組）</div>
       </div>
       <div class="action fadeup" data-delay="2100" data-sfx="tap">
-        <div class="icon"><svg fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <div class="ord">04</div>
         <div class="text">定期病媒防治機制（鼠患／蟑螂）</div>
       </div>
       <div class="action fadeup" data-delay="2300" data-sfx="tap">
-        <div class="icon"><svg fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3v1h6v-1c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg></div>
+        <div class="ord">05</div>
         <div class="text">內側攤位採光與基礎照明強化</div>
       </div>
     </div>

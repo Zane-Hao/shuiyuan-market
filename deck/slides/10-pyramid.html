@@ -2,109 +2,253 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8" />
-<title>09 · 三層解方架構</title>
+<title>09 · 三階段解方架構</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../shared/tokens.css">
 <style>
   body { background: var(--bg); position: relative; overflow: hidden; }
+  body::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(47,93,79,0.045) 1px, transparent 1.5px);
+    background-size: 5px 5px; pointer-events: none; opacity: .55;
+  }
 
   .slide {
-    padding: 88px 96px;
+    padding: 56px 96px 48px;
+    height: 100%;
     display: grid;
-    grid-template-rows: auto 1fr auto;
-    gap: 48px;
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-columns: 1fr;
+    gap: 22px;
     position: relative;
     z-index: 1;
   }
   .header { display: flex; justify-content: space-between; align-items: baseline; }
 
+  /* Title row: big display headline + the deck-wide cumulative-arc subtitle.
+     Title floats top-left, subtitle stretches under it but with mono-caps
+     editorial label on the right to balance composition. */
+  .title-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 60px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--hairline);
+  }
   h2 {
     font-family: var(--font-display);
     font-weight: 900;
-    font-size: 88px;
+    font-size: 76px;
     line-height: 1.05;
     letter-spacing: -0.02em;
     color: var(--ink);
-    max-width: 1200px;
   }
   h2 .accent { color: var(--accent); }
-  .subhead {
-    margin-top: 24px;
-    font-family: var(--font-body);
+  /* Frame-tag: a single italic display sentence on the right, no mixed
+     mono+display+English+Chinese stack. The cumulative-architecture
+     framing reads like a magazine pull-quote rather than a metadata block. */
+  .title-row .frame-tag {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
     font-size: 22px;
-    line-height: 1.55;
+    line-height: 1.45;
     color: var(--ink);
-    max-width: 800px;
+    text-align: right;
+    max-width: 380px;
+    padding-bottom: 14px;
+  }
+  .title-row .frame-tag .em {
+    color: var(--accent);
+    font-weight: 900;
   }
 
-  .body-grid {
+  /* Horizontal timeline: 3 milestones spread across the body row. The
+     timeline itself takes the full width; each phase column owns one
+     beat of the cumulative narrative. */
+  .timeline {
+    position: relative;
     display: grid;
-    grid-template-columns: 0.9fr 1.1fr;
-    gap: 80px;
-    align-items: center;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 56px;
+    padding-top: 80px;
+    align-items: stretch;
   }
+  /* Line sits at y=70 of .timeline; dots sit ON it (centers aligned).
+     Math: dot top:-19 inside .phase, .phase top is at timeline y=80
+     (the padding-top), dot height 18 → dot center at timeline y=70. */
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 69.5px;
+    left: calc((100% - 112px) / 6);
+    right: calc((100% - 112px) / 6);
+    height: 2px;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1.6s var(--ease-out-expo);
+  }
+  .timeline.in::before { transform: scaleX(1); }
 
-  .pyramid {
+  .phase {
+    position: relative;
+    padding-top: 22px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 0;
-  }
-  .tier {
-    color: var(--bg);
-    font-family: var(--font-display);
-    font-weight: 900;
-    text-align: center;
-    padding: 24px 16px;
-    border: 2px solid var(--ink);
-    transform: scale(0.9) translateY(40px);
+    gap: 14px;
     opacity: 0;
-    transition: transform .9s var(--ease-out-back), opacity .9s var(--ease-out-back);
+    transform: translateY(20px);
+    transition: opacity .8s var(--ease-out-expo), transform .8s var(--ease-out-expo);
   }
-  .tier.in { transform: scale(1) translateY(0); opacity: 1; }
-  .tier .name { font-size: 26px; line-height: 1; }
-  .tier .en { display: block; margin-top: 6px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.22em; opacity: 0.8; font-weight: 400; }
+  .phase.in { opacity: 1; transform: translateY(0); }
 
-  .tier-1 { background: #5C7A85; width: 460px; clip-path: polygon(0 100%, 100% 100%, 90% 0, 10% 0); }
-  .tier-2 { background: var(--accent); width: 380px; clip-path: polygon(0 100%, 100% 100%, 90% 0, 10% 0); margin-top: -1px; }
-  .tier-3 { background: var(--ink); width: 280px; clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0); margin-top: -1px; }
+  /* Milestone dot — center sits ON the line at y=70 of .timeline.
+     With .phase at y=80 (timeline padding-top) and dot height 18px,
+     dot top must be at -19px so its center lands at y=70. */
+  .phase .dot {
+    position: absolute;
+    top: -19px;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--ink);
+    box-shadow: 0 0 0 5px var(--bg);
+    transition: transform .55s cubic-bezier(0.34, 1.6, 0.5, 1);
+    z-index: 2;
+  }
+  .phase.in .dot { transform: translateX(-50%) scale(1); }
+  .phase:last-child .dot { background: var(--accent); }
 
-  .tier-list {
+  .phase .meta-row {
     display: flex;
-    flex-direction: column;
-    gap: 28px;
-  }
-  .tier-row {
-    display: grid;
-    grid-template-columns: 90px 1fr;
-    gap: 24px;
-    padding: 20px 0;
-    border-top: 1px solid var(--hairline);
     align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 10px;
   }
-  .tier-row:first-child { border-top: 0; padding-top: 0; }
-  .tier-row .ord {
+  .phase .meta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .phase .duration-pill {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--ink);
+    text-transform: uppercase;
+    border: 1px solid var(--hairline);
+    padding: 4px 10px;
+  }
+
+  .phase .ord {
     font-family: var(--font-display);
     font-weight: 900;
-    font-size: 36px;
-    line-height: 1;
+    font-size: 96px;
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    color: var(--ink);
+    margin-top: 4px;
   }
-  .tier-row .info .name {
+  .phase:last-child .ord { color: var(--accent); }
+
+  .phase .name {
     font-family: var(--font-display);
     font-weight: 900;
     font-size: 32px;
+    line-height: 1.15;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  /* Hook line — italic display, accent verb. Pulled from the cumulative
+     subtitle ("先讓人願意進來，再讓人願意停留，最後讓人願意再來。") */
+  .phase .hook {
+    margin-top: 6px;
+    padding-top: 16px;
+    border-top: 1px solid var(--hairline);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.4;
     color: var(--ink);
   }
-  .tier-row .info .sub {
+  .phase .hook .em {
+    color: var(--accent);
+    font-weight: 900;
+  }
+
+  .phase .scope-label {
+    margin-top: 14px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .phase .scope-list {
+    list-style: none;
     margin-top: 8px;
+    display: grid;
+    gap: 8px;
+  }
+  .phase .scope-list li {
     font-family: var(--font-body);
-    font-size: 17px;
+    font-size: 16px;
+    line-height: 1.45;
+    color: var(--ink);
+    padding-left: 16px;
+    position: relative;
+  }
+  .phase .scope-list li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    font-weight: 900;
     color: var(--muted);
   }
 
-  .tier-row.t1 .ord { color: #5C7A85; }
-  .tier-row.t2 .ord { color: var(--accent); }
-  .tier-row.t3 .ord { color: var(--ink); }
+  /* Bottom of each phase column: cross-ref to the deep-dive slide.
+     Reads as a footnote pointing forward — anchor consistent with the
+     solution-anchor pattern used on problem slides. Chinese 詳見 sits
+     in body font (mono lacks Chinese glyphs); slide number sits in mono
+     caps as the proper data point. */
+  .phase .deep-link {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid var(--hairline);
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    color: var(--muted);
+    font-family: var(--font-body);
+    font-size: 13px;
+  }
+  .phase .deep-link .arrow {
+    color: var(--accent);
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 16px;
+  }
+  .phase .deep-link .label {
+    font-family: var(--font-body);
+    color: var(--muted);
+  }
+  .phase .deep-link .ref {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 700;
+  }
 
   .fadeup {
     opacity: 0; transform: translateY(18px); filter: blur(6px);
@@ -119,40 +263,93 @@
   <div class="header">
     <div class="label-sm fadeup" data-delay="200">
       <span class="num">08</span><span class="rule"></span>
-      <span>SOLUTION · 三層解方架構</span>
+      <span>SOLUTION · 三階段解方架構</span>
     </div>
-    <div class="fadeup" data-delay="350" style="font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.22em; color: var(--muted);">由下而上 · 累積式建構</div>
+    <div class="fadeup" data-delay="350" style="font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.22em; color: var(--muted);">由近至遠 · 累積式建構</div>
   </div>
 
-  <div class="body-grid">
-    <div class="pyramid">
-      <div class="tier tier-3" data-delay="2200" data-sfx="stamp"><div class="name">第三階段</div><span class="en">SPATIAL</span></div>
-      <div class="tier tier-2" data-delay="1700" data-sfx="stamp"><div class="name">第二階段</div><span class="en">DINING</span></div>
-      <div class="tier tier-1" data-delay="1200" data-sfx="stamp"><div class="name">第一階段</div><span class="en">SANITATION</span></div>
+  <div class="title-row">
+    <h2 class="fadeup" data-delay="600">
+      不破壞平價定位的<br>
+      <span class="accent">分階段</span>改造。
+    </h2>
+    <div class="frame-tag fadeup" data-delay="800">
+      每一步都讓<span class="em">下一步</span>更容易發生。
     </div>
+  </div>
 
-    <div>
-      <h2 class="fadeup" data-delay="600">
-        不破壞平價定位的<br>
-        <span class="accent">分階段</span>改造。
-      </h2>
-      <p class="subhead fadeup" data-delay="900">先讓人願意進來，再讓人願意停留，最後讓人願意再來。</p>
-
-      <div class="tier-list" style="margin-top: 50px;">
-        <div class="tier-row t1 fadeup" data-delay="2700">
-          <div class="ord">01</div>
-          <div class="info"><div class="name">衛生底線重建</div><div class="sub">短期 · 3-6 個月</div></div>
-        </div>
-        <div class="tier-row t2 fadeup" data-delay="2900">
-          <div class="ord">02</div>
-          <div class="info"><div class="name">餐食區集中化改造</div><div class="sub">中期 · 6-12 個月</div></div>
-        </div>
-        <div class="tier-row t3 fadeup" data-delay="3100">
-          <div class="ord">03</div>
-          <div class="info"><div class="name">動線與樓層功能再造</div><div class="sub">長期 · 12 個月以上</div></div>
-        </div>
+  <div class="timeline" id="timeline">
+    <article class="phase" id="phase-1">
+      <div class="dot"></div>
+      <div class="meta-row">
+        <span class="meta">PHASE 01 · NEAR-TERM</span>
+        <span class="duration-pill">3-6 個月</span>
       </div>
-    </div>
+      <div class="ord">01</div>
+      <div class="name">衛生底線重建</div>
+      <div class="hook">先讓人<span class="em">願意進來</span>。</div>
+      <div class="scope-label">SCOPE · 工程範疇</div>
+      <ul class="scope-list">
+        <li>排水主幹清淤、截油槽汰換</li>
+        <li>廁所全面翻修 + RGFT 模組</li>
+        <li>二樓生鮮區地板防滑與沖洗</li>
+        <li>定期病媒防治機制</li>
+        <li>內側攤位採光強化</li>
+      </ul>
+      <div class="deep-link">
+        <span class="arrow">→</span>
+        <span class="label">詳見</span>
+        <span class="ref">Slide 11</span>
+      </div>
+    </article>
+
+    <article class="phase" id="phase-2">
+      <div class="dot"></div>
+      <div class="meta-row">
+        <span class="meta">PHASE 02 · MID-TERM</span>
+        <span class="duration-pill">6-12 個月</span>
+      </div>
+      <div class="ord">02</div>
+      <div class="name">餐食區集中化改造</div>
+      <div class="hook">再讓人<span class="em">願意停留</span>。</div>
+      <div class="scope-label">SCOPE · 工程範疇</div>
+      <ul class="scope-list">
+        <li>統一餐盤回收與消毒系統</li>
+        <li>集中用餐區劃定（買 / 食分離）</li>
+        <li>生熟食動線分流</li>
+        <li>食堂模式參考南門市場</li>
+        <li>跨攤位共享座位與燈光</li>
+      </ul>
+      <div class="deep-link">
+        <span class="arrow">→</span>
+        <span class="label">詳見</span>
+        <span class="ref">Slide 12</span>
+      </div>
+    </article>
+
+    <article class="phase" id="phase-3">
+      <div class="dot"></div>
+      <div class="meta-row">
+        <span class="meta">PHASE 03 · LONG-TERM</span>
+        <span class="duration-pill">12 個月以上</span>
+      </div>
+      <div class="ord">03</div>
+      <div class="name">動線與樓層功能再造</div>
+      <div class="hook">最後讓人<span class="em">願意再來</span>。</div>
+      <div class="scope-label">SCOPE · 工程範疇</div>
+      <ul class="scope-list">
+        <li>2F 成衣與修改服務集中</li>
+        <li>1F 現成食物市場 + 共享座位</li>
+        <li>B1 生鮮果菜市場（新設）</li>
+        <li>後勤與卸貨動線獨立</li>
+        <li>樓層垂直貫通指引系統</li>
+      </ul>
+      <div class="deep-link">
+        <span class="arrow">→</span>
+        <span class="label">詳見</span>
+        <span class="ref">Slide 13</span>
+      </div>
+    </article>
   </div>
 
   <div class="credit">SHUI-YUAN · SDG · 2026</div>
@@ -165,6 +362,26 @@
     const d=+el.dataset.delay||0;
     setTimeout(()=>{el.classList.add('in');if(el.dataset.sfx)sfx(el.dataset.sfx)},d);
   });
+
+  /* Timeline reveal:
+     1) Line draws left → right (1.6s)
+     2) Each phase dot pops + content fades, staggered to land roughly
+        when the line "passes" that milestone */
+  setTimeout(() => {
+    document.getElementById('timeline')?.classList.add('in');
+  }, 1100);
+  setTimeout(() => {
+    document.getElementById('phase-1')?.classList.add('in');
+    sfx('stamp');
+  }, 1300);
+  setTimeout(() => {
+    document.getElementById('phase-2')?.classList.add('in');
+    sfx('stamp');
+  }, 1900);
+  setTimeout(() => {
+    document.getElementById('phase-3')?.classList.add('in');
+    sfx('sparkle');
+  }, 2500);
 </script>
 </body>
 </html>

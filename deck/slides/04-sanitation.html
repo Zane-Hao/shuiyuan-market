@@ -156,19 +156,8 @@
   .review-card .quote {
     font-family: var(--font-body);
     font-size: 16px;
-    line-height: 1.5;
+    line-height: 1.55;
     color: var(--ink);
-    /* Italic placeholder marker — remove italic when text is replaced */
-    font-style: italic;
-  }
-  .review-card .placeholder-tag {
-    display: inline-block;
-    margin-top: 4px;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    color: var(--accent);
-    text-transform: uppercase;
   }
 
   .fadeup {
@@ -176,6 +165,27 @@
     transition: opacity .8s var(--ease-out-expo), transform .8s var(--ease-out-expo), filter .8s var(--ease-out-expo);
   }
   .fadeup.in { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+  /* Cross-reference forward to the matching tier (see slide 03 for full
+     comment). Inserted at footer of every problem slide. */
+  .solution-anchor {
+    margin-top: 26px;
+    padding-top: 16px;
+    border-top: 1px solid var(--hairline);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .solution-anchor .arrow { color: var(--accent); font-weight: 700; font-size: 14px; }
+  .solution-anchor .tier-name { color: var(--accent); font-weight: 700; letter-spacing: 0.14em; }
+  .solution-anchor .ref { color: var(--ink); font-weight: 500; }
+  .solution-anchor .sep { color: var(--hairline); }
 
   .credit { color: var(--ink); }
   .page-indicator { color: var(--ink); }
@@ -201,33 +211,44 @@
         地板濕滑、檯面狼藉 — 這是 Google 評論中最高頻的負評來源。
       </p>
 
-      <!-- ▼ Interactive Google reviews reveal — click CTA or auto-opens at 4500ms ▼ -->
-      <div class="reviews-cta fadeup" data-delay="2400" id="reviewsCta" data-sfx="tap">
-        <span>展開高頻負評</span>
+      <!-- ▼ Real Google Maps reviews — auto-opens 3s after slide entry, also clickable ▼ -->
+      <div class="reviews-cta fadeup" data-delay="2000" id="reviewsCta" data-sfx="tap">
+        <span>Google 高頻負評</span>
         <span class="arrow">→</span>
       </div>
 
       <div class="reviews" id="reviews">
-        <!--
-          REPLACE THESE PLACEHOLDERS WITH REAL GOOGLE MAPS REVIEWS BEFORE RECORDING.
-          Each card: stars / date / quote text / source.
-          Find at: https://maps.google.com/ → search 水源市場 → reviews tab → filter 1★
-        -->
+        <!-- Verbatim quotes from public Google Maps reviews of 水源市場. -->
         <div class="review-card">
-          <div class="meta"><span class="stars">★ ☆ ☆ ☆ ☆</span><span>·</span><span>2024 · Google Maps</span></div>
-          <div class="quote">「[ 待替換為真實 1 星評論摘錄 — 例：地板濕滑，氣味很重，不敢久待 ]」</div>
-          <div class="placeholder-tag">★ PLACEHOLDER · 替換為真實評論</div>
+          <div class="meta">
+            <span class="stars">★ ☆ ☆ ☆ ☆</span><span>·</span>
+            <span>Wealthy Infinitely · 在地嚮導 · 6 個月前</span>
+          </div>
+          <div class="quote">「二樓肉攤附近，環境太髒，地板隨處碎肉，衛生不行；一樓水果攤品質皆不穩定，價位超過合理。」</div>
         </div>
         <div class="review-card">
-          <div class="meta"><span class="stars">★ ☆ ☆ ☆ ☆</span><span>·</span><span>2024 · Google Maps</span></div>
-          <div class="quote">「[ 待替換為真實 1 星評論摘錄 — 衛生 / 走道 / 用餐空間相關 ]」</div>
-          <div class="placeholder-tag">★ PLACEHOLDER · 替換為真實評論</div>
+          <div class="meta">
+            <span class="stars">★ ☆ ☆ ☆ ☆</span><span>·</span>
+            <span>Chris Hu · 在地嚮導 · 3 年前</span>
+          </div>
+          <div class="quote">「衛生很糟，室內空間食物味道很重。之前來吃飯時，還有看到老鼠在隔壁休息的攤位架子上跳上跳下。」</div>
         </div>
         <div class="review-card">
-          <div class="meta"><span class="stars">★ ★ ☆ ☆ ☆</span><span>·</span><span>2025 · Google Maps</span></div>
-          <div class="quote">「[ 待替換為真實 2 星評論摘錄 — 含「攤點好但環境差」這類矛盾評價最有說服力 ]」</div>
-          <div class="placeholder-tag">★ PLACEHOLDER · 替換為真實評論</div>
+          <div class="meta">
+            <span class="stars">★ ☆ ☆ ☆ ☆</span><span>·</span>
+            <span>下雨 · 1 年前</span>
+          </div>
+          <div class="quote">「<strong>食物好吃但是環境很糟糕</strong>……看到老鼠亂竄，吃到一半桌上出現小蟑螂……要吐了……」</div>
         </div>
+      </div>
+
+      <div class="solution-anchor fadeup" data-delay="2700">
+        <span class="arrow">→</span>
+        <span>解方對應</span>
+        <span class="sep">·</span>
+        <span class="tier-name">Tier 1 衛生底線重建</span>
+        <span class="sep">·</span>
+        <span class="ref">短期 3-6 個月 · SLIDE 11</span>
       </div>
     </div>
 
@@ -255,7 +276,7 @@
     sfx('focus');
   }
   cta.addEventListener('click', open);
-  setTimeout(open, 4500);
+  setTimeout(open, 3000);
 </script>
 </body>
 </html>

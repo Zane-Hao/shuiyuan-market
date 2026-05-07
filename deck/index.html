@@ -274,14 +274,14 @@
   let transitioning = false;
   function show(idx) {
     if (idx < 0 || idx >= deck.length || transitioning) return;
-    if (idx === current && frame.src.endsWith(deck[idx].file)) return;
+    if (idx === current && frame.src.includes(deck[idx].file)) return;
     unlockAudio();
     transitioning = true;
     playSfx('whoosh');
     frame.classList.add('fading');
     setTimeout(() => {
       current = idx;
-      frame.src = deck[idx].file;
+      frame.src = deck[idx].file + '?v=' + Date.now();
       counter.innerHTML = `${idx + 1} / ${deck.length} <span class="label">${deck[idx].label || ''}</span>`;
       // wait one beat for new iframe to start loading, then fade in
       setTimeout(() => {

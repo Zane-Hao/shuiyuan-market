@@ -8,19 +8,43 @@
 <style>
   body { background: var(--bg); position: relative; overflow: hidden; }
 
-  /* Subtle facade-art motif strip at top — like website CTA */
+  /* Façade-tile recall: same source palette as 01's facade-pink.jpg
+     (the building's exterior tiles), but desaturated and softened so
+     it reads as a memory of color, not a Mondrian band. Thin hairline
+     above and below converts the strip from decorative to typographic. */
   .stripe {
     position: absolute;
     top: 0; left: 0; right: 0;
-    height: 8px;
+    height: 5px;
     background: repeating-linear-gradient(90deg,
       #1f74c4 0 18px, #d65a8e 18px 30px, #8e5fb5 30px 48px,
       #f0a0c5 48px 60px, #5fa6d5 60px 78px);
+    filter: saturate(0.55) brightness(0.92);
+    opacity: 0.55;
+    border-bottom: 1px solid var(--hairline);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 1.2s var(--ease-out-expo);
   }
   .stripe.in { transform: scaleX(1); }
+
+  /* Mirror stripe at bottom — bookends the closing slide and rhymes
+     with 01's edge motif (where the facade fills the photo) */
+  .stripe-bottom {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 5px;
+    background: repeating-linear-gradient(90deg,
+      #5fa6d5 0 18px, #f0a0c5 18px 30px, #8e5fb5 30px 48px,
+      #d65a8e 48px 60px, #1f74c4 60px 78px);
+    filter: saturate(0.55) brightness(0.92);
+    opacity: 0.55;
+    border-top: 1px solid var(--hairline);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 1.2s var(--ease-out-expo);
+  }
+  .stripe-bottom.in { transform: scaleX(1); }
 
   body::before {
     content: ''; position: absolute; inset: 0;
@@ -47,15 +71,47 @@
     color: var(--ink);
     margin-top: 40px;
   }
+  /* Each glyph stamps in: drops from 0.3em up + scales from 1.18 down,
+     with a fading text-shadow that reads as ink-pressure released —
+     like a wood block sinking into paper. The signature detail of the
+     deck: one rubber-stamp gesture across STAY, then a single dot pop. */
   .stay-title .word {
     display: inline-block;
     opacity: 0;
-    transform: translateY(40px) scale(0.9);
-    filter: blur(10px);
-    transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo), filter 1s var(--ease-out-expo);
+    transform: translateY(-0.18em) scale(1.18);
+    filter: blur(8px);
+    text-shadow: 0 14px 28px rgba(47, 93, 79, 0.45);
+    transition:
+      opacity .85s var(--ease-out-expo),
+      transform .85s var(--ease-out-back),
+      filter .85s var(--ease-out-expo),
+      text-shadow .85s var(--ease-out-expo);
   }
-  .stay-title .word.in { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-  .stay-title .dot { color: var(--accent); }
+  .stay-title .word.in {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+    text-shadow: 0 0 0 rgba(47, 93, 79, 0);
+  }
+
+  /* The terminal dot — separate animation curve. Pops from 0 with
+     overshoot, then settles. The whole 18-page deck builds to this
+     1-second of orange punctuation. */
+  .stay-title .dot {
+    color: var(--accent);
+    display: inline-block;
+    transform-origin: center 70%;
+  }
+  .stay-title .dot.pop {
+    transform: scale(0);
+    opacity: 0;
+    transition: opacity .35s ease-out, transform .55s cubic-bezier(0.34, 1.7, 0.5, 1);
+  }
+  .stay-title .dot.pop.in {
+    transform: scale(1);
+    opacity: 1;
+    text-shadow: 0 0 30px rgba(224, 122, 60, 0.55), 0 0 70px rgba(224, 122, 60, 0.25);
+  }
 
   .h2-cn {
     font-family: var(--font-display);
@@ -117,6 +173,7 @@
 </head>
 <body>
 <div class="stripe"></div>
+<div class="stripe-bottom"></div>
 
 <div class="slide">
 
@@ -130,8 +187,11 @@
 
   <div>
     <div class="stay-title">
-      <span class="word" data-delay="700" data-sfx="focus">STAY</span><!--
-   --><span class="word dot" data-delay="1100" data-sfx="sparkle">.</span>
+      <span class="word" data-delay="700" data-sfx="stamp">S</span><!--
+   --><span class="word" data-delay="900" data-sfx="stamp">T</span><!--
+   --><span class="word" data-delay="1100" data-sfx="stamp">A</span><!--
+   --><span class="word" data-delay="1300" data-sfx="stamp">Y</span><!--
+   --><span class="word dot pop" data-delay="1700" data-sfx="sparkle">.</span>
     </div>
     <div class="h2-cn fadeup" data-delay="1800" data-sfx="focus">
       改造一座市場，留下<span class="accent">一個社區</span>。
@@ -163,6 +223,7 @@
 <script>
   function sfx(c){try{window.parent.postMessage({type:'sfx',cue:c},'*')}catch(_){}}
   setTimeout(()=>document.querySelector('.stripe').classList.add('in'), 100);
+  setTimeout(()=>document.querySelector('.stripe-bottom').classList.add('in'), 350);
   document.querySelectorAll('[data-delay]').forEach(el=>{
     const d=+el.dataset.delay||0;
     setTimeout(()=>{el.classList.add('in');if(el.dataset.sfx)sfx(el.dataset.sfx)},d);

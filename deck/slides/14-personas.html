@@ -107,26 +107,22 @@
     color: var(--bg);
   }
 
-  .student { --c: var(--accent); }
-  .student .card-icon { background: var(--accent); }
-  .student .quote-line { border-left-color: var(--accent); }
-  .student .need .v { color: var(--accent); }
-  .student .need .fill { background: var(--accent); }
-  .student .pill { background: var(--accent); }
+  /* Unified ink palette across all 3 personas — single semantic color
+     keeps brand language honest (accent/warn reserved for emphasis/risk
+     elsewhere). Personas distinguished by icon shape + voice (quote) +
+     "改造後獲得" line, not by hue. */
+  .card { --c: var(--ink); }
+  .card .card-icon { background: var(--ink); }
+  .card .quote-line { border-left-color: var(--ink); }
+  .card .need .v { color: var(--ink); }
+  .card .need .fill { background: var(--ink); }
+  .card .pill { background: var(--ink); }
 
-  .resident { --c: var(--ink); }
-  .resident .card-icon { background: var(--ink); }
-  .resident .quote-line { border-left-color: var(--ink); }
-  .resident .need .v { color: var(--ink); }
-  .resident .need .fill { background: var(--ink); }
-  .resident .pill { background: var(--ink); }
-
-  .tourist { --c: var(--warn); }
-  .tourist .card-icon { background: var(--warn); }
-  .tourist .quote-line { border-left-color: var(--warn); }
-  .tourist .need .v { color: var(--warn); }
-  .tourist .need .fill { background: var(--warn); }
-  .tourist .pill { background: var(--warn); }
+  /* Single accent dot per card — reserved for the persona's signature
+     "needs" peak (the highest bar), painting one spark of orange to
+     anchor recall without polluting the categorical channel */
+  .card .need.peak .v { color: var(--accent); }
+  .card .need.peak .fill { background: var(--accent); }
 
   .fadeup {
     opacity: 0; transform: translateY(18px); filter: blur(6px);
@@ -158,7 +154,7 @@
       </div>
       <blockquote class="quote-line">「便宜、快、有冷氣 — 至少不要悶到吃不下。」</blockquote>
       <div class="needs">
-        <div class="need"><div class="top"><span class="label">平價選擇</span><span class="v">92</span></div><div class="bar"><div class="fill" data-fill="92"></div></div></div>
+        <div class="need peak"><div class="top"><span class="label">平價選擇</span><span class="v">92</span></div><div class="bar"><div class="fill" data-fill="92"></div></div></div>
         <div class="need"><div class="top"><span class="label">通風／座位</span><span class="v">65</span></div><div class="bar"><div class="fill" data-fill="65"></div></div></div>
         <div class="need"><div class="top"><span class="label">速度</span><span class="v">88</span></div><div class="bar"><div class="fill" data-fill="88"></div></div></div>
       </div>
@@ -177,7 +173,7 @@
       <blockquote class="quote-line">「血水滿地、又沒地方坐，孫子怎麼帶得出來？」</blockquote>
       <div class="needs">
         <div class="need"><div class="top"><span class="label">衛生條件</span><span class="v">78</span></div><div class="bar"><div class="fill" data-fill="78"></div></div></div>
-        <div class="need"><div class="top"><span class="label">一站購足</span><span class="v">85</span></div><div class="bar"><div class="fill" data-fill="85"></div></div></div>
+        <div class="need peak"><div class="top"><span class="label">一站購足</span><span class="v">85</span></div><div class="bar"><div class="fill" data-fill="85"></div></div></div>
         <div class="need"><div class="top"><span class="label">動線清楚</span><span class="v">60</span></div><div class="bar"><div class="fill" data-fill="60"></div></div></div>
       </div>
       <div class="gain">
@@ -195,7 +191,7 @@
       <blockquote class="quote-line">「攤點明明很厲害，但環境一進來就想趕快走。」</blockquote>
       <div class="needs">
         <div class="need"><div class="top"><span class="label">環境品質</span><span class="v">70</span></div><div class="bar"><div class="fill" data-fill="70"></div></div></div>
-        <div class="need"><div class="top"><span class="label">探索性</span><span class="v">82</span></div><div class="bar"><div class="fill" data-fill="82"></div></div></div>
+        <div class="need peak"><div class="top"><span class="label">探索性</span><span class="v">82</span></div><div class="bar"><div class="fill" data-fill="82"></div></div></div>
         <div class="need"><div class="top"><span class="label">可拍性</span><span class="v">65</span></div><div class="bar"><div class="fill" data-fill="65"></div></div></div>
       </div>
       <div class="gain">

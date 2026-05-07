@@ -106,11 +106,76 @@
   }
   .photo-pane .caption.in { opacity: 1; transform: translateY(0); }
 
+  /* Reviews — inline (no CTA wrapper). After 03/04 taught the pattern,
+     observers know what these red-flagged review cards mean; surfacing
+     them directly removes a redundant click-to-reveal beat. */
+  .reviews {
+    margin-top: 28px;
+    display: grid;
+    gap: 12px;
+  }
+  .reviews-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .reviews-label .count { color: var(--warn); font-weight: 700; }
+
+  .review-card {
+    border-left: 3px solid var(--warn);
+    padding: 14px 18px;
+    background: rgba(168, 54, 42, 0.05);
+  }
+  .review-card .meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .review-card .stars {
+    color: var(--warn);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+  }
+  .review-card .quote {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
   .fadeup {
     opacity: 0; transform: translateY(20px); filter: blur(6px);
     transition: opacity .8s var(--ease-out-expo), transform .8s var(--ease-out-expo), filter .8s var(--ease-out-expo);
   }
   .fadeup.in { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+  /* Cross-reference forward to matching tier (see slide 03 for comment). */
+  .solution-anchor {
+    margin-top: 22px;
+    padding-top: 14px;
+    border-top: 1px solid var(--hairline);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .solution-anchor .arrow { color: var(--accent); font-weight: 700; font-size: 14px; }
+  .solution-anchor .tier-name { color: var(--accent); font-weight: 700; letter-spacing: 0.14em; }
+  .solution-anchor .ref { color: var(--ink); font-weight: 500; }
+  .solution-anchor .sep { color: var(--hairline); }
 
   .credit { color: var(--ink); }
   .page-indicator { color: var(--ink); }
@@ -130,6 +195,26 @@
       <p class="body fadeup" data-delay="1100">
         消費者在攤販前直接吃，名攤如龍記前永遠是站著等的人潮 — 不只衛生，更讓人不願久留。
       </p>
+
+      <!-- ▼ Google Maps 1-star reviews — inline (the CTA pattern was taught
+           in 03/04; from here on out, evidence is presented directly). ▼ -->
+      <div class="reviews">
+        <div class="reviews-label fadeup" data-delay="1700">Google <span class="count">1★</span> 高頻負評</div>
+        <div class="review-card fadeup" data-delay="1900" data-sfx="focus">
+          <div class="meta">
+            <span class="stars">★ ☆ ☆ ☆ ☆</span><span>·</span>
+            <span>唐曼蓉 · 在地嚮導 · 5 年前</span>
+          </div>
+          <div class="quote">「<strong>走道擁擠</strong>就是擁擠，入口也沒有做斜坡道，樓梯很寬不能推行李有用嗎？不要忘了這裡是首都蛋黃區耶！熟食攤位比從前還要多，怎麼呈現的<strong>用餐環境</strong>？」</div>
+        </div>
+        <div class="review-card fadeup" data-delay="2150">
+          <div class="meta">
+            <span class="stars">★ ☆ ☆ ☆ ☆</span><span>·</span>
+            <span>jhu022 · 5 年前</span>
+          </div>
+          <div class="quote">「水源市場1樓餐飲區的攤販座位凌亂，攤位也多數油膩膩，衛生堪慮。市場管理相關當局有善盡管理責任嗎？難道不能<strong>規劃成共用座位區</strong>？餐具是否集中消毒？環境衛生有稽核？」</div>
+        </div>
+      </div>
     </div>
 
     <div class="big-zero">
@@ -138,6 +223,15 @@
         個正式集中用餐區<br>
         <strong>於 200+ 攤位之中</strong>
       </span>
+    </div>
+
+    <div class="solution-anchor fadeup" data-delay="2800">
+      <span class="arrow">→</span>
+      <span>解方對應</span>
+      <span class="sep">·</span>
+      <span class="tier-name">Tier 2 餐食區集中化</span>
+      <span class="sep">·</span>
+      <span class="ref">中期 6-12 個月 · SLIDE 12</span>
     </div>
 
     <div class="credit">SHUI-YUAN · SDG · 2026</div>

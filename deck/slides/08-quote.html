@@ -98,25 +98,6 @@
     letter-spacing: -0.02em;
     color: var(--ink);
     position: relative;
-    padding-left: 70px;
-  }
-  blockquote.pullquote .open-mark {
-    position: absolute;
-    left: 0;
-    top: -32px;
-    font-family: var(--font-display);
-    font-weight: 900;
-    font-size: 200px;
-    line-height: 1;
-    color: var(--accent);
-    opacity: 0;
-    transform: scale(0.6) rotate(-10deg);
-    transform-origin: center;
-    transition: opacity .8s var(--ease-out-back), transform .8s var(--ease-out-back);
-  }
-  blockquote.pullquote.q-open .open-mark {
-    opacity: 0.85;
-    transform: scale(1) rotate(0);
   }
 
   .quote-line {
@@ -150,40 +131,51 @@
   }
   .emph.lit::after { transform: scaleX(1); }
 
+  /* Three-line journalistic byline — block element with ghost-grid hairline
+     pacing on the left to anchor the eye. Each line carries one piece of
+     credentialing: who / when / time-code (the receipts). */
   .attribution {
-    margin-top: 44px;
+    margin-top: 56px;
+    padding-left: 22px;
+    border-left: 1px solid var(--hairline);
     font-family: var(--font-mono);
-    font-size: 16px;
+    font-size: 14px;
     letter-spacing: 0.12em;
     color: var(--muted);
-    display: flex;
-    align-items: center;
-    gap: 14px;
+    line-height: 1.9;
   }
-  .attribution .dot {
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: var(--muted);
-    display: inline-block;
+  .attribution .who {
+    color: var(--ink);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+  }
+  .attribution .who .qual {
+    color: var(--muted);
+    font-weight: 400;
+    margin-left: 10px;
+  }
+  .attribution .when,
+  .attribution .timecode {
+    display: block;
+  }
+  .attribution .timecode {
+    color: var(--muted);
   }
 
-  /* Bottom: 對應水源 bridge ribbon */
+  /* Bottom: 對應水源 bridge — promoted to a labelled chapter-cross-link.
+     The arrow is a display-grade glyph (not muted mono) so it reads as
+     "the next thing to look at," and the principle chip stamps in last. */
   .bridge {
     border-top: 1px solid var(--ink);
-    padding-top: 32px;
-    display: flex;
+    padding-top: 36px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: baseline;
-    justify-content: space-between;
-    gap: 40px;
-  }
-  .bridge .left {
-    display: flex;
-    align-items: baseline;
-    gap: 24px;
+    gap: 28px;
   }
   .bridge .arrow-label {
     font-family: var(--font-mono);
-    font-size: 14px;
+    font-size: 13px;
     letter-spacing: 0.22em;
     color: var(--muted);
     text-transform: uppercase;
@@ -191,14 +183,26 @@
   .bridge .target {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: 30px;
+    font-size: 34px;
+    color: var(--ink);
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+  }
+  .bridge .target .arrow {
+    color: var(--accent);
+    font-weight: 900;
+    font-size: 38px;
+    line-height: 1;
+  }
+  .bridge .target .ref {
     color: var(--ink);
   }
   .bridge .target .principle {
     background: var(--ink);
     color: var(--bg);
-    padding: 4px 14px;
-    margin-left: 8px;
+    padding: 6px 18px;
+    font-size: 26px;
     display: inline-block;
     transform: scale(0.6) rotate(-3deg);
     opacity: 0;
@@ -207,6 +211,13 @@
   .bridge .target .principle.stamped {
     transform: scale(1) rotate(0);
     opacity: 1;
+  }
+  .bridge .meta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
   }
 
   /* Page indicator override */
@@ -253,10 +264,8 @@
     </div>
 
     <blockquote class="pullquote" id="pullquote">
-      <span class="open-mark">「</span>
-
       <span class="quote-line">
-        <span class="seg" data-delay="1100" data-sfx="tap">主要是看</span><!--
+        <span class="seg" data-delay="1100" data-sfx="tap">「主要是看</span><!--
      --><span class="seg emph" data-delay="1500" data-sfx="sparkle">攤商跟政府配合</span><!--
      --><span class="seg" data-delay="2050" data-sfx="tap">的程度，</span>
       </span>
@@ -269,22 +278,20 @@
     </blockquote>
 
     <div class="attribution fadeup" data-delay="3700">
-      <span>南門市場資深攤商</span>
-      <span class="dot"></span>
-      <span>已同意引用</span>
-      <span class="dot"></span>
-      <span>2026 訪談</span>
+      <span class="who">南門市場資深攤商<span class="qual">化名 · 已同意引用</span></span>
+      <span class="when">訪談時間 / 2026 · 03 · 20</span>
+      <span class="timecode">逐字稿時碼 03:20 — 03:32</span>
     </div>
   </div>
 
   <div class="bridge">
-    <div class="left">
-      <span class="arrow-label fadeup" data-delay="4100">→ 對應水源</span>
-      <span class="target">
-        <span class="fadeup" data-delay="4250">結構性原則第 4 條</span>
-        <span class="principle" id="stamp">攤商共識先行</span>
-      </span>
-    </div>
+    <span class="arrow-label fadeup" data-delay="4100">→ 對應水源</span>
+    <span class="target">
+      <span class="arrow fadeup" data-delay="4200">→</span>
+      <span class="ref fadeup" data-delay="4300">結構性原則第 4 條</span>
+      <span class="principle" id="stamp">攤商共識先行</span>
+    </span>
+    <span class="meta fadeup" data-delay="4500">SLIDE 17 · §STRUCTURAL</span>
   </div>
 
   <div class="credit">SHUI-YUAN · SDG · 2026</div>
@@ -296,12 +303,6 @@
   function sfx(cue) {
     try { window.parent.postMessage({ type: 'sfx', cue }, '*'); } catch (_) {}
   }
-
-  // Open quote-mark drops in 850ms after slide loads
-  setTimeout(() => {
-    document.getElementById('pullquote')?.classList.add('q-open');
-    sfx('focus');
-  }, 850);
 
   document.querySelectorAll('[data-delay]').forEach(el => {
     const delay = parseInt(el.dataset.delay, 10) || 0;

@@ -41,9 +41,10 @@
 
   .loop-svg {
     width: 100%;
-    max-width: 600px;
+    max-width: 720px;
     height: auto;
     margin: 0 auto;
+    display: block;
   }
 
   .narrative {
@@ -177,8 +178,9 @@
       <path class="arc" d="M 185 450 Q 160 400 185 350" fill="none" stroke="#E07A3C" stroke-width="3" data-delay="3000" marker-end="url(#arrowHead)"/>
       <path class="arc" d="M 245 240 Q 320 220 340 200" fill="none" stroke="#E07A3C" stroke-width="3" data-delay="3200" marker-end="url(#arrowHead)"/>
 
-      <!-- center year 5.0 -->
-      <text class="node" data-delay="3500" x="400" y="420" text-anchor="middle" font-size="100" font-weight="900" fill="#E07A3C" font-family="Noto Serif TC" letter-spacing="-0.04em">5.0</text>
+      <!-- Center: tweens from 0.0 to 5.0 once the loop arrows finish drawing.
+           This visualizes the time accumulation that makes feedback compound. -->
+      <text id="yearNum" class="node" data-delay="3500" x="400" y="420" text-anchor="middle" font-size="100" font-weight="900" fill="#E07A3C" font-family="Noto Serif TC" letter-spacing="-0.04em">0.0</text>
       <text class="node" data-delay="3500" x="400" y="450" text-anchor="middle" font-size="13" fill="#FBF7EE" opacity="0.6" font-family="JetBrains Mono" letter-spacing="3">YEAR</text>
     </svg>
 
@@ -212,6 +214,24 @@
       if(el.dataset.sfx) sfx(el.dataset.sfx);
     }, d);
   });
+
+  /* Number tween: 0.0 → 5.0 over 1.5s, ease-out-expo, starts at 3700ms
+     so it follows the last arc draw-in and lands on the chime cue. */
+  function tweenYear() {
+    const el = document.getElementById('yearNum');
+    if (!el) return;
+    const start = performance.now();
+    const dur = 1500;
+    function ease(t) { return 1 - Math.pow(2, -10 * t); } // ease-out-expo
+    function frame(now) {
+      const t = Math.min(1, (now - start) / dur);
+      el.textContent = (ease(t) * 5).toFixed(1);
+      if (t < 1) requestAnimationFrame(frame);
+      else el.textContent = '5.0';
+    }
+    requestAnimationFrame(frame);
+  }
+  setTimeout(tweenYear, 3700);
 </script>
 </body>
 </html>

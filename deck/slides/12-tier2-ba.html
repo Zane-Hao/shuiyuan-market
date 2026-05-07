@@ -10,19 +10,27 @@
 
   .slide {
     padding: 0;
+    margin: 0;
+    width: 100%;
     height: 100%;
     display: grid;
+    grid-template-columns: 1fr;
     grid-template-rows: auto 1fr auto;
   }
 
   .tier-band {
     background: var(--accent);
     color: var(--bg);
-    padding: 50px 96px;
+    padding: 44px 56px;
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: 1fr auto;
     align-items: baseline;
     gap: 48px;
+  }
+  .tier-band .left-group {
+    display: flex;
+    align-items: baseline;
+    gap: 28px;
   }
   .phase-num {
     font-family: var(--font-mono);
@@ -46,7 +54,7 @@
   }
 
   .ba-pane {
-    padding: 50px 96px;
+    padding: 50px 56px;
     display: grid;
     grid-template-columns: 1fr 80px 1fr;
     gap: 0;
@@ -115,20 +123,15 @@
   }
   .ba-divider .arrow {
     font-family: var(--font-display);
-    font-size: 96px;
+    font-weight: 700;
+    font-size: 72px;
+    line-height: 1;
     color: var(--accent);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 1.1s var(--ease-out-expo);
+    opacity: 0;
+    transform: translateX(-12px);
+    transition: opacity .9s var(--ease-out-expo), transform .9s var(--ease-out-expo);
   }
-  .ba-divider .arrow.in { transform: scaleX(1); }
-  .ba-divider .label {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.22em;
-    color: var(--muted);
-    margin-top: 12px;
-  }
+  .ba-divider .arrow.in { opacity: 1; transform: translateX(0); }
 
   .ba-side.before { transform: translateX(-30px); opacity: 0; transition: transform 1s var(--ease-out-expo), opacity 1s var(--ease-out-expo); }
   .ba-side.after  { transform: translateX(30px); opacity: 0; transition: transform 1s var(--ease-out-expo), opacity 1s var(--ease-out-expo); }
@@ -136,15 +139,27 @@
   .ba-side.after.in  { transform: translateX(0); opacity: 1; }
 
   .keypts {
-    padding: 30px 96px 50px;
+    padding: 30px 56px 50px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
+    gap: 48px;
     border-top: 1px solid var(--hairline);
   }
   .keypt {
-    border-left: 4px solid var(--accent);
-    padding-left: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--hairline);
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 18px;
+    align-items: baseline;
+  }
+  .keypt .ord {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 28px;
+    line-height: 1;
+    color: var(--accent);
+    letter-spacing: -0.02em;
   }
   .keypt h4 {
     font-family: var(--font-display);
@@ -171,8 +186,10 @@
 <div class="slide">
 
   <div class="tier-band">
-    <div class="phase-num fadeup" data-delay="200" data-sfx="tap">PHASE 02</div>
-    <div class="tier-title fadeup" data-delay="500" data-sfx="focus">餐食區集中化改造</div>
+    <div class="left-group">
+      <div class="phase-num fadeup" data-delay="200" data-sfx="tap">PHASE 02</div>
+      <div class="tier-title fadeup" data-delay="500" data-sfx="focus">餐食區集中化改造</div>
+    </div>
     <div class="timeline-pill fadeup" data-delay="800" data-sfx="tap">中期 · 6-12 個月</div>
   </div>
 
@@ -187,7 +204,6 @@
     </div>
     <div class="ba-divider">
       <div class="arrow" id="arrow">→</div>
-      <div class="label fadeup" data-delay="2400">VS</div>
     </div>
     <div class="ba-side after" data-delay="1700" data-sfx="sparkle">
       <img src="../../img/nanmen-foodcourt.jpg" alt="改造後">
@@ -200,9 +216,9 @@
   </div>
 
   <div class="keypts">
-    <div class="keypt fadeup" data-delay="2700"><h4>統一餐盤</h4><p>市場統一管理碗盤回收與消毒</p></div>
-    <div class="keypt fadeup" data-delay="2900"><h4>集中用餐區</h4><p>買食物與吃食物的空間明確分離</p></div>
-    <div class="keypt fadeup" data-delay="3100"><h4>生熟食動線</h4><p>肉攤回歸採購、用餐區獨立</p></div>
+    <div class="keypt fadeup" data-delay="2700"><div class="ord">01</div><div><h4>統一餐盤</h4><p>市場統一管理碗盤回收與消毒</p></div></div>
+    <div class="keypt fadeup" data-delay="2900"><div class="ord">02</div><div><h4>集中用餐區</h4><p>買食物與吃食物的空間明確分離</p></div></div>
+    <div class="keypt fadeup" data-delay="3100"><div class="ord">03</div><div><h4>生熟食動線</h4><p>肉攤回歸採購、用餐區獨立</p></div></div>
   </div>
 
   <div class="credit" style="bottom: 18px;">SHUI-YUAN · SDG · 2026</div>

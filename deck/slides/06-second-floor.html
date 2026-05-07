@@ -15,7 +15,7 @@
   }
   .photo-bg {
     position: absolute; inset: 0;
-    background-image: url('../../img/longji.jpg');
+    background-image: url('../../img/2f-actual.jpg');
     background-size: cover;
     background-position: center 60%;
     filter: saturate(0.85) brightness(0.55);
@@ -82,11 +82,80 @@
     color: rgba(251,247,238,0.65);
   }
 
+  /* Reviews — inline (dark variant). CTA pattern was taught in 03/04;
+     by problem #4 the audience reads these red-flagged cards on sight. */
+  .reviews {
+    margin-top: 28px;
+    display: grid;
+    gap: 12px;
+    max-width: 1100px;
+  }
+  .reviews-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(251,247,238,0.55);
+    margin-bottom: 4px;
+  }
+  .reviews-label .count { color: var(--accent); font-weight: 700; }
+
+  .review-card {
+    border-left: 3px solid var(--accent);
+    padding: 14px 18px;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .review-card .meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: rgba(251,247,238,0.6);
+  }
+  .review-card .stars {
+    color: var(--accent);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+  }
+  .review-card .quote {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.55;
+    color: rgba(251,247,238,0.92);
+  }
+  .review-card .quote strong { color: var(--accent); font-weight: 700; }
+
   .fadeup {
     opacity: 0; transform: translateY(20px); filter: blur(6px);
     transition: opacity .8s var(--ease-out-expo), transform .8s var(--ease-out-expo), filter .8s var(--ease-out-expo);
   }
   .fadeup.in { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+  /* Cross-reference forward to matching tier (dark variant). */
+  .solution-anchor {
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(251,247,238,0.22);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    letter-spacing: 0.18em;
+    color: rgba(251,247,238,0.6);
+    text-transform: uppercase;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+    max-width: 1100px;
+  }
+  .solution-anchor .arrow { color: var(--accent); font-weight: 700; font-size: 14px; }
+  .solution-anchor .tier-name { color: var(--accent); font-weight: 700; letter-spacing: 0.14em; }
+  .solution-anchor .ref { color: rgba(251,247,238,0.92); font-weight: 500; }
+  .solution-anchor .sep { color: rgba(251,247,238,0.25); }
 </style>
 </head>
 <body>
@@ -97,7 +166,7 @@
   <div class="content">
     <div class="header">
       <div class="label-sm fadeup" data-delay="200">
-        <span class="num">05</span><span class="rule"></span>
+        <span class="num">06</span><span class="rule"></span>
         <span>CURRENT · 現況診斷 · 04</span>
       </div>
       <div class="right fadeup" data-delay="350">SHUI-YUAN · 2F</div>
@@ -110,12 +179,33 @@
         服飾修改、雜貨、職人服務集中於二樓 —<br>
         但二樓成了一樓人潮的<span class="accent">「上不去的天花板」</span>。
       </p>
+
+      <!-- ▼ Google Maps 1-star reviews — inline (CTA pattern retired). ▼ -->
+      <div class="reviews">
+        <div class="reviews-label fadeup" data-delay="1700">Google <span class="count">1★</span> 高頻負評</div>
+        <div class="review-card fadeup" data-delay="1900" data-sfx="focus">
+          <div class="meta">
+            <span class="stars">★ ☆ ☆ ☆ ☆</span><span>·</span>
+            <span>張閔欽 · 在地嚮導 · 1 年前</span>
+          </div>
+          <div class="quote">「這個市場不知為何而建，既不熱鬧也不方便停車，倒不如<strong>『廢了』</strong>換別種商業經營，浪費公館盛名 🤦‍♂️」</div>
+        </div>
+      </div>
+
+      <div class="solution-anchor fadeup" data-delay="2200">
+        <span class="arrow">→</span>
+        <span>解方對應</span>
+        <span class="sep">·</span>
+        <span class="tier-name">Tier 3 動線與樓層功能再造</span>
+        <span class="sep">·</span>
+        <span class="ref">長期 12 個月以上 · SLIDE 13</span>
+      </div>
     </div>
 
     <div class="bottom-bar">
       <div class="fadeup" data-delay="2400">能見度 / 指引 / 引流 — 三項皆缺</div>
       <div class="fadeup" data-delay="2400" style="color: rgba(251,247,238,0.85);">
-        <span style="color: var(--accent); font-weight: 700;">05</span> / 17
+        <span style="color: var(--accent); font-weight: 700;">06</span> / 18
       </div>
     </div>
   </div>

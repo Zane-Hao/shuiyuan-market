@@ -16,10 +16,10 @@
   @keyframes grain-shift { 0%,100%{transform:translate(0,0);opacity:.55} 50%{transform:translate(2px,2px);opacity:.7} }
 
   .slide {
-    padding: 96px;
+    padding: 72px 56px;
     display: grid;
     grid-template-rows: auto 1fr auto;
-    gap: 60px;
+    gap: 48px;
     position: relative;
     z-index: 1;
   }
@@ -27,23 +27,24 @@
 
   .body-grid {
     display: grid;
-    grid-template-columns: 1fr 1.3fr;
-    gap: 80px;
+    grid-template-columns: 1fr 560px;
+    gap: 64px;
     align-items: center;
   }
   h2 {
     font-family: var(--font-display);
     font-weight: 900;
-    font-size: 88px;
-    line-height: 1.05;
+    font-size: 84px;
+    line-height: 1.12;
     letter-spacing: -0.02em;
     color: var(--ink);
+    white-space: nowrap;
   }
   h2 .accent { color: var(--accent); }
   .lead {
-    margin-top: 28px;
+    margin-top: 32px;
     font-family: var(--font-body);
-    font-size: 22px;
+    font-size: 26px;
     line-height: 1.6;
     color: var(--ink);
   }
@@ -51,27 +52,27 @@
   .method-card {
     background: var(--surface);
     border: 1px solid var(--hairline);
-    padding: 48px;
+    padding: 52px 48px;
   }
   .method-row {
     display: grid;
-    grid-template-columns: 110px 1fr;
-    gap: 20px;
-    padding: 18px 0;
+    grid-template-columns: 120px 1fr;
+    gap: 24px;
+    padding: 22px 0;
     border-top: 1px solid var(--hairline);
     align-items: baseline;
   }
   .method-row:first-child { border-top: 0; padding-top: 0; }
   .method-row dt {
     font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: 15px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--muted);
   }
   .method-row dd {
     font-family: var(--font-body);
-    font-size: 20px;
+    font-size: 22px;
     line-height: 1.5;
     color: var(--ink);
   }
@@ -130,10 +131,6 @@
         <div class="method-row left-fade" data-delay="2300" data-sfx="tap">
           <dt>形式</dt>
           <dd>結構化訪談 + 現場錄音 + 逐字稿整理</dd>
-        </div>
-        <div class="method-row left-fade" data-delay="2500" data-sfx="tap">
-          <dt>限制</dt>
-          <dd>樣本小（N=1）；質性證據而非統計推論</dd>
         </div>
       </dl>
     </div>
