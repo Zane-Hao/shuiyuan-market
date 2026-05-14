@@ -33,9 +33,10 @@
   .timeline-pill { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.18em; border: 1px solid rgba(251,247,238,0.5); padding: 8px 18px; }
 
   .hero-image-split {
-    width: 100%; height: 100%;
+    margin: 28px 56px;
+    outline: 1px solid var(--hairline);
     display: grid;
-    grid-template-columns: 1fr 1px 1fr;
+    grid-template-columns: 1fr 1px 1fr 1px 1fr;
     opacity: 0;
     transform: scale(1.04);
     filter: blur(8px);
@@ -47,29 +48,56 @@
   .hero-image-split .divider { background: var(--hairline); }
   .hero-image-split .col-label {
     position: absolute;
-    bottom: 22px;
+    top: 22px;
     left: 22px;
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: 11px;
     letter-spacing: 0.22em;
     color: var(--bg);
-    background: rgba(31,30,28,0.65);
-    padding: 8px 14px;
+    background: rgba(31,30,28,0.72);
+    padding: 6px 12px;
     text-transform: uppercase;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .hero-image-split .col-label .col-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    margin-right: 8px;
   }
 
   .dna-strip {
-    border-top: 1px solid var(--hairline);
-    padding: 22px 56px;
-    display: flex;
-    gap: 40px;
-    align-items: baseline;
+    background: var(--ink);
+    color: var(--bg);
+    padding: 26px 56px 26px;
+    display: grid;
+    grid-template-columns: auto 1fr 1fr 1fr auto;
+    column-gap: 36px;
+    align-items: center;
+  }
+  .dna-strip-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    line-height: 1.45;
+    text-transform: uppercase;
+    color: rgba(251,247,238,0.5);
+    padding-right: 32px;
+    border-right: 1px solid rgba(251,247,238,0.16);
+  }
+  .dna-strip-label .label-zh {
+    display: block;
+    color: rgba(251,247,238,0.78);
+    letter-spacing: 0.18em;
+    margin-top: 4px;
   }
   .dna-chip {
     font-family: var(--font-mono);
     font-size: 13px;
     letter-spacing: 0.18em;
-    color: var(--muted);
+    color: var(--bg);
     text-transform: uppercase;
     opacity: 0;
     transform: translateY(8px);
@@ -78,6 +106,25 @@
   }
   .dna-chip.in { opacity: 1; transform: translateY(0); filter: blur(0); }
   .dna-chip .dot { color: var(--accent); margin-right: 10px; }
+  .dna-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    color: rgba(251,247,238,0.48);
+    padding-left: 32px;
+    border-left: 1px solid rgba(251,247,238,0.16);
+    text-transform: uppercase;
+    text-align: right;
+    line-height: 1.45;
+  }
+  .dna-meta .now { color: var(--bg); font-weight: 600; }
+  .dna-meta .meta-credit {
+    display: block;
+    color: rgba(251,247,238,0.36);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    margin-top: 4px;
+  }
 
   .fadeup { opacity: 0; transform: translateY(18px); filter: blur(6px); transition: opacity .7s var(--ease-out-expo), transform .7s var(--ease-out-expo), filter .7s var(--ease-out-expo); }
   .fadeup.in { opacity: 1; transform: translateY(0); filter: blur(0); }
@@ -97,23 +144,28 @@
   <div class="hero-image-split" data-delay="1300" data-sfx="sparkle">
     <div class="col">
       <img src="../../img/ai-tier3-2f.webp" alt="2F 成衣與修改">
-      <div class="col-label">2F · 成衣與修改</div>
+      <div class="col-label"><span class="col-name">2F</span>成衣與修改</div>
+    </div>
+    <div class="divider"></div>
+    <div class="col">
+      <img src="../../img/ai-tier3-1f.webp" alt="1F 共享食堂">
+      <div class="col-label"><span class="col-name">1F</span>共享食堂</div>
     </div>
     <div class="divider"></div>
     <div class="col">
       <img src="../../img/ai-tier3-b1.webp" alt="B1 生鮮市場">
-      <div class="col-label">B1 · 生鮮市場</div>
+      <div class="col-label"><span class="col-name">B1</span>生鮮市場</div>
     </div>
   </div>
 
   <div class="dna-strip">
+    <div class="dna-strip-label fadeup" data-delay="1500" data-sfx="tap">DESIGN DNA<span class="label-zh">水源之心三元素</span></div>
     <div class="dna-chip" data-delay="1700" data-sfx="tap"><span class="dot">●</span>鈷藍 COLUMN COLLARS</div>
-    <div class="dna-chip" data-delay="1900" data-sfx="tap"><span class="dot">●</span>馬賽克 TOTEM &amp; FEATURE WALL</div>
-    <div class="dna-chip" data-delay="2100" data-sfx="tap"><span class="dot">●</span>杜鵑花 DIRECTORY PICTOGRAM</div>
+    <div class="dna-chip" data-delay="1900" data-sfx="tap"><span class="dot">●</span>馬賽克 TOTEM &amp; WALL</div>
+    <div class="dna-chip" data-delay="2100" data-sfx="tap"><span class="dot">●</span>杜鵑花 DIRECTORY GLYPH</div>
+    <div class="dna-meta"><span class="now">16</span> / 21<span class="meta-credit">SHUI-YUAN · SDG · 2026</span></div>
   </div>
 
-  <div class="credit" style="bottom: 18px;">SHUI-YUAN · SDG · 2026</div>
-  <div class="page-indicator" style="bottom: 18px;"><span class="now">16</span> / 21</div>
 </div>
 
 <script>
