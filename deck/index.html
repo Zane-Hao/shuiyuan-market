@@ -30,26 +30,29 @@
 <!-- EDIT THIS — deck 所有页按顺序列出                        -->
 <!-- ═══════════════════════════════════════════════════════ -->
 <script>
-  // 18-slide pitch deck for SDG competition video (~5:13).
+  // 21-slide pitch deck for SDG competition video.
   window.DECK_MANIFEST = [
-    { file: "slides/01-title.html",        label: "標題卡" },
-    { file: "slides/02-hook.html",         label: "Hook · 200+ / 0 / 近兩成" },
-    { file: "slides/03-oily-food.html",    label: "P01 油膩餐食區" },
-    { file: "slides/04-sanitation.html",   label: "P02 衛生底線" },
-    { file: "slides/05-no-seating.html",   label: "P03 無集中座位" },
-    { file: "slides/06-second-floor.html", label: "P04 二樓低利用率" },
-    { file: "slides/07-method.html",       label: "南門案例 · 方法論" },
-    { file: "slides/08-quote.html",        label: "南門攤商共識金句" },
-    { file: "slides/09-pad-causal.html",   label: "PAD · +1% → +1.3%" },
-    { file: "slides/10-pyramid.html",      label: "三層解方架構" },
-    { file: "slides/11-tier1.html",        label: "Tier 1 衛生底線" },
-    { file: "slides/12-tier2-ba.html",     label: "Tier 2 餐食集中 (BA)" },
-    { file: "slides/13-tier3.html",        label: "Tier 3 動線分工" },
-    { file: "slides/14-personas.html",     label: "三類使用者" },
-    { file: "slides/15-loop.html",         label: "永續循環" },
-    { file: "slides/16-sdg.html",          label: "SDG 對齊" },
-    { file: "slides/17-principles.html",   label: "結構性原則" },
-    { file: "slides/18-stay.html",         label: "STAY · 收尾" },
+    { file: "slides/01-title.html",                label: "標題卡" },
+    { file: "slides/02-hook.html",                 label: "Hook · 200+ / 0 / 近兩成" },
+    { file: "slides/03-oily-food.html",            label: "P01 油膩餐食區" },
+    { file: "slides/04-sanitation.html",           label: "P02 衛生底線" },
+    { file: "slides/05-no-seating.html",           label: "P03 無集中座位" },
+    { file: "slides/06-second-floor.html",         label: "P04 二樓低利用率" },
+    { file: "slides/07-method.html",               label: "南門案例 · 方法論" },
+    { file: "slides/08-quote.html",                label: "南門攤商共識金句" },
+    { file: "slides/09-pad-causal.html",           label: "PAD · +1% → +1.3%" },
+    { file: "slides/10-pyramid.html",              label: "三層解方架構" },
+    { file: "slides/11-tier1.html",                label: "Tier 1 衛生底線" },
+    { file: "slides/12-tier1-hero-toilet.html",    label: "Tier 1 · 廁所視覺示意" },
+    { file: "slides/13-tier2-ba.html",             label: "Tier 2 餐食集中 (BA)" },
+    { file: "slides/14-tier2-hero-tray.html",      label: "Tier 2 · 餐盤系統視覺示意" },
+    { file: "slides/15-tier3.html",                label: "Tier 3 動線分工" },
+    { file: "slides/16-tier3-hero-floors.html",    label: "Tier 3 · 樓層視覺示意" },
+    { file: "slides/17-personas.html",             label: "三類使用者" },
+    { file: "slides/18-loop.html",                 label: "永續循環" },
+    { file: "slides/19-sdg.html",                  label: "SDG 對齊" },
+    { file: "slides/20-principles.html",           label: "結構性原則" },
+    { file: "slides/21-stay.html",                 label: "STAY · 收尾" },
   ];
 
   // 固定 canvas 尺寸。每页 HTML 都应该按这个尺寸设计。
@@ -109,6 +112,24 @@
   }
   .counter:hover { opacity: 1; }
   .counter .label { color: rgba(255,255,255,0.7); margin-left: 8px; }
+  .audio-toggle {
+    position: fixed;
+    top: 20px; right: 20px;
+    background: rgba(0,0,0,0.65);
+    color: #fff;
+    border: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; height: 40px;
+    border-radius: 999px;
+    z-index: 100;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .audio-toggle:hover { opacity: 1; }
+  .audio-toggle svg { width: 18px; height: 18px; }
   .nav-zone {
     position: fixed;
     top: 0; bottom: 0;
@@ -163,8 +184,17 @@
 <div class="nav-zone left"  id="navL"><div class="nav-hint">‹</div></div>
 <div class="nav-zone right" id="navR"><div class="nav-hint">›</div></div>
 <div class="counter" id="counter">1 / 1</div>
+<button class="audio-toggle" id="audioToggle" title="Toggle sound">
+  <svg id="audioIconOn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+  </svg>
+  <svg id="audioIconOff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+    <path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+  </svg>
+</button>
 
-<!-- Audio engine — preloaded SFX only (BGM removed; volume toggle removed per user) -->
+<!-- Audio engine — BGM + SFX -->
+<audio id="bgm" src="audio/bgm.mp3" loop preload="auto"></audio>
 <audio id="sfx-whoosh" src="audio/whoosh.mp3" preload="auto"></audio>
 <audio id="sfx-dissolve" src="audio/dissolve.mp3" preload="auto"></audio>
 <audio id="sfx-tap" src="audio/tap-finger.mp3" preload="auto"></audio>
@@ -201,7 +231,11 @@
     stage.style.left = '0';
   }
 
-  // ───── Audio engine (SFX only — BGM and volume toggle removed) ─────
+  // ───── Audio engine (BGM + SFX) ─────
+  const bgm = document.getElementById('bgm');
+  const audioToggle = document.getElementById('audioToggle');
+  const audioIconOn = document.getElementById('audioIconOn');
+  const audioIconOff = document.getElementById('audioIconOff');
   const sfx = {
     whoosh:   document.getElementById('sfx-whoosh'),
     dissolve: document.getElementById('sfx-dissolve'),
@@ -211,16 +245,28 @@
     stamp:    document.getElementById('sfx-stamp'),
     chime:    document.getElementById('sfx-chime'),
   };
+  let audioOn = true;
   let audioUnlocked = false;
+  bgm.volume = 0.18;
   Object.values(sfx).forEach(a => { a.volume = 0.45; });
 
   function unlockAudio() {
     if (audioUnlocked) return;
     audioUnlocked = true;
+    if (audioOn) bgm.play().catch(() => {});
   }
 
+  audioToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    audioOn = !audioOn;
+    audioIconOn.style.display = audioOn ? 'block' : 'none';
+    audioIconOff.style.display = audioOn ? 'none' : 'block';
+    if (audioOn) bgm.play().catch(() => {});
+    else bgm.pause();
+  });
+
   function playSfx(name) {
-    if (!audioUnlocked) return;
+    if (!audioUnlocked || !audioOn) return;
     const a = sfx[name];
     if (!a) return;
     try {
