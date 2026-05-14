@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<title>14 · Tier 2 餐盤系統視覺示意</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+  body { background: var(--bg); position: relative; overflow: hidden; }
+
+  .slide {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+  }
+
+  .tier-band {
+    background: var(--accent);
+    color: var(--bg);
+    padding: 44px 56px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: 48px;
+  }
+  .tier-band .left-group { display: flex; align-items: baseline; gap: 28px; }
+  .phase-num { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.22em; opacity: 0.85; }
+  .tier-title { font-family: var(--font-display); font-weight: 900; font-size: 56px; line-height: 1.05; letter-spacing: -0.02em; }
+  .timeline-pill { font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.18em; border: 1px solid rgba(251,247,238,0.5); padding: 8px 18px; }
+
+  .hero-image {
+    width: 100%; height: 100%;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: scale(1.04);
+    filter: blur(8px);
+    transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo), filter 1s var(--ease-out-expo);
+  }
+  .hero-image.in { opacity: 1; transform: scale(1); filter: blur(0); }
+  .hero-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .dna-strip {
+    border-top: 1px solid var(--hairline);
+    padding: 22px 56px;
+    display: flex;
+    gap: 40px;
+    align-items: baseline;
+  }
+  .dna-chip {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(4px);
+    transition: opacity .7s var(--ease-out-expo), transform .7s var(--ease-out-expo), filter .7s var(--ease-out-expo);
+  }
+  .dna-chip.in { opacity: 1; transform: translateY(0); filter: blur(0); }
+  .dna-chip .dot { color: var(--accent); margin-right: 10px; }
+
+  .fadeup { opacity: 0; transform: translateY(18px); filter: blur(6px); transition: opacity .7s var(--ease-out-expo), transform .7s var(--ease-out-expo), filter .7s var(--ease-out-expo); }
+  .fadeup.in { opacity: 1; transform: translateY(0); filter: blur(0); }
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <div class="tier-band">
+    <div class="left-group">
+      <div class="phase-num fadeup" data-delay="200" data-sfx="tap">PHASE 02</div>
+      <div class="tier-title fadeup" data-delay="500" data-sfx="focus">集中餐盤系統 · 視覺示意</div>
+    </div>
+    <div class="timeline-pill fadeup" data-delay="800" data-sfx="tap">改造後 · AFTER</div>
+  </div>
+
+  <div class="hero-image" data-delay="1300" data-sfx="sparkle">
+    <img src="../../img/ai-tier2-tray.webp" alt="統一餐盤回收與消毒站">
+  </div>
+
+  <div class="dna-strip">
+    <div class="dna-chip" data-delay="1700" data-sfx="tap"><span class="dot">●</span>鈷藍 COUNTER EDGE</div>
+    <div class="dna-chip" data-delay="1900" data-sfx="tap"><span class="dot">●</span>馬賽克 LOGO WALL</div>
+    <div class="dna-chip" data-delay="2100" data-sfx="tap"><span class="dot">●</span>杜鵑花 WORKFLOW SIGNAGE</div>
+  </div>
+
+  <div class="credit" style="bottom: 18px;">SHUI-YUAN · SDG · 2026</div>
+  <div class="page-indicator" style="bottom: 18px;"><span class="now">14</span> / 21</div>
+</div>
+
+<script>
+  function sfx(c){try{window.parent.postMessage({type:'sfx',cue:c},'*')}catch(_){}}
+  document.querySelectorAll('[data-delay]').forEach(el=>{
+    const d=+el.dataset.delay||0;
+    setTimeout(()=>{el.classList.add('in');if(el.dataset.sfx)sfx(el.dataset.sfx)},d);
+  });
+</script>
+</body>
+</html>
