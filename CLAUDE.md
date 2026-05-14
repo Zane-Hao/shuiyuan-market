@@ -1,14 +1,14 @@
 # 水源市場 · SDG 提案簡報
 
-公館水源市場現況診斷 + 永續活化提案的 18 頁 web-based 簡報。學校專題作業，目前在收尾階段。
+公館水源市場現況診斷 + 永續活化提案的 21 頁 web-based 簡報。學校專題作業，目前在收尾階段。
 
 ## Status
 
 **現在的狀態**：完稿。剛完成一次 5 維度 editorial review（39 → 46.5/50, A-）。準備錄影 / 推 GitHub。
 
 **已完成**：
-- 18 張 slide 全部完成，動畫流暢、cross-reference 系統閉環
-- BGM 已移除，右上 volume toggle button 已移除（只保留 SFX 給轉場用）
+- 21 張 slide 全部完成（2026-05-14 加入 3 張 AI hero slide：12/14/16）、動畫流暢、cross-reference 系統閉環
+- BGM 已加回（`deck/audio/bgm.mp3`，volume 0.18），右上 volume toggle button 控制 BGM + SFX 一起 mute/unmute
 - `iframe.src` 加 cache-bust（`?v=Date.now()`）—— CSS 編輯不再被瀏覽器快取卡住
 
 **Slide-by-slide 重點**：
@@ -22,17 +22,23 @@
 - **08 quote** — pull-quote「主要是看攤商跟政府配合的程度...」+ 3 行 byline + bridge anchor 連到 17
 - **09 PAD-causal** — bars 動畫 + +1% → +1.3% Mehrabian-Russell 引用
 - **10 pyramid（已換成 horizontal timeline）** — 三 milestone dot 沿線時間漸進，phase 3 dot 是橘色終點。`pyramid.html` 檔名沒改但內容不再是金字塔
-- **11/12/13 tier 1/2/3** — banded layout（PHASE bg + body content），edge-to-edge
-- **14 personas** — 三類使用者，全部 ink 色，每個 persona 的 peak need 用 accent 橘
-- **15 loop** — 6 節點循環圖 + 中央 5.0 YEAR number tween（0.0 → 5.0）
-- **16 SDG** — 對齊 UN SDG 8 / 9 / 11 / 12
-- **17 principles** — 4 個 chip（3 不做 + 1 先做），quote-block 用 top hairline 不用 left border
-- **18 STAY** — 每個字母 stamp 動畫 + 結尾橘 dot bounce + glow，stripes 飽和度 0.55
+- **11 tier1** — banded layout teal band（衛生底線），edge-to-edge
+- **12 tier1-hero-toilet** ★ AI hero — RGFT 多元友善廁所視覺示意 + DNA chips（鈷藍 hardware / 馬賽克 strip / 杜鵑花 wayfinding）
+- **13 tier2-ba** — banded layout 橘 band（餐食集中 BA），edge-to-edge
+- **14 tier2-hero-tray** ★ AI hero — 集中餐盤系統視覺示意 + DNA chips（鈷藍 counter / 馬賽克 logo wall / 杜鵑花 workflow sign）
+- **15 tier3** — banded layout 深綠 band（樓層分工），edge-to-edge
+- **16 tier3-hero-floors** ★ AI hero — B1 生鮮 + 2F 服飾並排 split hero（中間 hairline 分隔）+ DNA chips
+- **17 personas** — 三類使用者，全部 ink 色，每個 persona 的 peak need 用 accent 橘
+- **18 loop** — 6 節點循環圖 + 中央 5.0 YEAR number tween（0.0 → 5.0）
+- **19 SDG** — 對齊 UN SDG 8 / 9 / 11 / 12
+- **20 principles** — 4 個 chip（3 不做 + 1 先做），quote-block 用 top hairline 不用 left border
+- **21 STAY** — 每個字母 stamp 動畫 + 結尾橘 dot bounce + glow，stripes 飽和度 0.55，typewriter h2「改造一座市場，留下一個社區」
 
 **Cross-reference 系統**：
 - Problem slides（03/04/05/06）底部加 `→ 解方對應 · Tier N · SLIDE N` anchor
-- Slide 10 timeline 每欄底部加 `→ 詳見 Slide 11/12/13` deep-link
-- Slide 08 bridge 連到 17 結構性原則
+- Slide 10 timeline 每欄底部加 `→ 詳見 Slide 11/13/15` deep-link（renumber 後）
+- Slide 08 bridge 連到 20 結構性原則（原為 17）
+- 3 張 AI hero slide（12/14/16）放對應 tier slide 之後，banded layout 同色系
 
 **負評來源**：`images/負面評論/` 4 張截圖、OCR 出 10 則 1 星評論。逐字稿 + 對應表在 `docs/reviews.md`。
 
@@ -100,7 +106,6 @@ setTimeout(open, 2000);
   - 裝飾性 SVG icon 每個標題都配 → 拿掉，靠 typography
   - 紫色漸變 / Inter / Roboto / system font display → 用 brand 字體（Noto Serif TC + Sans TC）
   - 凡發明的 hex 色 → 一律從 tokens.css 抽
-- **不要重新引入 BGM / 右上 volume toggle**：已經拆掉了，不需要。SFX 留著（轉場 whoosh、stamp、chime 等）。
 - **`data-delay` 數值不要撞**：常見過的延遲：200 / 350 / 450 / 600 / 700 / 800 / 900 / 1100 / 1300 / 1500 / 1700 / 1900 / 2000 / 2100 / 2200 / 2300 / 2400 / 2500 / 2700 / 2900 / 3100 / 3500。新元素挑沒撞到的、或挑緊接前一個 200ms 後的合理 stagger。
 
 ## Git workflow
