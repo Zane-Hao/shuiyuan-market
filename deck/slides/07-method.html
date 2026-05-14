@@ -38,7 +38,8 @@
     line-height: 1.12;
     letter-spacing: -0.02em;
     color: var(--ink);
-    white-space: nowrap;
+    /* nowrap kept on each line via inline-block spans below;
+       removing the outer h2 nowrap so the explicit <br> can break cleanly */
   }
   h2 .accent { color: var(--accent); }
   .lead {
@@ -89,6 +90,29 @@
     transition: opacity .7s var(--ease-out-expo), transform .7s var(--ease-out-expo);
   }
   .left-fade.in { opacity: 1; transform: translateX(0); }
+
+  /* Typewriter — character-by-character reveal with blinking caret.
+     Uses TreeWalker over text nodes to preserve inline accent spans.
+     Element occupies its full final layout from the start (no shift). */
+  .typewriter {
+    display: inline;
+  }
+  .typewriter.tw-typing::after,
+  .typewriter.tw-done::after {
+    content: '|';
+    display: inline-block;
+    margin-left: 0.06em;
+    font-weight: 200;
+    color: currentColor;
+    opacity: 0.7;
+    animation: tw-caret 0.65s infinite step-end;
+    vertical-align: -0.06em;
+  }
+  .typewriter.tw-done::after { opacity: 0.5; }
+  @keyframes tw-caret {
+    0%, 49.99% { opacity: 0.7; }
+    50%, 100% { opacity: 0; }
+  }
 </style>
 </head>
 <body>
@@ -104,31 +128,31 @@
 
   <div class="body-grid">
     <div>
-      <h2 class="fadeup" data-delay="600" data-sfx="focus">
-        我們訪談的不是水源 —<br>
-        是<span class="accent">已成功改建</span>的南門。
+      <h2>
+        <span class="typewriter" data-delay="600" data-cps="9" data-sfx="focus">我們訪談的不是水源 —</span><br>
+        <span class="typewriter" data-delay="1800" data-cps="9">是<span class="accent">已成功改建</span>的南門。</span>
       </h2>
-      <p class="lead fadeup" data-delay="1100">
+      <p class="lead fadeup" data-delay="3300">
         擷取「改建後成功要素」<br>
         作為水源改建設計的依據。
       </p>
     </div>
 
-    <div class="method-card fadeup" data-delay="1500">
+    <div class="method-card fadeup" data-delay="3600">
       <dl>
-        <div class="method-row left-fade" data-delay="1700" data-sfx="tap">
+        <div class="method-row left-fade" data-delay="3800" data-sfx="tap">
           <dt>時間</dt>
           <dd>2026 年</dd>
         </div>
-        <div class="method-row left-fade" data-delay="1900" data-sfx="tap">
+        <div class="method-row left-fade" data-delay="4000" data-sfx="tap">
           <dt>地點</dt>
           <dd>臺北市公有<strong>南門市場</strong></dd>
         </div>
-        <div class="method-row left-fade" data-delay="2100" data-sfx="tap">
+        <div class="method-row left-fade" data-delay="4200" data-sfx="tap">
           <dt>對象</dt>
           <dd>資深攤商 1 位 — 改建前後皆營業</dd>
         </div>
-        <div class="method-row left-fade" data-delay="2300" data-sfx="tap">
+        <div class="method-row left-fade" data-delay="4400" data-sfx="tap">
           <dt>形式</dt>
           <dd>結構化訪談 + 現場錄音 + 逐字稿整理</dd>
         </div>
@@ -142,9 +166,53 @@
 
 <script>
   function sfx(c){try{window.parent.postMessage({type:'sfx',cue:c},'*')}catch(_){}}
-  document.querySelectorAll('[data-delay]').forEach(el=>{
-    const d=+el.dataset.delay||0;
-    setTimeout(()=>{el.classList.add('in');if(el.dataset.sfx)sfx(el.dataset.sfx)},d);
+
+  // Typewriter prep: walk all .typewriter elements, snapshot text nodes,
+  // then clear them so the spans are empty until their delay fires.
+  document.querySelectorAll('.typewriter').forEach(el => {
+    const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    const segs = [];
+    let n;
+    while ((n = w.nextNode())) {
+      if (n.nodeValue) segs.push({ node: n, full: n.nodeValue });
+    }
+    segs.forEach(s => { s.node.nodeValue = ''; });
+    el._tw = segs;
+  });
+
+  function typeOut(el, cps) {
+    const segs = el._tw || [];
+    const total = segs.reduce((a, s) => a + s.full.length, 0);
+    el.classList.add('tw-typing');
+    let i = 0;
+    const id = setInterval(() => {
+      i++;
+      let r = i;
+      for (const s of segs) {
+        const take = Math.min(r, s.full.length);
+        s.node.nodeValue = s.full.slice(0, take);
+        r -= take;
+        if (r <= 0) break;
+      }
+      if (i >= total) {
+        clearInterval(id);
+        el.classList.remove('tw-typing');
+        el.classList.add('tw-done');
+        setTimeout(() => el.classList.remove('tw-done'), 1600);
+      }
+    }, 1000 / cps);
+  }
+
+  document.querySelectorAll('[data-delay]').forEach(el => {
+    const d = +el.dataset.delay || 0;
+    setTimeout(() => {
+      if (el.classList.contains('typewriter')) {
+        typeOut(el, +el.dataset.cps || 6);
+      } else {
+        el.classList.add('in');
+      }
+      if (el.dataset.sfx) sfx(el.dataset.sfx);
+    }, d);
   });
 </script>
 </body>

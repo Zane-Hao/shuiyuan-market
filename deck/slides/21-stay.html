@@ -169,6 +169,27 @@
     transition: opacity .7s var(--ease-out-expo), transform .7s var(--ease-out-expo), filter .7s var(--ease-out-expo);
   }
   .fadeup.in { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+  /* Typewriter — char-by-char reveal with blinking caret.
+     TreeWalker preserves nested .accent spans so 一個社區 stays orange italic
+     as it types. Caret matches text color via currentColor. */
+  .typewriter { display: inline; }
+  .typewriter.tw-typing::after,
+  .typewriter.tw-done::after {
+    content: '|';
+    display: inline-block;
+    margin-left: 0.06em;
+    font-weight: 200;
+    color: currentColor;
+    opacity: 0.7;
+    animation: tw-caret 0.65s infinite step-end;
+    vertical-align: -0.05em;
+  }
+  .typewriter.tw-done::after { opacity: 0.5; }
+  @keyframes tw-caret {
+    0%, 49.99% { opacity: 0.7; }
+    50%, 100% { opacity: 0; }
+  }
 </style>
 </head>
 <body>
@@ -193,7 +214,7 @@
    --><span class="word" data-delay="1300" data-sfx="stamp">Y</span><!--
    --><span class="word dot pop" data-delay="1700" data-sfx="sparkle">.</span>
     </div>
-    <div class="h2-cn fadeup" data-delay="1800" data-sfx="focus">
+    <div class="h2-cn typewriter" data-delay="1800" data-cps="5" data-sfx="focus">
       改造一座市場，留下<span class="accent">一個社區</span>。
     </div>
   </div>
@@ -222,11 +243,54 @@
 
 <script>
   function sfx(c){try{window.parent.postMessage({type:'sfx',cue:c},'*')}catch(_){}}
+
+  // Typewriter prep: snapshot + clear text nodes before any delay fires
+  document.querySelectorAll('.typewriter').forEach(el => {
+    const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    const segs = [];
+    let n;
+    while ((n = w.nextNode())) {
+      if (n.nodeValue) segs.push({ node: n, full: n.nodeValue });
+    }
+    segs.forEach(s => { s.node.nodeValue = ''; });
+    el._tw = segs;
+  });
+
+  function typeOut(el, cps) {
+    const segs = el._tw || [];
+    const total = segs.reduce((a, s) => a + s.full.length, 0);
+    el.classList.add('tw-typing');
+    let i = 0;
+    const id = setInterval(() => {
+      i++;
+      let r = i;
+      for (const s of segs) {
+        const take = Math.min(r, s.full.length);
+        s.node.nodeValue = s.full.slice(0, take);
+        r -= take;
+        if (r <= 0) break;
+      }
+      if (i >= total) {
+        clearInterval(id);
+        el.classList.remove('tw-typing');
+        el.classList.add('tw-done');
+        setTimeout(() => el.classList.remove('tw-done'), 1600);
+      }
+    }, 1000 / cps);
+  }
+
   setTimeout(()=>document.querySelector('.stripe').classList.add('in'), 100);
   setTimeout(()=>document.querySelector('.stripe-bottom').classList.add('in'), 350);
-  document.querySelectorAll('[data-delay]').forEach(el=>{
-    const d=+el.dataset.delay||0;
-    setTimeout(()=>{el.classList.add('in');if(el.dataset.sfx)sfx(el.dataset.sfx)},d);
+  document.querySelectorAll('[data-delay]').forEach(el => {
+    const d = +el.dataset.delay || 0;
+    setTimeout(() => {
+      if (el.classList.contains('typewriter')) {
+        typeOut(el, +el.dataset.cps || 6);
+      } else {
+        el.classList.add('in');
+      }
+      if (el.dataset.sfx) sfx(el.dataset.sfx);
+    }, d);
   });
 </script>
 </body>
