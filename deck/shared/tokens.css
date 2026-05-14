@@ -49,8 +49,8 @@ html, body {
 /* Section label (small mono caps, used as kicker above titles) */
 .label-sm {
   font-family: var(--font-mono);
-  font-size: 16px;
-  letter-spacing: 0.22em;
+  font-size: 18px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--muted);
   display: inline-flex;
@@ -74,8 +74,8 @@ html, body {
   bottom: 36px;
   right: 60px;
   font-family: var(--font-mono);
-  font-size: 16px;
-  letter-spacing: 0.18em;
+  font-size: 19px;
+  letter-spacing: 0.14em;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
 }
@@ -90,8 +90,8 @@ html, body {
   bottom: 36px;
   left: 60px;
   font-family: var(--font-mono);
-  font-size: 13px;
-  letter-spacing: 0.18em;
+  font-size: 16px;
+  letter-spacing: 0.16em;
   color: var(--muted);
   text-transform: uppercase;
 }
@@ -147,11 +147,11 @@ html, body {
    Huashu-style deck work keeps a fixed 1920x1080 canvas, then sizes copy by
    layout density instead of forcing every text block to the same size. */
 :root {
-  --deck-body-readable: 28px;
-  --deck-body-large: 30px;
-  --deck-body-compact: 22px;
-  --deck-body-dense: 18px;
-  --deck-support-readable: 17px;
+  --deck-body-readable: 30px;
+  --deck-body-large: 32px;
+  --deck-body-compact: 24px;
+  --deck-body-dense: 20px;
+  --deck-support-readable: 19px;
 }
 
 .slide p,
