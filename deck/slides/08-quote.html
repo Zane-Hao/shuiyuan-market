@@ -47,7 +47,7 @@
     padding: 88px 96px;
     display: grid;
     grid-template-rows: auto 1fr auto;
-    gap: 56px;
+    gap: 44px;
     position: relative;
     z-index: 1;
   }
@@ -102,15 +102,16 @@
 
   .quote-line {
     display: block;
+    font-size: inherit !important;
+    line-height: inherit !important;
   }
   .quote-line > .seg {
     display: inline-block;
     opacity: 0;
     transform: translateY(20px);
-    filter: blur(8px);
-    transition: opacity .9s var(--ease-out-expo), transform .9s var(--ease-out-expo), filter .9s var(--ease-out-expo);
+    transition: opacity .28s var(--ease-out-expo), transform .28s var(--ease-out-expo);
   }
-  .quote-line > .seg.in { opacity: 1; transform: translateY(0); filter: blur(0); }
+  .quote-line > .seg.in { opacity: 1; transform: translateY(0); }
 
   .emph {
     color: var(--accent);
@@ -127,7 +128,7 @@
     background: var(--accent);
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform .9s var(--ease-out-expo);
+    transition: transform .28s var(--ease-out-expo);
   }
   .emph.lit::after { transform: scaleX(1); }
 
@@ -206,7 +207,7 @@
     display: inline-block;
     transform: scale(0.6) rotate(-3deg);
     opacity: 0;
-    transition: transform .7s var(--ease-out-back), opacity .7s var(--ease-out-back);
+    transition: transform .28s var(--ease-out-back), opacity .28s var(--ease-out-back);
   }
   .bridge .target .principle.stamped {
     transform: scale(1) rotate(0);
@@ -228,10 +229,9 @@
   .fadeup {
     opacity: 0;
     transform: translateY(20px);
-    filter: blur(6px);
-    transition: opacity .7s var(--ease-out-expo), transform .7s var(--ease-out-expo), filter .7s var(--ease-out-expo);
+    transition: opacity .28s var(--ease-out-expo), transform .28s var(--ease-out-expo);
   }
-  .fadeup.in { opacity: 1; transform: translateY(0); filter: blur(0); }
+  .fadeup.in { opacity: 1; transform: translateY(0); }
 
   /* Bridge top hairline draws in */
   .bridge-rule {
@@ -239,7 +239,7 @@
     background: var(--ink);
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 1s var(--ease-out-expo);
+    transition: transform .28s var(--ease-out-expo);
     margin-bottom: 32px;
   }
   .bridge-rule.drawn { transform: scaleX(1); }
@@ -300,12 +300,14 @@
 </div>
 
 <script>
+  const tempo = 0.18;
+
   function sfx(cue) {
     try { window.parent.postMessage({ type: 'sfx', cue }, '*'); } catch (_) {}
   }
 
   document.querySelectorAll('[data-delay]').forEach(el => {
-    const delay = parseInt(el.dataset.delay, 10) || 0;
+    const delay = (parseInt(el.dataset.delay, 10) || 0) * tempo;
     setTimeout(() => {
       el.classList.add('in');
       const cue = el.dataset.sfx;
@@ -316,16 +318,16 @@
   // Light up emphasized phrases (underline draw) shortly after they enter
   setTimeout(() => {
     document.querySelectorAll('.emph')[0]?.classList.add('lit');
-  }, 1900);
+  }, 1900 * tempo);
   setTimeout(() => {
     document.querySelectorAll('.emph')[1]?.classList.add('lit');
-  }, 3050);
+  }, 3050 * tempo);
 
   // Final stamp pop
   setTimeout(() => {
     document.getElementById('stamp')?.classList.add('stamped');
     sfx('stamp');
-  }, 4600);
+  }, 4600 * tempo);
 </script>
 </body>
 </html>

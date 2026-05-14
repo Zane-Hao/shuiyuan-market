@@ -72,15 +72,21 @@
     will-change: transform;
     background: #fff;
     box-shadow: 0 10px 60px rgba(0,0,0,0.4);
+    overflow: hidden;
     /* size set by JS from DECK_WIDTH/HEIGHT */
   }
   iframe {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     border: 0;
     display: block;
     background: #fff;
-    transition: opacity .55s cubic-bezier(0.16, 1, 0.3, 1);
+    transition:
+      transform .62s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity .24s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
   }
   iframe.fading {
     opacity: 0;
@@ -139,6 +145,7 @@
     /* In print mode we render all slides sequentially — see JS */
     .print-stack { display: block; }
     .print-stack iframe {
+      position: static;
       width: 1920px;
       height: 1080px;
       page-break-after: always;
@@ -180,6 +187,7 @@
   const printStack = document.getElementById('printStack');
   const storageKey = 'deck-index-' + location.pathname;
   let current = 0;
+  let activeFrame = frame;
 
   stage.style.width  = W + 'px';
   stage.style.height = H + 'px';
@@ -226,25 +234,77 @@
     playSfx(e.data.cue);
   });
 
-  // Cross-fade between slides + transition SFX
+  // Directional slide transition.
+  // Slides 03-06 are one continuous problem-diagnosis section, so their
+  // internal movement is vertical; the rest of the deck keeps horizontal flow.
   let transitioning = false;
-  function show(idx) {
+  const verticalSectionStart = 2; // slide 03, zero-based
+  const verticalSectionEnd = 5;   // slide 06, zero-based
+  function isVerticalSection(idx) {
+    return idx >= verticalSectionStart && idx <= verticalSectionEnd;
+  }
+  function transitionAxis(fromIdx, toIdx) {
+    return isVerticalSection(fromIdx) && isVerticalSection(toIdx) ? 'Y' : 'X';
+  }
+  function translate(axis, amount) {
+    return axis === 'Y' ? `translateY(${amount}%)` : `translateX(${amount}%)`;
+  }
+
+  function show(idx, opts = {}) {
     if (idx < 0 || idx >= deck.length || transitioning) return;
-    if (idx === current && frame.src.includes(deck[idx].file)) return;
+    if (idx === current && activeFrame.src.includes(deck[idx].file)) return;
     unlockAudio();
-    transitioning = true;
-    playSfx('whoosh');
-    frame.classList.add('fading');
-    setTimeout(() => {
-      current = idx;
-      frame.src = deck[idx].file + '?v=' + Date.now();
-      counter.innerHTML = `${idx + 1} / ${deck.length} <span class="label">${deck[idx].label || ''}</span>`;
-      // wait one beat for new iframe to start loading, then fade in
-      setTimeout(() => {
-        frame.classList.remove('fading');
-        transitioning = false;
-      }, 60);
-    }, 380);
+    const previous = current;
+    const axis = transitionAxis(previous, idx);
+    const direction = idx >= previous ? 1 : -1;
+    const incoming = opts.instant ? 0 : direction * 100;
+    const outgoing = opts.instant ? 0 : direction * -100;
+
+    const nextFrame = opts.instant ? activeFrame : document.createElement('iframe');
+    nextFrame.src = deck[idx].file;
+    nextFrame.style.transform = translate(axis, incoming);
+    nextFrame.style.opacity = opts.instant ? '1' : '0.98';
+    if (!opts.instant) {
+      transitioning = true;
+      playSfx('whoosh');
+      stage.appendChild(nextFrame);
+    }
+
+    let revealed = false;
+    let finished = false;
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      if (!opts.instant) {
+        activeFrame.remove();
+        activeFrame = nextFrame;
+        activeFrame.style.transform = 'translate(0, 0)';
+        activeFrame.style.opacity = '1';
+      }
+      transitioning = false;
+      nextFrame.onload = null;
+    };
+
+    const reveal = () => {
+      if (revealed) return;
+      revealed = true;
+      if (opts.instant) {
+        finish();
+        return;
+      }
+      requestAnimationFrame(() => {
+        activeFrame.style.transform = translate(axis, outgoing);
+        activeFrame.style.opacity = '0.98';
+        nextFrame.style.transform = translate(axis, 0);
+        nextFrame.style.opacity = '1';
+      });
+      setTimeout(finish, 680);
+    };
+
+    current = idx;
+    nextFrame.onload = reveal;
+    counter.innerHTML = `${idx + 1} / ${deck.length} <span class="label">${deck[idx].label || ''}</span>`;
+    setTimeout(reveal, opts.instant ? 0 : 500);
     try { localStorage.setItem(storageKey, String(idx)); } catch (_) {}
     if (location.hash !== '#' + (idx + 1)) {
       history.replaceState(null, '', '#' + (idx + 1));
@@ -258,8 +318,8 @@
   document.addEventListener('keydown', (e) => {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
     switch (e.key) {
-      case 'ArrowRight': case ' ': case 'PageDown': e.preventDefault(); next(); break;
-      case 'ArrowLeft':  case 'PageUp':              e.preventDefault(); prev(); break;
+      case 'ArrowRight': case 'ArrowDown': case ' ': case 'PageDown': e.preventDefault(); next(); break;
+      case 'ArrowLeft':  case 'ArrowUp':   case 'PageUp':              e.preventDefault(); prev(); break;
       case 'Home':                                    e.preventDefault(); show(0); break;
       case 'End':                                     e.preventDefault(); show(deck.length - 1); break;
       case 'p': case 'P':                             window.print(); break;
@@ -273,6 +333,17 @@
 
   document.getElementById('navL').addEventListener('click', prev);
   document.getElementById('navR').addEventListener('click', next);
+  let lastWheelAt = 0;
+  window.addEventListener('wheel', (e) => {
+    const mainDelta = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+    if (Math.abs(mainDelta) < 35) return;
+    e.preventDefault();
+    const now = Date.now();
+    if (now - lastWheelAt < 720 || transitioning) return;
+    lastWheelAt = now;
+    if (mainDelta > 0) next();
+    else prev();
+  }, { passive: false });
   window.addEventListener('resize', fit);
   window.addEventListener('hashchange', () => {
     const m = location.hash.match(/^#(\d+)$/);
@@ -287,7 +358,7 @@
     if (!isNaN(v) && v >= 0 && v < deck.length) current = v;
   } catch (_) {}
   fit();
-  show(current);
+  show(current, { instant: true });
 
   // Print: build a stack of all iframes so browser prints every slide
   window.addEventListener('beforeprint', () => {

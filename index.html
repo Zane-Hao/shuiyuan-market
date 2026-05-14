@@ -22,8 +22,8 @@
   }
   html {
     scroll-behavior: smooth;
-    /* scale everything with viewport width — 18px at 2120px, 13px at 1280px */
-    font-size: clamp(12px, 0.85vw, 18px);
+    /* scale everything with viewport width, with a larger floor for readable proposal copy */
+    font-size: clamp(14px, 0.92vw, 20px);
   }
   body {
     background: var(--bg);
@@ -52,7 +52,7 @@
 
   .label-sm {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 12px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--muted);
