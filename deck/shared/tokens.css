@@ -147,14 +147,14 @@ html, body {
    Huashu-style deck work keeps a fixed 1920x1080 canvas, then sizes copy by
    layout density instead of forcing every text block to the same size. */
 :root {
-  /* P7 lead (擷取改建後成功要素 sub-line) = 30px = the floor for body text.
-     Compact and dense used to be smaller; now they bottom out at 30 so no
-     body content drops below readability threshold. */
-  --deck-body-readable: 30px;
-  --deck-body-large: 34px;
-  --deck-body-compact: 30px;
-  --deck-body-dense: 30px;
-  --deck-support-readable: 20px;
+  /* Body text floor: 34px (was 30px, bumped per user feedback). All content
+     lines (action items, scope items, review quotes, descriptions) hit this
+     size so nothing important falls below readability threshold. */
+  --deck-body-readable: 34px;
+  --deck-body-large: 38px;
+  --deck-body-compact: 34px;
+  --deck-body-dense: 34px;
+  --deck-support-readable: 22px;
 }
 
 .slide p,
