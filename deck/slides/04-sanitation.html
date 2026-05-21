@@ -126,11 +126,10 @@
   }
   .reviews.open { max-height: 600px; opacity: 1; }
 
-  /* Editorial review — top hairline (warn-tinted), no card chrome.
-     Text reads like a newspaper pull-quote, not a UI component. */
+  /* Editorial review — compact pull-quote, no card chrome. */
   .review-card {
     border-top: 1px solid rgba(168, 54, 42, 0.28);
-    padding: 14px 0 4px;
+    padding: 8px 0 2px;
     background: transparent;
     transform: translateY(20px);
     opacity: 0;
@@ -143,23 +142,23 @@
   .review-card .meta {
     display: flex;
     align-items: baseline;
-    gap: 14px;
-    margin-bottom: 8px;
+    gap: 10px;
+    margin-bottom: 4px;
     font-family: var(--font-mono);
-    font-size: 14px;
+    font-size: 12px;
     letter-spacing: 0.06em;
     color: var(--muted);
   }
   .review-card .stars {
     color: var(--warn);
-    font-size: 15px;
+    font-size: 13px;
     letter-spacing: 0.12em;
     flex-shrink: 0;
   }
   .review-card .quote {
     font-family: var(--font-body) !important;
-    font-size: 22px !important;
-    line-height: 1.5 !important;
+    font-size: 18px !important;
+    line-height: 1.45 !important;
     color: var(--ink);
     text-indent: -0.4em;
     padding-left: 0.4em;
