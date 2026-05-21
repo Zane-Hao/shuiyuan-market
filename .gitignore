@@ -1,3 +1,8 @@
 Git-*-bit.exe
 chrome-profile*/
 screenshots/
+node_modules/
+*.pdf
+*.pptx
+.superpowers/
+package-lock.json
