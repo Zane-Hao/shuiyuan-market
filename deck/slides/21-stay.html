@@ -127,29 +127,32 @@
   .footer-row {
     border-top: 2px solid var(--ink);
     padding-top: 30px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 60px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 72px;
     align-items: start;
   }
+  .footer-cell { max-width: 460px; }
   .footer-cell .label {
     font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.22em;
+    font-size: 14px;
+    letter-spacing: 0.18em;
     color: var(--muted);
     text-transform: uppercase;
   }
   .footer-cell .v {
-    margin-top: 8px;
+    margin-top: 10px;
     font-family: var(--font-display);
     font-weight: 900;
-    font-size: 18px;
+    font-size: 22px;
     color: var(--ink);
+    line-height: 1.35;
   }
   .footer-cell .meta {
-    margin-top: 4px;
+    margin-top: 6px;
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 17px;
+    line-height: 1.45;
     color: var(--muted);
   }
 
