@@ -96,6 +96,24 @@ html, body {
   text-transform: uppercase;
 }
 
+/* ─── Audience-first chrome removal ─────────────────────────────────
+   New audiences don't need designer-comfort wayfinding. Hide section
+   labels (「02 — HOOK · 現況一句話」), bottom credit, cross-ref anchors,
+   and top-right meta strips. Page indicator stays as basic orientation. */
+.slide .label-sm,
+.slide .credit,
+.slide .solution-anchor,
+.slide .reviews-cta,
+.slide .reviews-label,
+.slide .top-bar > .right,
+.slide .header > .fadeup:nth-child(2),
+.slide .header > div:nth-child(2):not(.left-group):not(.tier-title):not(.timeline-pill) {
+  display: none !important;
+}
+/* Keep .reviews open by default since CTA is gone */
+.slide .reviews { max-height: none !important; opacity: 1 !important; }
+.slide .reviews .review-card { transform: none !important; opacity: 1 !important; }
+
 /* Slide root container — every slide wraps content here */
 .slide {
   position: relative;
