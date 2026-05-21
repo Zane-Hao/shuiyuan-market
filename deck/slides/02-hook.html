@@ -80,12 +80,12 @@
     white-space: nowrap;
   }
   .counter-item .num .accent { color: var(--accent); }
-  /* Single-glyph "0" — bumped up so it carries equal visual weight against
-     the multi-char neighbours; warn red signals the negative-space punch */
+  /* Single-glyph "0" — same size as 200+ for visual consistency.
+     Warn red signals the negative-space punch. */
   .counter-item .num-solo {
-    font-size: 280px;
-    line-height: 0.85;
-    letter-spacing: -0.05em;
+    font-size: 200px;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
   }
   .counter-item .num-solo .accent { color: var(--warn); }
   /* Chinese-text counter ("近兩成") shrinks to fit single line, distinguishes
